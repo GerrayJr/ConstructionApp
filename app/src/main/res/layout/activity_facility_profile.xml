@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".FacilityProfile">
+
+    <ScrollView
+        android:id="@+id/scrollView2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fadeScrollbars="false"
+        android:padding="5dp"
+        android:scrollbars="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:id="@+id/linearLayout4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/facility_imageView"
+                android:layout_width="match_parent"
+                android:layout_height="160dp"
+                android:layout_gravity="center"
+                android:layout_margin="20dp"
+                android:gravity="center" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <TextView
+                    android:id="@+id/tv_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
+                    android:text="Facility Name: "
+                    android:textSize="17sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_prof_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_name"
+                    android:layout_alignEnd="@+id/tv_name"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="-160dp"
+                    android:text=""
+                    android:textSize="17sp"
+                    android:textStyle="normal|italic" />
+
+                <TextView
+                    android:id="@+id/tv_auth"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_prof_name"
+                    android:layout_alignStart="@+id/tv_name"
+                    android:layout_marginTop="10dp"
+                    android:text="Authority Name: "
+                    android:textSize="17sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_prof_auth"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_auth"
+                    android:layout_alignStart="@+id/tv_prof_name"
+                    android:layout_marginTop="5dp"
+                    android:text=""
+                    android:textSize="17sp"
+                    android:textStyle="normal|italic" />
+
+                <TextView
+                    android:id="@+id/tv_manager"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_prof_auth"
+                    android:layout_alignStart="@+id/tv_name"
+                    android:layout_marginTop="10dp"
+                    android:text="Facility Manager: "
+                    android:textSize="17sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_prof_manager"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_manager"
+                    android:layout_alignStart="@+id/tv_prof_name"
+                    android:layout_marginTop="5dp"
+                    android:text=""
+                    android:textSize="17sp"
+                    android:textStyle="normal|italic" />
+
+                <TextView
+                    android:id="@+id/tv_address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_prof_manager"
+                    android:layout_alignStart="@+id/tv_name"
+                    android:layout_marginTop="10dp"
+                    android:text="Postal Address: "
+                    android:textSize="17sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_prof_postal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_address"
+                    android:layout_alignStart="@+id/tv_prof_name"
+                    android:layout_marginTop="5dp"
+                    android:text=""
+                    android:textSize="17sp"
+                    android:textStyle="normal|italic" />
+
+                <TextView
+                    android:id="@+id/tv_email"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_prof_postal"
+                    android:layout_alignStart="@+id/tv_name"
+                    android:layout_marginTop="10dp"
+                    android:text="Email Address: "
+                    android:textSize="17sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_prof_email"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_email"
+                    android:layout_alignStart="@+id/tv_prof_name"
+                    android:layout_marginTop="5dp"
+                    android:text=""
+                    android:textSize="17sp"
+                    android:textStyle="normal|italic" />
+
+                <TextView
+                    android:id="@+id/tv_activity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_prof_email"
+                    android:layout_alignStart="@+id/tv_name"
+                    android:layout_marginTop="10dp"
+                    android:text="Activity Description: "
+                    android:textSize="17sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_prof_activity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_activity"
+                    android:layout_alignStart="@+id/tv_prof_name"
+                    android:layout_marginTop="5dp"
+                    android:text=""
+                    android:textSize="17sp"
+                    android:textStyle="normal|italic" />
+
+                <TextView
+                    android:id="@+id/tv_occupancy"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_prof_activity"
+                    android:layout_alignStart="@+id/tv_name"
+                    android:layout_marginTop="10dp"
+                    android:text="Occupancy "
+                    android:textSize="17sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_prof_occupancy"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_occupancy"
+                    android:layout_alignStart="@+id/tv_prof_name"
+                    android:layout_marginTop="5dp"
+                    android:text=""
+                    android:textSize="17sp"
+                    android:textStyle="normal|italic" />
+
+            </RelativeLayout>
+
+            <Button
+                android:id="@+id/profile_update"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_prof_email"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:text="Update Profile" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

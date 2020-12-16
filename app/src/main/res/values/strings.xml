@@ -1,0 +1,65 @@
+<resources>
+    <string name="app_name">FM System</string>
+    <string name="email_address">Email Address</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="create_account">Create Account</string>
+    <string name="forgot_password">Forgot Password</string>
+    <string name="first_name">First Name</string>
+    <string name="second_name">Second Name</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="create_new_account">Create New Account</string>
+    <string name="already_have_an_account_login">Already Have an Account? Login</string>
+
+    <string name="category_prompt">Choose a Category</string>
+
+    <string-array name="category_arrays">
+        <item>Facility Manager</item>
+        <item>Lessee</item>
+        <item>Consultant</item>
+    </string-array>
+
+    <string name="Type_prompt">Choose a Facility Type</string>
+    <string name="facility_details">Facility Details</string>
+    <string name="authority_name">Authority Name</string>
+    <string name="occupancy_number">Occupancy Number</string>
+    <string name="info">Info</string>
+    <string name="select_facility_type_below">Select Activity type Below:</string>
+    <string name="continue_txt">Continue</string>
+    <string name="work_orders">Work Orders</string>
+    <string name="communication">Communication</string>
+    <string name="lessees">Lessees</string>
+    <string name="assets">Assets</string>
+    <string name="contact_us">Contact Us</string>
+    <string name="share_app">Share App</string>
+    <string name="communicate_with_us">Communicate with Us</string>
+    <string name="log_out">Log Out</string>
+    <string name="lessee_payments">Lessee Payments</string>
+    <string name="facility_profile">Facility Profile</string>
+    <string name="location_settings">Location Settings</string>
+    <string name="help">Help</string>
+
+    <string-array name="activity_array">//To be added
+        <item>Industrial</item>
+        <item>Office buildings</item>
+        <item>Retail spaces</item>
+        <item>Schools and institutional</item>
+        <item>Laboratory facilities</item>
+        <item>Convention centers</item>
+        <item>Public facilities</item>
+        <item>Hotels and multi story residential buildings</item>
+    </string-array>
+
+    <string name="title_activity_facility_manager">MainActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="requests">Requests</string>
+    <string name="chats">Chats</string>
+    <string name="facility_name">Facility Name</string>
+    <string name="todo">TODO</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="navigation_drawer_open">Navigation Drawer Open</string>
+    <string name="navigation_drawer_close">Navigation Drawer Closed</string>
+</resources>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.gerray.fmsystem">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+
+    <application
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".ProfilePopUp"
+            android:theme="@style/Theme.AppCompat.DayNight.Dialog" />
+        <activity android:name=".FacilityProfile" />
+        <activity
+            android:name=".FacilityManager"
+            android:label="@string/title_activity_facility_manager" />
+        <activity android:name=".Authentication.UserSelector" />
+        <activity android:name=".ManagerInfo" />
+        <activity android:name=".Authentication.CreateActivity" />
+        <activity
+            android:name=".LesseePopUp"
+            android:theme="@style/Theme.AppCompat.DayNight.Dialog" />
+        <activity
+            android:name=".AssetPopUp"
+            android:theme="@style/Theme.AppCompat.DayNight.Dialog" />
+        <activity android:name=".Authentication.LoginActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>
