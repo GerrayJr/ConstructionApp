@@ -22,7 +22,9 @@
             android:name=".FacilityManager"
             android:label="@string/title_activity_facility_manager" />
         <activity android:name=".Authentication.UserSelector" />
-        <activity android:name=".ManagerInfo" />
+        <activity
+            android:name=".FacilityCreate"
+            android:theme="@style/Theme.AppCompat.DayNight.Dialog" />
         <activity android:name=".Authentication.CreateActivity" />
         <activity
             android:name=".LesseePopUp"

@@ -11,6 +11,11 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -35,20 +40,76 @@ public class FacilityManager extends AppCompatActivity implements NavigationView
     private ChatFragment chatFragment;
     private WorkFragment workFragment;
     private RequestFragment requestFragment;
+    Toolbar toolbar;
 
     private FirebaseAuth auth;
+    FirebaseDatabase firebaseDatabase;
+    DatabaseReference firebaseDatabaseReference, reference;
+    FirebaseUser firebaseUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
         setContentView(R.layout.activity_facility_manager);
         auth = FirebaseAuth.getInstance();
-        FirebaseUser currentUser = auth.getCurrentUser();
+
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        firebaseDatabaseReference = firebaseDatabase.getReference();
+        reference = firebaseDatabase.getReference();
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (firebaseUser != null) {
+            firebaseDatabaseReference.child("Facilities")
+                    .addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            if (snapshot.child(firebaseUser.getUid()).exists()) {
+                                reference.child("Facilities").child(firebaseUser.getUid())
+                                        .addValueEventListener(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                String facilityID = null, managerID = null, managerName = null, facilityName = null;
+                                                if (snapshot.child("facilityID").exists()) {
+                                                    facilityID = snapshot.child("facilityID").getValue().toString();
+                                                }
+                                                if (snapshot.child("facilityManager").exists()) {
+                                                    managerName = snapshot.child("facilityManager").getValue().toString();
+                                                }
+                                                if (snapshot.child("name").exists()) {
+                                                    facilityName = snapshot.child("name").getValue().toString();
+                                                    toolbar.setTitle(facilityName);
+                                                }
+                                                if (snapshot.child("userID").exists()) {
+                                                    managerID = snapshot.child("userID").getValue().toString();
+                                                }
+                                                Toast.makeText(FacilityManager.this, facilityName + " " + managerName, Toast.LENGTH_SHORT).show();
+                                            }
+
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError error) {
+
+                                            }
+                                        });
+                                Toast.makeText(FacilityManager.this, "Welcome Back", Toast.LENGTH_SHORT).show();
+                            } else {
+                                startActivity(new Intent(FacilityManager.this, FacilityCreate.class));
+                            }
+
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+
+        }
 
         mFrame = findViewById(R.id.mFrame);
         mNav = findViewById(R.id.bottom_nav);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         drawerLayout = findViewById(R.id.drawer_layout);

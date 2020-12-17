@@ -90,8 +90,8 @@ public class AssetPopUp extends AppCompatActivity {
 
         auth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = auth.getCurrentUser();
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("Asset");
-        mStorageRef = FirebaseStorage.getInstance().getReference("Asset");
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("Facilities").child(currentUser.getUid()).child("Assets");
+        mStorageRef = FirebaseStorage.getInstance().getReference().child("Facilities").child(currentUser.getUid()).child("Assets");
         progressDialog = new ProgressDialog(this);
         progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
     }

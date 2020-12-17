@@ -19,4 +19,44 @@ public class InfoUser {
         Category = category;
 
     }
+
+    public String getFirstName() {
+        return FirstName;
+    }
+
+    public void setFirstName(String firstName) {
+        FirstName = firstName;
+    }
+
+    public String getSecondName() {
+        return SecondName;
+    }
+
+    public void setSecondName(String secondName) {
+        SecondName = secondName;
+    }
+
+    public String getEmail() {
+        return Email;
+    }
+
+    public void setEmail(String email) {
+        Email = email;
+    }
+
+    public String getCategory() {
+        return Category;
+    }
+
+    public void setCategory(String category) {
+        Category = category;
+    }
+
+    public int getPhone() {
+        return Phone;
+    }
+
+    public void setPhone(int phone) {
+        Phone = phone;
+    }
 }

@@ -1,91 +1,118 @@
 package com.gerray.fmsystem;
 
-public class FacilityCreate {
-    private String FacilityName;
-    private String AuthorityName;
-    private String FacilityType;
-    private String PostalAddress;
-    private String EmailAddress;
-    private int OccupancyNo;
-    private String FacilityID;
-    private String FacilityImageUrl;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
-    public FacilityCreate() {
+import android.app.ProgressDialog;
+import android.content.Intent;
+import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.DisplayMetrics;
+import android.view.View;
+import android.widget.Button;
+import android.widget.Spinner;
+import android.widget.Toast;
+
+import com.gerray.fmsystem.Authentication.InfoUser;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserInfo;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.UUID;
+
+public class FacilityCreate extends AppCompatActivity {
+    private TextInputEditText facName;
+    DatabaseReference databaseReference;
+    FirebaseAuth auth;
+    ProgressDialog progressDialog;
+
+    FirebaseDatabase firebaseDatabase;
+    DatabaseReference firebaseDatabaseReference;
+    FirebaseUser firebaseUser;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_facility_create);
+
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+
+        int width = displayMetrics.widthPixels;
+        int height = displayMetrics.heightPixels;
+        getWindow().setLayout((int) (width * .9), (int) (height * .6));
+
+        Button btnContinue = findViewById(R.id.fac_continue);
+        btnContinue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                registerFacility();
+            }
+        });
+
+        facName = findViewById(R.id.fac_name);
+
+        auth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = auth.getCurrentUser();
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("Facilities");
+        progressDialog = new ProgressDialog(this);
 
     }
 
-    public FacilityCreate(String facilityName, String authorityName, String facilityType, String postalAddress, String emailAddress, int occupancyNo, String facilityID, String facilityImageUrl) {
-        FacilityName = facilityName;
-        AuthorityName = authorityName;
-        FacilityType = facilityType;
-        PostalAddress = postalAddress;
-        EmailAddress = emailAddress;
-        OccupancyNo = occupancyNo;
-        FacilityID = facilityID;
-        FacilityImageUrl = facilityImageUrl;
-    }
+    private void registerFacility() {
+        progressDialog.setMessage("Let us Begin");
+        progressDialog.show();
 
-    public String getFacilityName() {
-        return FacilityName;
-    }
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        firebaseDatabaseReference = firebaseDatabase.getReference();
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
-    public void setFacilityName(String facilityName) {
-        FacilityName = facilityName;
-    }
+        if (firebaseUser != null) {
+            firebaseDatabaseReference.child("Users").child(firebaseUser.getUid())
+                    .addValueEventListener(new ValueEventListener() {
+                        String fManager;
 
-    public String getAuthorityName() {
-        return AuthorityName;
-    }
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            String firstName = null, secondName = null;
+                            if (snapshot.child("FirstName").exists()) {
+                                firstName = snapshot.child("FirstName").getValue().toString().trim();
+                            } else if (snapshot.child("SecondName").exists()) {
+                                secondName = snapshot.child("SecondName").getValue().toString().trim();
+                            }
 
-    public void setAuthorityName(String authorityName) {
-        AuthorityName = authorityName;
-    }
+                            final String fManager = firstName + " " + secondName;
+                            final String name = facName.getText().toString().trim();
+                            final String facID = UUID.randomUUID().toString();
+                            final String userID = auth.getUid();
 
-    public String getFacilityType() {
-        return FacilityType;
-    }
+                            if (TextUtils.isEmpty(name)) {
+                                Toast.makeText(FacilityCreate.this, "Enter Facility Name", Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+                            FacRegister facRegister = new FacRegister(facID, userID, name, fManager);
+                            databaseReference.child(userID).setValue(facRegister);
+                            progressDialog.dismiss();
+                            FacilityCreate.this.finish();
+                            Toast.makeText(FacilityCreate.this, "Welcome", Toast.LENGTH_SHORT).show();
+                        }
 
-    public void setFacilityType(String facilityType) {
-        FacilityType = facilityType;
-    }
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
 
-    public int getOccupancyNo() {
-        return OccupancyNo;
-    }
+                        }
+                    });
 
-    public void setOccupancyNo(int occupancyNo) {
-        OccupancyNo = occupancyNo;
-    }
+        }
 
-    public String getFacilityID() {
-        return FacilityID;
-    }
-
-    public void setFacilityID(String facilityID) {
-        FacilityID = facilityID;
-    }
-
-    public String getPostalAddress() {
-        return PostalAddress;
-    }
-
-    public void setPostalAddress(String postalAddress) {
-        PostalAddress = postalAddress;
-    }
-
-    public String getEmailAddress() {
-        return EmailAddress;
-    }
-
-    public void setEmailAddress(String emailAddress) {
-        EmailAddress = emailAddress;
-    }
-
-    public String getFacilityImageUrl() {
-        return FacilityImageUrl;
-    }
-
-    public void setFacilityImageUrl(String facilityImageUrl) {
-        FacilityImageUrl = facilityImageUrl;
     }
 }

@@ -31,9 +31,6 @@ import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.UUID;
 
 public class ProfilePopUp extends AppCompatActivity {
@@ -163,8 +160,8 @@ public class ProfilePopUp extends AppCompatActivity {
                                     Uri downloadUri = uri;
                                     final String downUri = downloadUri.toString().trim();
 
-                                    FacilityCreate facilityCreate = new FacilityCreate(name,auth,activity,postal,email,occupancy,facilityID,downUri);
-                                    databaseReference.child(facilityID).setValue(facilityCreate);
+                                    FacProfile facProfile = new FacProfile(name,auth,activity,postal,email,occupancy,facilityID,downUri);
+                                    databaseReference.child(facilityID).setValue(facProfile);
                                 }
                             });
 

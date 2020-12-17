@@ -33,7 +33,6 @@ import java.util.ArrayList;
 
 public class AssetFragment extends Fragment {
     private FloatingActionButton addAsset;
-    private FirebaseAuth auth;
     FirebaseRecyclerOptions<FacilityAssets> options;
     StorageReference storageReference;
     FirebaseRecyclerAdapter<FacilityAssets, AssetViewHolder> adapter;
@@ -80,8 +79,11 @@ public class AssetFragment extends Fragment {
                 startActivityForResult(intent, 1);
             }
         });
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = auth.getCurrentUser();
 
-        dbRef = FirebaseDatabase.getInstance().getReference().child("Asset");
+        dbRef = FirebaseDatabase.getInstance().getReference().child("Facilities").child(currentUser.getUid()).child("Assets");
+        ;
         dbRef.keepSynced(true);
 
         FirebaseStorage storage = FirebaseStorage.getInstance();

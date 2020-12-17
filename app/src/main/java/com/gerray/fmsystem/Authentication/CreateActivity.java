@@ -96,8 +96,7 @@ public class CreateActivity extends AppCompatActivity implements View.OnClickLis
 
                             InfoUser infoUser = new InfoUser(firstName,secondName,email,phone,category);
                             FirebaseUser user = auth.getCurrentUser();
-                            String userType = category.trim();
-                            databaseReference.child(userType).child(user.getUid()).setValue(infoUser);
+                            databaseReference.child(user.getUid()).setValue(infoUser);
                         } else {
                             //Registration Failed
                             Toast.makeText(CreateActivity.this, "Registration Failed", Toast.LENGTH_SHORT).show();
