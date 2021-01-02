@@ -1,62 +1,62 @@
 package com.gerray.fmsystem.Authentication;
 
 public class InfoUser {
-    public String FirstName;
-    public String SecondName;
-    public String Email;
-    public String Category;
-    public int Phone;
+    public String firstName;
+    public String secondName;
+    public String email;
+    public String category;
+    public int phone;
 
     public InfoUser() {
 
     }
 
     public InfoUser(String firstName, String secondName, String email, int phone, String category) {
-        FirstName = firstName;
-        SecondName = secondName;
-        Email = email;
-        Phone = phone;
-        Category = category;
+        this.firstName = firstName;
+        this.secondName = secondName;
+        this.email = email;
+        this.phone = phone;
+        this.category = category;
 
     }
 
     public String getFirstName() {
-        return FirstName;
+        return firstName;
     }
 
     public void setFirstName(String firstName) {
-        FirstName = firstName;
+        this.firstName = firstName;
     }
 
     public String getSecondName() {
-        return SecondName;
+        return secondName;
     }
 
     public void setSecondName(String secondName) {
-        SecondName = secondName;
+        this.secondName = secondName;
     }
 
     public String getEmail() {
-        return Email;
+        return email;
     }
 
     public void setEmail(String email) {
-        Email = email;
+        this.email = email;
     }
 
     public String getCategory() {
-        return Category;
+        return category;
     }
 
     public void setCategory(String category) {
-        Category = category;
+        this.category = category;
     }
 
     public int getPhone() {
-        return Phone;
+        return phone;
     }
 
     public void setPhone(int phone) {
-        Phone = phone;
+        this.phone = phone;
     }
 }

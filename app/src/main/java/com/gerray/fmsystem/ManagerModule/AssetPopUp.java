@@ -1,7 +1,4 @@
-package com.gerray.fmsystem;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
+package com.gerray.fmsystem.ManagerModule;
 
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
@@ -14,9 +11,12 @@ import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.gerray.fmsystem.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputEditText;
@@ -31,12 +31,15 @@ import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.UUID;
 
-public class ProfilePopUp extends AppCompatActivity {
-    private TextInputEditText profName, profAuth, profAddress, profEmail, profOcc;
-    private Spinner profActivity;
-    private ImageView profImage;
+public class AssetPopUp extends AppCompatActivity {
+    private TextInputEditText assetName, assetModel, assetSerial, assetLocation, assetPurchase, assetDescription;
+    private Button btnImage, btnAdd;
+    private ImageView assetImage;
 
     private static final int PICK_IMAGE_REQUEST = 1;
     private Uri mImageUri;
@@ -50,7 +53,7 @@ public class ProfilePopUp extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile_pop_up);
+        setContentView(R.layout.asset_pop_up);
 
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
@@ -59,38 +62,37 @@ public class ProfilePopUp extends AppCompatActivity {
         int height = displayMetrics.heightPixels;
         getWindow().setLayout((int) (width * .9), (int) (height * .6));
 
-        Button btnUpdate = findViewById(R.id.btn_update_prof);
-        btnUpdate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                facilityCreate();
-            }
-        });
+        assetName = findViewById(R.id.asset_name);
+        assetModel = findViewById(R.id.asset_model);
+        assetSerial = findViewById(R.id.asset_serial);
+        assetLocation = findViewById(R.id.asset_location);
+        assetPurchase = findViewById(R.id.asset_pDate);
+        assetDescription = findViewById(R.id.asset_description);
 
-        Button btnProfImage = findViewById(R.id.prof_image);
-        btnProfImage.setOnClickListener(new View.OnClickListener() {
+        assetImage = findViewById(R.id.asset_imageView);
+
+        btnImage = findViewById(R.id.asset_image);
+        btnImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 openFileChooser();
             }
         });
 
-        profImage = findViewById(R.id.prof_imageView);
-        profName = findViewById(R.id.facility_name);
-        profAuth = findViewById(R.id.facility_auth);
-        profAddress = findViewById(R.id.facility_postal);
-        profEmail = findViewById(R.id.facility_email);
-        profOcc = findViewById(R.id.facility_occ);
-
-        profActivity = findViewById(R.id.prof_spinner);
+        btnAdd = findViewById(R.id.asset_add);
+        btnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addAsset();
+            }
+        });
 
         auth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = auth.getCurrentUser();
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("Facility").child(currentUser.getUid());
-        mStorageRef = FirebaseStorage.getInstance().getReference("Facility");
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("Facilities").child(currentUser.getUid()).child("Assets");
+        mStorageRef = FirebaseStorage.getInstance().getReference().child("Facilities").child(currentUser.getUid()).child("Assets");
         progressDialog = new ProgressDialog(this);
         progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-
     }
 
     private void openFileChooser() {
@@ -108,7 +110,7 @@ public class ProfilePopUp extends AppCompatActivity {
                 && data != null && data.getData() != null) {
             mImageUri = data.getData();
 
-            Picasso.with(this).load(mImageUri).into(profImage);
+            Picasso.with(this).load(mImageUri).into(assetImage);
         }
     }
 
@@ -118,34 +120,46 @@ public class ProfilePopUp extends AppCompatActivity {
         return mime.getExtensionFromMimeType(cR.getType(uri));
     }
 
-    private void facilityCreate() {
+    private void addAsset() {
         progressDialog.setMessage("Let us Begin");
         progressDialog.show();
-        final String name = profName.getText().toString().trim();
-        final String auth = profAuth.getText().toString().trim();
-        final String postal = profAddress.getText().toString().trim();
-        final String email = profEmail.getText().toString().trim();
-        final String activity = profActivity.getSelectedItem().toString().trim();
-        final int occupancy = Integer.parseInt(profOcc.getText().toString().trim());
-        final String facilityID = UUID.randomUUID().toString();
+        final String name = assetName.getText().toString().trim();
+        final String model = assetModel.getText().toString().trim();
+        final String serialNo = assetSerial.getText().toString().trim();
+        final String location = assetLocation.getText().toString().trim();
+        final String purchaseDate = assetPurchase.getText().toString().trim();
+        final String description = assetDescription.getText().toString().trim();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+        Date date = new Date();
+        final String addDate = dateFormat.format(date).toString();
+        final String assetID = UUID.randomUUID().toString();
 
 
         if (TextUtils.isEmpty(name)) {
             Toast.makeText(this, "Enter Name", Toast.LENGTH_SHORT).show();
             return;
         }
-        if (TextUtils.isEmpty(auth)) {
-            Toast.makeText(this, "Enter Authority Name", Toast.LENGTH_SHORT).show();
+        if (TextUtils.isEmpty(model)) {
+            Toast.makeText(this, "Enter Asset Model", Toast.LENGTH_SHORT).show();
             return;
         }
-        if (TextUtils.isEmpty(postal)) {
-            Toast.makeText(this, "Add Postal Address", Toast.LENGTH_SHORT).show();
+        if (TextUtils.isEmpty(location)) {
+            Toast.makeText(this, "Add Location", Toast.LENGTH_SHORT).show();
             return;
         }
-        if (TextUtils.isEmpty(email)) {
-            Toast.makeText(this, "Enter Email Addressr", Toast.LENGTH_SHORT).show();
+        if (TextUtils.isEmpty(serialNo)) {
+            Toast.makeText(this, "Enter Serial Number", Toast.LENGTH_SHORT).show();
             return;
         }
+        if (TextUtils.isEmpty(purchaseDate)) {
+            Toast.makeText(this, "Enter Purchase Date", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (TextUtils.isEmpty(description)) {
+            Toast.makeText(this, "Add Asset Description", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         if (mImageUri != null) {
             final StorageReference fileReference = mStorageRef.child(System.currentTimeMillis()
                     + "." + getFileExtension(mImageUri));
@@ -160,21 +174,21 @@ public class ProfilePopUp extends AppCompatActivity {
                                     Uri downloadUri = uri;
                                     final String downUri = downloadUri.toString().trim();
 
-                                    FacProfile facProfile = new FacProfile(name,auth,activity,postal,email,occupancy,facilityID,downUri);
-                                    databaseReference.child(facilityID).setValue(facProfile);
+                                    FacilityAssets facilityAssets = new FacilityAssets(name, model, serialNo, location, purchaseDate, addDate, description, assetID,downUri);
+                                    databaseReference.child(assetID).setValue(facilityAssets);
                                 }
                             });
 
 
                             progressDialog.dismiss();
-                            Toast.makeText(ProfilePopUp.this, "Saved", Toast.LENGTH_SHORT).show();
-                            ProfilePopUp.this.finish();
+                            Toast.makeText(AssetPopUp.this, "Saved", Toast.LENGTH_SHORT).show();
+                            AssetPopUp.this.finish();
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(ProfilePopUp.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(AssetPopUp.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     })
                     .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
@@ -188,4 +202,5 @@ public class ProfilePopUp extends AppCompatActivity {
             Toast.makeText(this, "No file selected", Toast.LENGTH_SHORT).show();
         }
     }
+
 }

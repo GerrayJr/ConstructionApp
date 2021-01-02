@@ -1,4 +1,4 @@
-package com.gerray.fmsystem;
+package com.gerray.fmsystem.ManagerModule;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,6 +7,7 @@ import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.gerray.fmsystem.Authentication.LoginActivity;
+import com.gerray.fmsystem.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -25,10 +26,6 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
 
 public class FacilityManager extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private BottomNavigationView mNav;
@@ -138,7 +135,7 @@ public class FacilityManager extends AppCompatActivity implements NavigationView
                         Toast.makeText(FacilityManager.this, "Help activity", Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.drawer_location:
-                        Toast.makeText(FacilityManager.this, "Location Activity", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(FacilityManager.this, FacilityLocation.class));
                         break;
                     case R.id.drawer_profile:
                         startActivity(new Intent(FacilityManager.this, FacilityProfile.class));

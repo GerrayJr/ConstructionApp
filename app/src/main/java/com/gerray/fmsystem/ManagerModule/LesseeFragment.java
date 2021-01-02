@@ -1,4 +1,4 @@
-package com.gerray.fmsystem;
+package com.gerray.fmsystem.ManagerModule;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.gerray.fmsystem.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 

@@ -1,50 +1,50 @@
-package com.gerray.fmsystem;
+package com.gerray.fmsystem.ManagerModule;
 
 public class FacRegister {
-    private String FacilityID;
-    private String UserID;
-    private String Name;
-    private String FacilityManager;
+    private String facilityID;
+    private String userID;
+    private String name;
+    private String facilityManager;
 
     public FacRegister() {
     }
 
     public FacRegister(String facilityID, String userID, String name, String facilityManager){
-        FacilityID = facilityID;
-        UserID = userID;
-        Name = name;
-        FacilityManager = facilityManager;
+        this.facilityID = facilityID;
+        this.userID = userID;
+        this.name = name;
+        this.facilityManager = facilityManager;
     }
 
     public String getFacilityID() {
-        return FacilityID;
+        return facilityID;
     }
 
     public void setFacilityID(String facilityID) {
-        FacilityID = facilityID;
+        this.facilityID = facilityID;
     }
 
     public String getUserID() {
-        return UserID;
+        return userID;
     }
 
     public void setUserID(String userID) {
-        UserID = userID;
+        this.userID = userID;
     }
 
     public String getName() {
-        return Name;
+        return name;
     }
 
     public void setName(String name) {
-        Name = name;
+        this.name = name;
     }
 
     public String getFacilityManager() {
-        return FacilityManager;
+        return facilityManager;
     }
 
     public void setFacilityManager(String facilityManager) {
-        FacilityManager = facilityManager;
+        this.facilityManager = facilityManager;
     }
 }

@@ -1,4 +1,4 @@
-package com.gerray.fmsystem;
+package com.gerray.fmsystem.ManagerModule;
 
 import android.view.View;
 import android.widget.ImageView;
@@ -6,6 +6,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.gerray.fmsystem.R;
 
 public class AssetViewHolder extends RecyclerView.ViewHolder
 

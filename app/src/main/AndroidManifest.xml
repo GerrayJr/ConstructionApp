@@ -6,7 +6,9 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+
 
     <application
         android:icon="@mipmap/ic_launcher"
@@ -14,23 +16,34 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyBY4g7zIuLmXFwkZRgRM1nXqnwbZoFs3kk" />
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+        <activity android:name=".ManagerModule.FacilityLocation" />
+        <activity android:name=".ConsultantModule.ConsultantActivity" />
+        <activity android:name=".LesseeModule.LesseeActivity" />
         <activity
-            android:name=".ProfilePopUp"
+            android:name=".ManagerModule.ProfilePopUp"
             android:theme="@style/Theme.AppCompat.DayNight.Dialog" />
-        <activity android:name=".FacilityProfile" />
+        <activity android:name=".ManagerModule.FacilityProfile" />
         <activity
-            android:name=".FacilityManager"
+            android:name=".ManagerModule.FacilityManager"
             android:label="@string/title_activity_facility_manager" />
         <activity android:name=".Authentication.UserSelector" />
         <activity
-            android:name=".FacilityCreate"
+            android:name=".ManagerModule.FacilityCreate"
             android:theme="@style/Theme.AppCompat.DayNight.Dialog" />
         <activity android:name=".Authentication.CreateActivity" />
         <activity
-            android:name=".LesseePopUp"
+            android:name=".ManagerModule.LesseePopUp"
             android:theme="@style/Theme.AppCompat.DayNight.Dialog" />
         <activity
-            android:name=".AssetPopUp"
+            android:name=".ManagerModule.AssetPopUp"
             android:theme="@style/Theme.AppCompat.DayNight.Dialog" />
         <activity android:name=".Authentication.LoginActivity">
             <intent-filter>

@@ -6,8 +6,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.gerray.fmsystem.FacilityManager;
-import com.gerray.fmsystem.FacilityCreate;
+import com.gerray.fmsystem.ConsultantModule.ConsultantActivity;
+import com.gerray.fmsystem.LesseeModule.LesseeActivity;
+import com.gerray.fmsystem.ManagerModule.FacilityManager;
 import com.gerray.fmsystem.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -32,28 +33,23 @@ public class UserSelector extends AppCompatActivity {
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         firebaseDatabase = FirebaseDatabase.getInstance();
         firebaseDatabaseReference = firebaseDatabase.getReference();
-        final String[] userType = {null};
-
         if (firebaseUser != null) {
             firebaseDatabaseReference.child("Users").child(firebaseUser.getUid())
                     .addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
-
                             //  Check user type and redirect accordingly
-                            if (dataSnapshot.child("Category").exists()) {
-                                String userType = dataSnapshot.child("Category").getValue().toString();
+                            if (dataSnapshot.child("category").exists()) {
+                                String userType = dataSnapshot.child("category").getValue().toString();
                                 if (userType.equals("Facility Manager")) {
                                     startActivity(new Intent(UserSelector.this,
                                             FacilityManager.class));
-                                }
-                                if (userType.equals("Lessee")) {
+                                } else if (userType.equals("Lessee")) {
                                     startActivity(new Intent(UserSelector.this,
-                                            FacilityManager.class));
-                                }
-                                if (userType.equals("Consultant")) {
+                                            LesseeActivity.class));
+                                } else if (userType.equals("Consultant")) {
                                     startActivity(new Intent(UserSelector.this,
-                                            FacilityManager.class));
+                                            ConsultantActivity.class));
                                 }
                             }
 
