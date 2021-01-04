@@ -6,80 +6,83 @@
     android:layout_height="match_parent"
     tools:context=".ManagerModule.FacilityLocation">
 
-    <RelativeLayout
-        android:id="@+id/relativeLayout"
+    <LinearLayout
+        android:id="@+id/linearLayout2"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:orientation="vertical"
+        android:padding="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/map"
-            class="com.google.android.gms.maps.MapFragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-        <RelativeLayout
-            android:id="@+id/relLayout1"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="10dp"
-            android:background="@drawable/white_border"
-            android:elevation="10dp">
-
-            <ImageView
-                android:id="@+id/ic_magnify"
-                android:layout_width="15dp"
-                android:layout_height="15dp"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="10dp"
-                android:contentDescription="@string/todo"
-                android:src="@drawable/ic_magnify" />
-
-            <EditText
-                android:id="@+id/input_search"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="29dp"
-                android:layout_toEndOf="@id/ic_magnify"
-                android:autofillHints=""
-                android:background="@null"
-                android:hint="Enter Location"
-                android:imeOptions="actionSearch"
-                android:inputType="text"
-                android:singleLine="true"
-                android:textColor="#000"
-                android:textSize="15sp" />
-        </RelativeLayout>
-
-        <ImageView
-            android:id="@+id/ic_gps"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_below="@+id/relLayout1"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="10dp"
-            android:contentDescription="@string/todo"
-            android:scaleType="centerCrop"
-            android:src="@drawable/ic_gps" />
-
-        <RelativeLayout
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/relLayout1"
-            android:layout_marginStart="10dp"
+            android:layout_marginBottom="10dp"
+            android:text="Input Map Coordinates"
+            android:textSize="19sp"
+            android:textStyle="bold|italic" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:hint="Latitude"
+            android:textColorHint="#000">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/locLatitude"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:textStyle="italic" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:hint="Longitude"
+            android:textColorHint="#000">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/locLongitude"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:textStyle="italic" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:layout_marginTop="20dp"
-            android:layout_toStartOf="@+id/ic_gps"
-            android:background="@drawable/grey_border">
+            android:text="OR"
+            android:textSize="21sp"
+            android:textStyle="bold" />
 
-        </RelativeLayout>
+        <Button
+            android:id="@+id/btnGetCord"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:text="Click to get Current Location Coordinates" />
 
-    </RelativeLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="19sp"
+            android:layout_marginTop="20dp"
+            android:text="Location Details"
+            android:textStyle="bold" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
