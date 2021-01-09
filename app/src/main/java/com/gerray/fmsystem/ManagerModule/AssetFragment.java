@@ -46,7 +46,6 @@ public class AssetFragment extends Fragment {
     public void onStart() {
         super.onStart();
         adapter.startListening();
-        adapter.startListening();
         adapter.notifyDataSetChanged();
         // Check if user is signed in (non-null) and update UI accordingly.
 //        FirebaseUser currentUser = auth.getCurrentUser();
@@ -112,7 +111,7 @@ public class AssetFragment extends Fragment {
         };
 
 
-        ArrayList<FacilityAssets> arrayList = new ArrayList<FacilityAssets>();
+//        ArrayList<FacilityAssets> arrayList = new ArrayList<FacilityAssets>();
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(adapter);

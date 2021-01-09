@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
 import android.app.ProgressDialog;
@@ -14,12 +16,15 @@ import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.gerray.fmsystem.R;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -31,15 +36,14 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.StorageTask;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionDeniedResponse;
 import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
+
+import java.util.Objects;
 
 public class FacilityLocation extends AppCompatActivity {
 
@@ -53,13 +57,28 @@ public class FacilityLocation extends AppCompatActivity {
     ProgressDialog progressDialog;
     FirebaseUser firebaseUser;
 
+    FirebaseRecyclerAdapter<LocationClass, LocationViewHolder> adapter;
+    FirebaseRecyclerOptions<LocationClass> options;
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        adapter.startListening();
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        adapter.stopListening();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_facility_location);
 
         auth = FirebaseAuth.getInstance();
-        FirebaseUser currentUser = auth.getCurrentUser();
         databaseReference = FirebaseDatabase.getInstance().getReference().child("Locations");
         firebaseDatabase = FirebaseDatabase.getInstance();
         firebaseDatabaseReference = firebaseDatabase.getReference();
@@ -87,13 +106,13 @@ public class FacilityLocation extends AppCompatActivity {
                                                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                                                     String facilityName = null, facilityType = null, facilityEmail = null;
                                                     if (snapshot.child("facilityName").exists()) {
-                                                        facilityName = snapshot.child("facilityName").getValue().toString();
+                                                        facilityName = Objects.requireNonNull(snapshot.child("facilityName").getValue()).toString();
                                                     }
                                                     if (snapshot.child("facilityType").exists()) {
-                                                        facilityType = snapshot.child("facilityType").getValue().toString();
+                                                        facilityType = Objects.requireNonNull(snapshot.child("facilityType").getValue()).toString();
                                                     }
                                                     if (snapshot.child("emailAddress").exists()) {
-                                                        facilityEmail = snapshot.child("emailAddress").getValue().toString();
+                                                        facilityEmail = Objects.requireNonNull(snapshot.child("emailAddress").getValue()).toString();
                                                     }
 
                                                     LocationClass locationClass = new LocationClass(facilityName, facilityType, facilityEmail, locLatitude, locLongitude);
@@ -177,6 +196,25 @@ public class FacilityLocation extends AppCompatActivity {
             }
         });
 
+        options = new FirebaseRecyclerOptions.Builder<LocationClass>().setQuery(databaseReference.child(firebaseUser.getUid()),LocationClass.class).build();
+        adapter = new FirebaseRecyclerAdapter<LocationClass, LocationViewHolder>(options) {
+            @Override
+            protected void onBindViewHolder(@NonNull LocationViewHolder holder, int position, @NonNull LocationClass model) {
+                holder.tvLat.setText(String.valueOf(model.getLatitude()));
+                holder.tvLong.setText(String.valueOf(model.getLongitude()));
+            }
+
+            @NonNull
+            @Override
+            public LocationViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                return new LocationViewHolder(LayoutInflater.from(FacilityLocation.this).inflate(R.layout.location_item, parent, false));
+            }
+        };
+        RecyclerView recyclerView = findViewById(R.id.recycler_view);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(adapter);
+        adapter.startListening();
+
     }
 
     private void insertLocation() {
@@ -185,33 +223,35 @@ public class FacilityLocation extends AppCompatActivity {
         final double longitude = Double.parseDouble(edLong.getText().toString().trim());
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         if (firebaseUser != null) {
-            firebaseDatabaseReference.child("Facilities").child(firebaseUser.getUid()).child("Profile")
-                    .addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            String facilityName = null, facilityType = null, facilityEmail = null;
-                            if (snapshot.child("facilityName").exists()) {
-                                facilityName = snapshot.child("facilityName").getValue().toString();
-                            }
-                            if (snapshot.child("facilityType").exists()) {
-                                facilityType = snapshot.child("facilityType").getValue().toString();
-                            }
-                            if (snapshot.child("emailAddress").exists()) {
-                                facilityEmail = snapshot.child("emailAddress").getValue().toString();
-                            }
+            firebaseDatabaseReference.child("Facilities");
+            firebaseDatabaseReference.child(firebaseUser.getUid());
+            firebaseDatabaseReference.child("Profile");
+            firebaseDatabaseReference.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    String facilityName = null, facilityType = null, facilityEmail = null;
+                    if (snapshot.child("facilityName").exists()) {
+                        facilityName = Objects.requireNonNull(snapshot.child("facilityName").getValue()).toString();
+                    }
+                    if (snapshot.child("facilityType").exists()) {
+                        facilityType = Objects.requireNonNull(snapshot.child("facilityType").getValue()).toString();
+                    }
+                    if (snapshot.child("emailAddress").exists()) {
+                        facilityEmail = Objects.requireNonNull(snapshot.child("emailAddress").getValue()).toString();
+                    }
 
-                            LocationClass locationClass = new LocationClass(facilityName, facilityType, facilityEmail, latitude, longitude);
-                            databaseReference.child(firebaseUser.getUid()).setValue(locationClass);
+                    LocationClass locationClass = new LocationClass(facilityName, facilityType, facilityEmail, latitude, longitude);
+                    databaseReference.child(firebaseUser.getUid()).setValue(locationClass);
 
-                            progressDialog.dismiss();
-                            Toast.makeText(FacilityLocation.this, "Saved", Toast.LENGTH_SHORT).show();
-                        }
+                    progressDialog.dismiss();
+                    Toast.makeText(FacilityLocation.this, "Saved", Toast.LENGTH_SHORT).show();
+                }
 
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
 
-                        }
-                    });
+                }
+            });
         }
 
 

@@ -137,6 +137,9 @@ public class FacilityManager extends AppCompatActivity implements NavigationView
                     case R.id.drawer_location:
                         startActivity(new Intent(FacilityManager.this, FacilityLocation.class));
                         break;
+                    case R.id.drawer_team:
+                        startActivity(new Intent(FacilityManager.this, FacilityConsultant.class));
+                        break;
                     case R.id.drawer_profile:
                         startActivity(new Intent(FacilityManager.this, FacilityProfile.class));
                         break;

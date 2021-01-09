@@ -8,6 +8,11 @@
             android:title="@string/facility_profile" />
 
         <item
+            android:id="@+id/drawer_team"
+            android:icon="@drawable/ic_team"
+            android:title="@string/consultants" />
+
+        <item
             android:id="@+id/drawer_payment"
             android:icon="@drawable/ic_money"
             android:title="@string/lessee_payments" />

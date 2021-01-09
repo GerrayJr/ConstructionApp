@@ -9,9 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.gerray.fmsystem.R;
 
-public class AssetViewHolder extends RecyclerView.ViewHolder
-
-{
+public class AssetViewHolder extends RecyclerView.ViewHolder {
 
     public TextView tvName, tvModel, tvloc, tvDate;
     public ImageView imageView;
