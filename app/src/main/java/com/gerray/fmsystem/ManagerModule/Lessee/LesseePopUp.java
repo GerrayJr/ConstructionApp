@@ -1,12 +1,10 @@
-package com.gerray.fmsystem.ManagerModule;
+package com.gerray.fmsystem.ManagerModule.Lessee;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -16,11 +14,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.UUID;
 
 public class LesseePopUp extends AppCompatActivity {
     private TextInputEditText project_name, project_company, project_location;

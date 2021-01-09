@@ -1,4 +1,4 @@
-package com.gerray.fmsystem.ManagerModule;
+package com.gerray.fmsystem.ManagerModule.Assets;
 
 public class FacilityAssets {
     private String assetName;

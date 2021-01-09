@@ -1,4 +1,4 @@
-package com.gerray.fmsystem.ManagerModule;
+package com.gerray.fmsystem.ManagerModule.ChatRoom;
 
 import android.os.Bundle;
 

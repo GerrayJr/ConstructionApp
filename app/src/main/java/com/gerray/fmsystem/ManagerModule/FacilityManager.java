@@ -7,6 +7,14 @@ import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.gerray.fmsystem.Authentication.LoginActivity;
+import com.gerray.fmsystem.ManagerModule.Assets.AssetFragment;
+import com.gerray.fmsystem.ManagerModule.ChatRoom.ChatFragment;
+import com.gerray.fmsystem.ManagerModule.Consultants.FacilityConsultant;
+import com.gerray.fmsystem.ManagerModule.Lessee.LesseeFragment;
+import com.gerray.fmsystem.ManagerModule.Location.FacilityLocation;
+import com.gerray.fmsystem.ManagerModule.Profile.FacilityProfile;
+import com.gerray.fmsystem.ManagerModule.WorkOrder.RequestFragment;
+import com.gerray.fmsystem.ManagerModule.WorkOrder.WorkFragment;
 import com.gerray.fmsystem.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;

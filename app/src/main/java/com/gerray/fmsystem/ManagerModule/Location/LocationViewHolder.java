@@ -1,4 +1,4 @@
-package com.gerray.fmsystem.ManagerModule;
+package com.gerray.fmsystem.ManagerModule.Location;
 
 import android.view.View;
 import android.widget.TextView;

@@ -1,4 +1,4 @@
-package com.gerray.fmsystem.ManagerModule;
+package com.gerray.fmsystem.ManagerModule.Location;
 
 public class LocationClass {
     private String facilityName;

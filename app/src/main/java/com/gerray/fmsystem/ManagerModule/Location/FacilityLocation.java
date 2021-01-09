@@ -1,4 +1,4 @@
-package com.gerray.fmsystem.ManagerModule;
+package com.gerray.fmsystem.ManagerModule.Location;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;

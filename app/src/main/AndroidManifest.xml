@@ -15,7 +15,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ManagerModule.FacilityConsultant"></activity>
+        <activity android:name=".ManagerModule.Consultants.FacilityConsultant" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -24,13 +24,13 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <activity android:name=".ManagerModule.FacilityLocation" />
+        <activity android:name=".ManagerModule.Location.FacilityLocation" />
         <activity android:name=".ConsultantModule.ConsultantActivity" />
         <activity android:name=".LesseeModule.LesseeActivity" />
         <activity
-            android:name=".ManagerModule.ProfilePopUp"
+            android:name=".ManagerModule.Profile.ProfilePopUp"
             android:theme="@style/Theme.AppCompat.DayNight.Dialog" />
-        <activity android:name=".ManagerModule.FacilityProfile" />
+        <activity android:name=".ManagerModule.Profile.FacilityProfile" />
         <activity
             android:name=".ManagerModule.FacilityManager"
             android:label="@string/title_activity_facility_manager" />
@@ -40,10 +40,10 @@
             android:theme="@style/Theme.AppCompat.DayNight.Dialog" />
         <activity android:name=".Authentication.CreateActivity" />
         <activity
-            android:name=".ManagerModule.LesseePopUp"
+            android:name=".ManagerModule.Lessee.LesseePopUp"
             android:theme="@style/Theme.AppCompat.DayNight.Dialog" />
         <activity
-            android:name=".ManagerModule.AssetPopUp"
+            android:name=".ManagerModule.Assets.AssetPopUp"
             android:theme="@style/Theme.AppCompat.DayNight.Dialog" />
         <activity android:name=".Authentication.LoginActivity">
             <intent-filter>

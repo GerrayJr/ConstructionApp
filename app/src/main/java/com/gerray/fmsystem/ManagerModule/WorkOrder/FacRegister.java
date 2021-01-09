@@ -1,4 +1,4 @@
-package com.gerray.fmsystem.ManagerModule;
+package com.gerray.fmsystem.ManagerModule.WorkOrder;
 
 public class FacRegister {
     private String facilityID;

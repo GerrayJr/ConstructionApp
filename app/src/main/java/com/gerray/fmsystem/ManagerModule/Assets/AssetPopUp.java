@@ -1,4 +1,4 @@
-package com.gerray.fmsystem.ManagerModule;
+package com.gerray.fmsystem.ManagerModule.Assets;
 
 import android.app.ProgressDialog;
 import android.content.ContentResolver;

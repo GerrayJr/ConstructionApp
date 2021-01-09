@@ -1,4 +1,4 @@
-package com.gerray.fmsystem.ManagerModule;
+package com.gerray.fmsystem.ManagerModule.Consultants;
 
 import androidx.appcompat.app.AppCompatActivity;
 

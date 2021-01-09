@@ -1,4 +1,4 @@
-package com.gerray.fmsystem.ManagerModule;
+package com.gerray.fmsystem.ManagerModule.WorkOrder;
 
 import android.os.Bundle;
 
@@ -10,9 +10,9 @@ import android.view.ViewGroup;
 
 import com.gerray.fmsystem.R;
 
-public class WorkFragment extends Fragment {
+public class RequestFragment extends Fragment {
 
-    public WorkFragment() {
+    public RequestFragment() {
 
     }
 
@@ -26,6 +26,6 @@ public class WorkFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_work, container, false);
+        return inflater.inflate(R.layout.fragment_request, container, false);
     }
 }
