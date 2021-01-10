@@ -131,7 +131,7 @@ public class AssetPopUp extends AppCompatActivity {
         final String description = assetDescription.getText().toString().trim();
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
         Date date = new Date();
-        final String addDate = dateFormat.format(date).toString();
+        final String addDate = dateFormat.format(date);
         final String assetID = UUID.randomUUID().toString();
 
 

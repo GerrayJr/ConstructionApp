@@ -76,7 +76,6 @@ public class AssetFragment extends Fragment {
         FirebaseUser currentUser = auth.getCurrentUser();
 
         dbRef = FirebaseDatabase.getInstance().getReference().child("Facilities").child(currentUser.getUid()).child("Assets");
-        ;
         dbRef.keepSynced(true);
 
         FirebaseStorage storage = FirebaseStorage.getInstance();
@@ -86,7 +85,7 @@ public class AssetFragment extends Fragment {
         adapter = new FirebaseRecyclerAdapter<FacilityAssets, AssetViewHolder>(options) {
             @Override
             protected void onBindViewHolder(@NonNull final AssetViewHolder holder, int position, @NonNull final FacilityAssets model) {
-                Picasso.with(getActivity()).load(model.getmImageUrl().toString()).into(holder.imageView);
+                Picasso.with(getActivity()).load(model.getmImageUrl()).into(holder.imageView);
                 holder.tvName.setText(model.getAssetName());
                 holder.tvModel.setText(model.getAssetModel());
                 holder.tvloc.setText(model.getLocation());

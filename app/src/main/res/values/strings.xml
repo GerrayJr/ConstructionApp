@@ -63,4 +63,23 @@
     <string name="navigation_drawer_open">Navigation Drawer Open</string>
     <string name="navigation_drawer_close">Navigation Drawer Closed</string>
     <string name="consultants">Consultants</string>
+    <string name="cons_cat">Category</string>
+    <string-array name="consultant_category">
+        <item>Personal</item>
+        <item>Company or Agency</item>
+    </string-array>
+    <string name="cons_specs">Specialization</string>
+    <string-array name="consultant_specialization">
+        <item>Personal</item>
+        <item>Company or Agency</item>
+    </string-array>
+    <string name="cons_locate">Location</string>
+    <string-array name="consultant_location">
+        <item>Nairobi</item>
+        <item>Mombasa</item>
+        <item>Kisumu</item>
+        <item>Kericho</item>
+        <item>Garissa</item>
+        <item>Kitui</item>
+    </string-array>
 </resources>

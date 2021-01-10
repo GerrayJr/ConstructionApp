@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.gerray.fmsystem.ConsultantModule.ConsultantCreate;
 import com.gerray.fmsystem.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -50,7 +51,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View v) {
         if (v == btnLogin) {
             loginUser();
-//            startActivity(new Intent(LoginActivity.this, FacilityManager.class));
+//            startActivity(new Intent(LoginActivity.this, ConsultantCreate.class));
         } else if (v == btnCreate) {
             startActivity(new Intent(this, CreateActivity.class));
 
@@ -85,7 +86,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         if (task.isSuccessful()) {
                             finish();
                             Toast.makeText(LoginActivity.this, "Success", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(LoginActivity.this,UserSelector.class));
+                            startActivity(new Intent(LoginActivity.this, UserSelector.class));
 
                         } else {
                             Toast.makeText(LoginActivity.this, "Login Failed", Toast.LENGTH_SHORT).show();

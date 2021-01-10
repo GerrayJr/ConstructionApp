@@ -15,8 +15,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ManagerModule.Consultants.FacilityConsultant" />
-
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyBY4g7zIuLmXFwkZRgRM1nXqnwbZoFs3kk" />
@@ -24,6 +22,10 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
+        <activity android:name=".ManagerModule.Consultants.FacilityConsultant" />
+        <activity
+            android:name=".ConsultantModule.ConsultantCreate"
+            android:theme="@style/Theme.AppCompat.DayNight.Dialog" />
         <activity android:name=".ManagerModule.Location.FacilityLocation" />
         <activity android:name=".ConsultantModule.ConsultantActivity" />
         <activity android:name=".LesseeModule.LesseeActivity" />

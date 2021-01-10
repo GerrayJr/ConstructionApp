@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="350dp"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_gravity="center"
+    android:fadeScrollbars="false"
+    android:padding="5dp"
+    android:scrollbars="vertical"
+    tools:context=".ManagerModule.Assets.AssetPopUp">
+
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="30dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/scrollView3">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Please Input the Following Details"
+            android:textSize="19sp"
+            android:textStyle="bold|italic" />
+
+
+        <Spinner
+            android:id="@+id/cons_category"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:layout_marginTop="20dp"
+            android:entries="@array/consultant_category"
+            android:padding="15dp"
+            android:prompt="@string/cons_cat"
+            android:spinnerMode="dropdown"
+            android:textAlignment="inherit" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="if company, enter Company Name"
+            android:padding="15dp"
+            android:textColorHint="#000"
+            app:hintAnimationEnabled="true">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/cons_company"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Spinner
+            android:id="@+id/cons_specialization"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:layout_marginTop="20dp"
+            android:entries="@array/consultant_specialization"
+            android:padding="15dp"
+            android:prompt="@string/cons_specs"
+            android:spinnerMode="dropdown"
+            android:textAlignment="inherit" />
+
+        <Spinner
+            android:id="@+id/cons_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:layout_marginTop="20dp"
+            android:entries="@array/consultant_location"
+            android:padding="15dp"
+            android:prompt="@string/cons_locate"
+            android:spinnerMode="dropdown"
+            android:textAlignment="inherit" />
+
+        <Button
+            android:id="@+id/btnConsCreate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            android:text="@string/continue_txt"
+            android:textAllCaps="false" />
+
+    </LinearLayout>
+</ScrollView>
