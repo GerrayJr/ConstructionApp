@@ -158,7 +158,7 @@ public class FacilityManager extends AppCompatActivity implements NavigationView
                         Toast.makeText(FacilityManager.this, "Payment Activity", Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.drawer_logOut:
-                        //auth.signOut();
+                        auth.signOut();
                         startActivity(new Intent(FacilityManager.this, LoginActivity.class));
                         break;
                 }

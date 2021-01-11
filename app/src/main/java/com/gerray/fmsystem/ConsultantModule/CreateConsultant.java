@@ -3,7 +3,6 @@ package com.gerray.fmsystem.ConsultantModule;
 public class CreateConsultant {
     public String consultantName;
     public String category;
-    public String companyName;
     public String specialization;
     public String consultantLocation;
     public String consID;
@@ -12,10 +11,9 @@ public class CreateConsultant {
     public CreateConsultant() {
     }
 
-    public CreateConsultant(String consultantName, String category, String companyName, String specialization, String consultantLocation, String consID, String userID) {
+    public CreateConsultant(String consultantName, String category, String specialization, String consultantLocation, String consID, String userID) {
         this.consultantName = consultantName;
         this.category = category;
-        this.companyName = companyName;
         this.specialization = specialization;
         this.consultantLocation = consultantLocation;
         this.consID = consID;
@@ -36,14 +34,6 @@ public class CreateConsultant {
 
     public void setCategory(String category) {
         this.category = category;
-    }
-
-    public String getCompanyName() {
-        return companyName;
-    }
-
-    public void setCompanyName(String companyName) {
-        this.companyName = companyName;
     }
 
     public String getSpecialization() {

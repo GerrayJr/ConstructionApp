@@ -65,15 +65,27 @@
     <string name="consultants">Consultants</string>
     <string name="cons_cat">Category</string>
     <string-array name="consultant_category">
-        <item>Personal</item>
+        <item>Self-Employed</item>
         <item>Company or Agency</item>
     </string-array>
+
     <string name="cons_specs">Specialization</string>
     <string-array name="consultant_specialization">
-        <item>Personal</item>
-        <item>Company or Agency</item>
+        <item>Drywall repair and installation</item>
+        <item>Painting and staining</item>
+        <item>Floor repair and installation</item>
+        <item>Light Fixture Installation and Repair</item>
+        <item>Plumbing installation and Repair</item>
+        <item>Door installation and Repairs</item>
+        <item>Electrical Maintenance</item>
+        <item>Exterior Maintenance</item>
+        <item>Restroom Maintenance and repairs</item>
     </string-array>
+
     <string name="cons_locate">Location</string>
+    <string name="profile">Profile</string>
+    <string name="update_profile">Update Profile</string>
+    <string name="settings">Settings</string>
     <string-array name="consultant_location">
         <item>Nairobi</item>
         <item>Mombasa</item>

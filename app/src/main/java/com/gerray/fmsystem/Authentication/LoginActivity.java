@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.gerray.fmsystem.ConsultantModule.ConsultantActivity;
 import com.gerray.fmsystem.ConsultantModule.ConsultantCreate;
 import com.gerray.fmsystem.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -50,8 +51,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     public void onClick(View v) {
         if (v == btnLogin) {
-            loginUser();
-//            startActivity(new Intent(LoginActivity.this, ConsultantCreate.class));
+//            loginUser();
+            startActivity(new Intent(LoginActivity.this, ConsultantActivity.class));
         } else if (v == btnCreate) {
             startActivity(new Intent(this, CreateActivity.class));
 

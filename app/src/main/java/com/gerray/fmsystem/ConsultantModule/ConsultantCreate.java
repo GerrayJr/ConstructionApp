@@ -25,7 +25,6 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.UUID;
 
 public class ConsultantCreate extends AppCompatActivity {
-    private TextInputEditText consName;
     private Spinner locSpinner, catSpinner, specSpinner;
     DatabaseReference databaseReference;
     FirebaseAuth auth;
@@ -55,7 +54,6 @@ public class ConsultantCreate extends AppCompatActivity {
             }
         });
 
-        consName = findViewById(R.id.cons_company);
         locSpinner = findViewById(R.id.cons_location);
         catSpinner = findViewById(R.id.cons_category);
         specSpinner = findViewById(R.id.cons_specialization);
@@ -89,13 +87,11 @@ public class ConsultantCreate extends AppCompatActivity {
                             final String consLocation = locSpinner.getSelectedItem().toString().trim();
                             final String consCategory = catSpinner.getSelectedItem().toString().trim();
                             final String consSpecs = specSpinner.getSelectedItem().toString().trim();
-                            if (consName == null) consName.setText("Self-Employed");
-                            final String consCompany = consName.getText().toString().trim();
                             final String consID = UUID.randomUUID().toString();
                             final String userID = auth.getUid();
 
 
-                            CreateConsultant createConsultant = new CreateConsultant(consultantName,consCategory,consCompany,consSpecs,consLocation,consID,userID);
+                            CreateConsultant createConsultant = new CreateConsultant(consultantName,consCategory,consSpecs,consLocation,consID,userID);
                             databaseReference.child(userID).setValue(createConsultant);
                             progressDialog.dismiss();
                             ConsultantCreate.this.finish();

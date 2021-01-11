@@ -30,7 +30,6 @@
             android:textSize="19sp"
             android:textStyle="bold|italic" />
 
-
         <Spinner
             android:id="@+id/cons_category"
             android:layout_width="wrap_content"
@@ -40,23 +39,8 @@
             android:entries="@array/consultant_category"
             android:padding="15dp"
             android:prompt="@string/cons_cat"
-            android:spinnerMode="dropdown"
+            android:spinnerMode="dialog"
             android:textAlignment="inherit" />
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="if company, enter Company Name"
-            android:padding="15dp"
-            android:textColorHint="#000"
-            app:hintAnimationEnabled="true">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/cons_company"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="text" />
-        </com.google.android.material.textfield.TextInputLayout>
 
         <Spinner
             android:id="@+id/cons_specialization"
@@ -67,7 +51,7 @@
             android:entries="@array/consultant_specialization"
             android:padding="15dp"
             android:prompt="@string/cons_specs"
-            android:spinnerMode="dropdown"
+            android:spinnerMode="dialog"
             android:textAlignment="inherit" />
 
         <Spinner
@@ -79,7 +63,7 @@
             android:entries="@array/consultant_location"
             android:padding="15dp"
             android:prompt="@string/cons_locate"
-            android:spinnerMode="dropdown"
+            android:spinnerMode="dialog"
             android:textAlignment="inherit" />
 
         <Button
