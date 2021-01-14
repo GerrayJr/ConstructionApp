@@ -196,7 +196,7 @@ public class FacilityLocation extends AppCompatActivity {
             }
         });
 
-        options = new FirebaseRecyclerOptions.Builder<LocationClass>().setQuery(databaseReference.child(firebaseUser.getUid()),LocationClass.class).build();
+        options = new FirebaseRecyclerOptions.Builder<LocationClass>().setQuery(databaseReference.child(auth.getUid()),LocationClass.class).build();
         adapter = new FirebaseRecyclerAdapter<LocationClass, LocationViewHolder>(options) {
             @Override
             protected void onBindViewHolder(@NonNull LocationViewHolder holder, int position, @NonNull LocationClass model) {

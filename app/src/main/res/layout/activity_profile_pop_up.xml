@@ -7,7 +7,7 @@
     android:fadeScrollbars="false"
     android:padding="5dp"
     android:scrollbars="vertical"
-    tools:context=".ProfilePopUp">
+    tools:context=".ManagerModule.Profile.ProfilePopUp">
 
     <LinearLayout
         android:layout_width="match_parent"

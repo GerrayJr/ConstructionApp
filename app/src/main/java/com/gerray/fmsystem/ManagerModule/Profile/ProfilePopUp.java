@@ -13,6 +13,7 @@ import android.util.DisplayMetrics;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -36,7 +37,7 @@ import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
 public class ProfilePopUp extends AppCompatActivity {
-    private TextInputEditText  profAuth, profAddress, profEmail, profOcc;
+    private TextInputEditText profAuth, profAddress, profEmail, profOcc;
     private Spinner profActivity;
     private ImageView profImage;
 
@@ -95,6 +96,43 @@ public class ProfilePopUp extends AppCompatActivity {
         mStorageRef = FirebaseStorage.getInstance().getReference().child("Facilities").child(currentUser.getUid());
         progressDialog = new ProgressDialog(this);
         progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+
+        if (auth.getCurrentUser() != null) {
+            databaseReference.child("Profile")
+                    .addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            if (snapshot.child("authorityName").exists()) {
+                                String authName = snapshot.child("authorityName").getValue().toString().trim();
+                                profAuth.setText(authName);
+                            }
+                            if (snapshot.child("emailAddress").exists()) {
+                                String emailAddress = snapshot.child("emailAddress").getValue().toString().trim();
+                                profEmail.setText(emailAddress);
+                            }
+                            if (snapshot.child("occupancyNo").exists()) {
+                                String occNo = snapshot.child("occupancyNo").getValue().toString().trim();
+                                profOcc.setText(occNo);
+                            }
+                            if (snapshot.child("postalAddress").exists()) {
+                                String postal = snapshot.child("postalAddress").getValue().toString().trim();
+                                profAddress.setText(postal);
+                            }
+                            if (snapshot.child("facilityImageUrl").exists()) {
+                                String imageUrl = snapshot.child("facilityImageUrl").getValue().toString().trim();
+                                Picasso.with(ProfilePopUp.this).load(imageUrl).into(profImage);
+                            }
+
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+
+                    });
+        }
+
 
     }
 
