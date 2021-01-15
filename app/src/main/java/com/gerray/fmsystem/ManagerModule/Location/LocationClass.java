@@ -4,13 +4,13 @@ public class LocationClass {
     private String facilityName;
     private String facilityType;
     private String email;
-    private double latitude;
-    private double longitude;
+    private String latitude;
+    private String longitude;
 
     public LocationClass() {
     }
 
-    public LocationClass(String facilityName, String facilityType, String email, double latitude, double longitude) {
+    public LocationClass(String facilityName, String facilityType, String email, String latitude, String longitude) {
         this.facilityName = facilityName;
         this.facilityType = facilityType;
         this.email = email;
@@ -43,19 +43,19 @@ public class LocationClass {
         this.email = email;
     }
 
-    public double getLatitude() {
+    public String getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(double latitude) {
+    public void setLatitude(String latitude) {
         this.latitude = latitude;
     }
 
-    public double getLongitude() {
+    public String getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(double longitude) {
+    public void setLongitude(String longitude) {
         this.longitude = longitude;
     }
 }

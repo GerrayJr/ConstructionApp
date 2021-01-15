@@ -8,58 +8,24 @@
 
     <LinearLayout
         android:id="@+id/linearLayout2"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_marginTop="30dp"
         android:orientation="vertical"
+        android:gravity="center"
         android:padding="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:text="Input Map Coordinates"
-            android:textSize="19sp"
-            android:textStyle="bold|italic" />
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="250dp"
-            android:layout_height="wrap_content"
-            android:hint="Latitude"
-            android:textColorHint="#000">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/locLatitude"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="number"
-                android:textStyle="italic" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="250dp"
-            android:layout_height="wrap_content"
-            android:hint="Longitude"
-            android:textColorHint="#000">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/locLongitude"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="number"
-                android:textStyle="italic" />
-        </com.google.android.material.textfield.TextInputLayout>
 
         <Button
-            android:id="@+id/btnInputCord"
+            android:id="@+id/btnGetCord"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="20dp"
-            android:text="Confirm" />
+            android:text="Click to get Current Location Coordinates" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -71,12 +37,13 @@
             android:textStyle="bold" />
 
         <Button
-            android:id="@+id/btnGetCord"
+            android:id="@+id/btnPickLoc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="20dp"
-            android:text="Click to get Current Location Coordinates" />
+            android:layout_marginBottom="20dp"
+            android:text="Pick a Location" />
 
         <TextView
             android:layout_width="wrap_content"
