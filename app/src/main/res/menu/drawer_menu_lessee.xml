@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/drawer_profile"
+            android:icon="@drawable/ic_facility"
+            android:title="Lessee Profile" />
+
+        <item
+            android:id="@+id/drawer_payment"
+            android:icon="@drawable/ic_money"
+            android:title="Pay Lease" />
+
+        <item
+            android:id="@+id/drawer_location"
+            android:icon="@drawable/ic_location"
+            android:title="Find a Facility" />
+
+        <item
+            android:id="@+id/drawer_team"
+            android:icon="@drawable/ic_team"
+            android:title="@string/consultants" />
+
+        <item
+            android:id="@+id/drawer_help"
+            android:icon="@drawable/ic_help"
+            android:title="@string/help" />
+
+    </group>
+
+    <item android:title="@string/communicate_with_us">
+        <menu>
+            <item
+                android:id="@+id/drawer_share"
+                android:icon="@drawable/ic_share"
+                android:title="@string/share_app" />
+
+            <item
+                android:id="@+id/drawer_contact"
+                android:icon="@drawable/phone"
+                android:title="@string/contact_us" />
+        </menu>
+    </item>
+    <item
+        android:id="@+id/drawer_logOut"
+        android:icon="@drawable/ic_exit"
+        android:title="@string/log_out" />
+</menu>
