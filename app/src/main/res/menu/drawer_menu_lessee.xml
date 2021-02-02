@@ -3,27 +3,27 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/drawer_profile"
+            android:id="@+id/drawer_lessee_profile"
             android:icon="@drawable/ic_facility"
             android:title="Lessee Profile" />
 
         <item
-            android:id="@+id/drawer_payment"
+            android:id="@+id/drawer_lessee_pay"
             android:icon="@drawable/ic_money"
             android:title="Pay Lease" />
 
         <item
-            android:id="@+id/drawer_location"
+            android:id="@+id/drawer_facilityLocate"
             android:icon="@drawable/ic_location"
             android:title="Find a Facility" />
 
         <item
-            android:id="@+id/drawer_team"
+            android:id="@+id/drawer_consLessee"
             android:icon="@drawable/ic_team"
             android:title="@string/consultants" />
 
         <item
-            android:id="@+id/drawer_help"
+            android:id="@+id/drawer_lessee_help"
             android:icon="@drawable/ic_help"
             android:title="@string/help" />
 
@@ -32,18 +32,18 @@
     <item android:title="@string/communicate_with_us">
         <menu>
             <item
-                android:id="@+id/drawer_share"
+                android:id="@+id/drawer_lessee_share"
                 android:icon="@drawable/ic_share"
                 android:title="@string/share_app" />
 
             <item
-                android:id="@+id/drawer_contact"
+                android:id="@+id/drawer_lessee_contact"
                 android:icon="@drawable/phone"
                 android:title="@string/contact_us" />
         </menu>
     </item>
     <item
-        android:id="@+id/drawer_logOut"
+        android:id="@+id/drawer_lessee_logOut"
         android:icon="@drawable/ic_exit"
         android:title="@string/log_out" />
 </menu>

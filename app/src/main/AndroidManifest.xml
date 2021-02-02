@@ -15,8 +15,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".LesseeModule.LesseeProfileCreate"
-            android:theme="@style/Theme.AppCompat.DayNight.Dialog"/>
+        <activity
+            android:name=".LesseeModule.LesseeProfileCreate"
+            android:theme="@style/Theme.AppCompat.DayNight.Dialog" />
+        <activity
+            android:name=".LesseeModule.LesseeAssetPopUp"
+            android:theme="@style/Theme.AppCompat.DayNight.Dialog" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

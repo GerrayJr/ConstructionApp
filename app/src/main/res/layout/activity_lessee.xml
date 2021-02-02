@@ -24,7 +24,7 @@
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/bottom_nav"
+            android:id="@+id/bottom_lessee_nav"
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:layout_alignParentStart="true"
@@ -36,14 +36,14 @@
             android:id="@+id/mFrame"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@id/bottom_nav"
+            android:layout_above="@id/bottom_lessee_nav"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true" />
 
     </RelativeLayout>
 
     <com.google.android.material.navigation.NavigationView
-        android:id="@+id/nav_view"
+        android:id="@+id/nav_view_lessee"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
