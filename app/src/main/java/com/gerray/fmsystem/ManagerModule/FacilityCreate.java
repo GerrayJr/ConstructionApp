@@ -81,7 +81,8 @@ public class FacilityCreate extends AppCompatActivity {
                             String firstName = null, secondName = null;
                             if (snapshot.child("firstName").exists()) {
                                 firstName = snapshot.child("firstName").getValue().toString().trim();
-                            } else if (snapshot.child("secondName").exists()) {
+                            }
+                            if (snapshot.child("secondName").exists()) {
                                 secondName = snapshot.child("secondName").getValue().toString().trim();
                             }
 

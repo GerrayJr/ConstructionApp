@@ -5,9 +5,12 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
@@ -15,6 +18,7 @@ import com.gerray.fmsystem.ManagerModule.FacilityCreate;
 import com.gerray.fmsystem.ManagerModule.FacilityManager;
 import com.gerray.fmsystem.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -23,7 +27,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class LesseeActivity extends AppCompatActivity {
+public class LesseeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private FirebaseAuth auth;
     FirebaseDatabase firebaseDatabase;
     DatabaseReference firebaseDatabaseReference, reference;
@@ -33,6 +37,10 @@ public class LesseeActivity extends AppCompatActivity {
     private FrameLayout mFrame;
     private DrawerLayout drawerLayout;
     private Toolbar toolbar;;
+
+    private LesseeAssetsFragment lesseeAssetsFragment;
+    private LesseeChatFragment lesseeChatFragment;
+    private LesseeRequestFragment lesseeRequestFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,5 +95,47 @@ public class LesseeActivity extends AppCompatActivity {
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
+
+        lesseeAssetsFragment = new LesseeAssetsFragment();
+        lesseeChatFragment = new LesseeChatFragment();
+        lesseeRequestFragment = new LesseeRequestFragment();
+
+        setFragment(lesseeChatFragment);
+        mNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+                switch (item.getItemId()) {
+                    case R.id.nav_lesseeAssets:
+                        setFragment(lesseeAssetsFragment);
+                        return true;
+
+                    case R.id.nav_lesseeChat:
+                        setFragment(lesseeChatFragment);
+                        return true;
+
+                    case R.id.nav_lesseeRequest:
+                        setFragment(lesseeRequestFragment);
+                        return true;
+
+                    default:
+                        return false;
+
+                }
+            }
+
+
+        });
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        return false;
+    }
+    private void setFragment(Fragment fragment) {
+
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.mFrame, fragment);
+        fragmentTransaction.commit();
     }
 }
