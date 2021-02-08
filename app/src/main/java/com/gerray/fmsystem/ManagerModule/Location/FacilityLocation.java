@@ -108,7 +108,7 @@ public class FacilityLocation extends AppCompatActivity {
                                                     String latitude = String.valueOf(locLatitude);
                                                     String longitude = String.valueOf(locLongitude);
 
-                                                    LocationClass locationClass = new LocationClass(facilityName, facilityType, facilityEmail, latitude, longitude);
+                                                    LocationClass locationClass = new LocationClass(facilityName, facilityType, facilityEmail, locLatitude, locLongitude);
                                                     databaseReference.child(firebaseUser.getUid()).setValue(locationClass);
 
                                                     progressDialog.dismiss();
@@ -202,8 +202,8 @@ public class FacilityLocation extends AppCompatActivity {
             if (resultCode == RESULT_OK) {
                 Place place = PlacePicker.getPlace(data, this);
                 StringBuilder stringBuilder = new StringBuilder();
-                final String latitude = String.valueOf(place.getLatLng().latitude);
-                final String longitude = String.valueOf(place.getLatLng().longitude);
+                final double latitude = place.getLatLng().latitude;
+                final double longitude = place.getLatLng().longitude;
                 firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
                 if (firebaseUser != null) {
                     firebaseDatabaseReference.child("Facilities").child(firebaseUser.getUid()).child("Profile")
