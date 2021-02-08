@@ -41,11 +41,14 @@ public class LesseeActivity extends AppCompatActivity implements NavigationView.
     private BottomNavigationView mNav;
     private FrameLayout mFrame;
     private DrawerLayout drawerLayout;
-    private Toolbar toolbar;;
+    private Toolbar toolbar;
+    ;
 
     private LesseeAssetsFragment lesseeAssetsFragment;
     private LesseeChatFragment lesseeChatFragment;
     private LesseeRequestFragment lesseeRequestFragment;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -145,6 +148,7 @@ public class LesseeActivity extends AppCompatActivity implements NavigationView.
                         Toast.makeText(LesseeActivity.this, "Help activity", Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.drawer_facilityLocate:
+                        startActivity(new Intent(LesseeActivity.this, FindFacility.class));
                         //To be added
                         break;
                     case R.id.drawer_consLessee:
@@ -174,6 +178,7 @@ public class LesseeActivity extends AppCompatActivity implements NavigationView.
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         return false;
     }
+
     private void setFragment(Fragment fragment) {
 
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();

@@ -15,6 +15,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".LesseeModule.FindFacility"></activity>
         <activity
             android:name=".LesseeModule.LesseeProfileCreate"
             android:theme="@style/Theme.AppCompat.DayNight.Dialog" />
