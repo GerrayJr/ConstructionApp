@@ -22,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.gerray.fmsystem.ManagerModule.Location.LocationClass;
 import com.gerray.fmsystem.R;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -40,6 +41,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -253,15 +255,17 @@ public class FindFacility extends AppCompatActivity implements OnMapReadyCallbac
             mMap.getUiSettings().setMyLocationButtonEnabled(false);
 
             firebaseDatabase = FirebaseDatabase.getInstance();
-            firebaseDatabaseReference = firebaseDatabase.getReference().child("locations");
+            firebaseDatabaseReference = firebaseDatabase.getReference().child("Locations");
             firebaseDatabaseReference.addChildEventListener(new ChildEventListener() {
                 @Override
                 public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                    double lat = (double) snapshot.child("latitude").getValue();
-                    double lng = (double) snapshot.child("longitude").getValue();
-
-                    LatLng fLatlng = new LatLng(lat,lng);
-                    mMap.addMarker(new MarkerOptions().position(fLatlng));
+                    LatLng facilityLoc = new LatLng(
+                            snapshot.child("latitude").getValue(Double.class),
+                            snapshot.child("longitude").getValue(Double.class)
+                    );
+                    mMap.addMarker(new MarkerOptions()
+                            .position(facilityLoc)
+                            .title(snapshot.child("facilityName").getValue(String.class)));
                 }
 
                 @Override
@@ -284,6 +288,8 @@ public class FindFacility extends AppCompatActivity implements OnMapReadyCallbac
 
                 }
             });
+
+
 
 
             init();

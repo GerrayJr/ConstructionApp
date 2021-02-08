@@ -105,11 +105,10 @@ public class FacilityLocation extends AppCompatActivity {
                                                         facilityEmail = Objects.requireNonNull(snapshot.child("emailAddress").getValue()).toString();
                                                     }
 
-                                                    String latitude = String.valueOf(locLatitude);
-                                                    String longitude = String.valueOf(locLongitude);
-
                                                     LocationClass locationClass = new LocationClass(facilityName, facilityType, facilityEmail, locLatitude, locLongitude);
-                                                    databaseReference.child(firebaseUser.getUid()).setValue(locationClass);
+//                                                    databaseReference.child(firebaseUser.getUid()).setValue(locationClass);
+                                                    DatabaseReference dbLoc = databaseReference.push();
+                                                    dbLoc.setValue(locationClass);
 
                                                     progressDialog.dismiss();
                                                     Toast.makeText(FacilityLocation.this, "Saved", Toast.LENGTH_SHORT).show();
@@ -222,7 +221,9 @@ public class FacilityLocation extends AppCompatActivity {
                                     }
 
                                     LocationClass locationClass = new LocationClass(facilityName, facilityType, facilityEmail, latitude, longitude);
-                                    databaseReference.child(firebaseUser.getUid()).setValue(locationClass);
+//                                    databaseReference.child(firebaseUser.getUid()).setValue(locationClass);
+                                    DatabaseReference dbLoc = databaseReference.push();
+                                    dbLoc.setValue(locationClass);
 
                                     progressDialog.dismiss();
                                     Toast.makeText(FacilityLocation.this, "Saved", Toast.LENGTH_SHORT).show();
