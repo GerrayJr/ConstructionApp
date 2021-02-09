@@ -7,6 +7,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -30,6 +31,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -63,7 +65,6 @@ public class FindFacility extends AppCompatActivity implements OnMapReadyCallbac
     //vars
     private Boolean mLocationPermissionsGranted = false;
     private GoogleMap mMap;
-    private FusedLocationProviderClient mFusedLocationProviderClient;
     FirebaseDatabase firebaseDatabase;
     DatabaseReference firebaseDatabaseReference, reference;
 
@@ -137,7 +138,7 @@ public class FindFacility extends AppCompatActivity implements OnMapReadyCallbac
     private void getDeviceLocation() {
         Log.d(TAG, "getDeviceLocation: getting the devices current location");
 
-        mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+        FusedLocationProviderClient mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
         try {
             if (mLocationPermissionsGranted) {
@@ -263,9 +264,58 @@ public class FindFacility extends AppCompatActivity implements OnMapReadyCallbac
                             snapshot.child("latitude").getValue(Double.class),
                             snapshot.child("longitude").getValue(Double.class)
                     );
-                    mMap.addMarker(new MarkerOptions()
-                            .position(facilityLoc)
-                            .title(snapshot.child("facilityName").getValue(String.class)));
+                    String facilityType = snapshot.child("facilityType").getValue().toString();
+                    String facilityName = snapshot.child("facilityName").getValue(String.class);
+                    String facilityUserID = snapshot.child("userID").getValue(String.class);
+                    if (facilityType.equals("Industrial")) {
+                        mMap.addMarker(new MarkerOptions()
+                                .position(facilityLoc)
+                                .title(facilityName)
+                                .snippet(facilityUserID)
+                                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+                    }
+                    if (facilityType.equals("Retail spaces")) {
+                        mMap.addMarker(new MarkerOptions()
+                                .position(facilityLoc)
+                                .title(facilityName)
+                                .snippet(facilityUserID)
+                                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
+                    }
+                    if (facilityType.equals("Schools and institutional")) {
+                        mMap.addMarker(new MarkerOptions()
+                                .position(facilityLoc)
+                                .title(facilityName)
+                                .snippet(facilityUserID)
+                                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+                    }
+                    if (facilityType.equals("Laboratory facilities")) {
+                        mMap.addMarker(new MarkerOptions()
+                                .position(facilityLoc)
+                                .title(facilityName)
+                                .snippet(facilityUserID)
+                                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA)));
+                    }
+                    if (facilityType.equals("Convention centers")) {
+                        mMap.addMarker(new MarkerOptions()
+                                .position(facilityLoc)
+                                .title(facilityName)
+                                .snippet(facilityUserID)
+                                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)));
+                    }
+                    if (facilityType.equals("Public facilities")) {
+                        mMap.addMarker(new MarkerOptions()
+                                .position(facilityLoc)
+                                .title(facilityName)
+                                .snippet(facilityUserID)
+                                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+                    }
+                    if (facilityType.equals("Hotels and multi story residential buildings")) {
+                        mMap.addMarker(new MarkerOptions()
+                                .position(facilityLoc)
+                                .title(facilityName)
+                                .snippet(facilityUserID)
+                                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET)));
+                    }
                 }
 
                 @Override
@@ -289,15 +339,27 @@ public class FindFacility extends AppCompatActivity implements OnMapReadyCallbac
                 }
             });
 
-
-
-
             init();
+            mMap.setOnMarkerClickListener(this);
         }
     }
 
     @Override
     public boolean onMarkerClick(Marker marker) {
+        mMap.setInfoWindowAdapter(new InfoWindow(FindFacility.this));
+        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+
+                String fcName = marker.getTitle();
+                String fcID = marker.getSnippet();
+
+                Intent viewInfo = new Intent(FindFacility.this,FacilityInformation.class);
+                viewInfo.putExtra("title", fcName);
+                viewInfo.putExtra("userID", fcID);
+                startActivity(viewInfo);
+            }
+        });
         return false;
     }
 

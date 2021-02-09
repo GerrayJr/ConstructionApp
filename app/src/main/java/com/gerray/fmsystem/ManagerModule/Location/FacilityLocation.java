@@ -105,7 +105,7 @@ public class FacilityLocation extends AppCompatActivity {
                                                         facilityEmail = Objects.requireNonNull(snapshot.child("emailAddress").getValue()).toString();
                                                     }
 
-                                                    LocationClass locationClass = new LocationClass(facilityName, facilityType, facilityEmail, locLatitude, locLongitude);
+                                                    LocationClass locationClass = new LocationClass(facilityName, facilityType, facilityEmail, locLatitude, locLongitude,firebaseUser.getUid());
 //                                                    databaseReference.child(firebaseUser.getUid()).setValue(locationClass);
                                                     DatabaseReference dbLoc = databaseReference.push();
                                                     dbLoc.setValue(locationClass);
@@ -220,7 +220,7 @@ public class FacilityLocation extends AppCompatActivity {
                                         facilityEmail = Objects.requireNonNull(snapshot.child("emailAddress").getValue()).toString();
                                     }
 
-                                    LocationClass locationClass = new LocationClass(facilityName, facilityType, facilityEmail, latitude, longitude);
+                                    LocationClass locationClass = new LocationClass(facilityName, facilityType, facilityEmail, latitude, longitude, firebaseUser.getUid());
 //                                    databaseReference.child(firebaseUser.getUid()).setValue(locationClass);
                                     DatabaseReference dbLoc = databaseReference.push();
                                     dbLoc.setValue(locationClass);

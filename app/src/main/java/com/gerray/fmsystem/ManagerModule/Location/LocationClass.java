@@ -5,17 +5,20 @@ public class LocationClass {
     private String facilityType;
     private String email;
     private double latitude;
+    private String userID;
+
     private double longitude;
 
     public LocationClass() {
     }
 
-    public LocationClass(String facilityName, String facilityType, String email, double latitude, double longitude) {
+    public LocationClass(String facilityName, String facilityType, String email, double latitude, double longitude, String userID) {
         this.facilityName = facilityName;
         this.facilityType = facilityType;
         this.email = email;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.userID = userID;
 
     }
 
@@ -57,5 +60,13 @@ public class LocationClass {
 
     public void setLongitude(double longitude) {
         this.longitude = longitude;
+    }
+
+    public String getUserID() {
+        return userID;
+    }
+
+    public void setUserID(String userID) {
+        this.userID = userID;
     }
 }

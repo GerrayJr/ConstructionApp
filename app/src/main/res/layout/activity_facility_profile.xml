@@ -188,7 +188,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/tv_occupancy"
                     android:layout_alignStart="@+id/tv_prof_name"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="6dp"
                     android:text=""
                     android:textSize="17sp"
                     android:textStyle="normal|italic" />
