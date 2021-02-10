@@ -108,7 +108,6 @@ public class AssetFragment extends Fragment {
         };
 
 
-//        ArrayList<FacilityAssets> arrayList = new ArrayList<FacilityAssets>();
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(adapter);

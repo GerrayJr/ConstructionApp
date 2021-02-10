@@ -31,7 +31,8 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <activity android:name=".ManagerModule.Consultants.FacilityConsultant" />
+        <activity android:name=".ManagerModule.Consultants.FacilityConsultant"
+            android:theme="@style/AppTheme"/>
         <activity
             android:name=".ConsultantModule.ConsultantCreate"
             android:theme="@style/Theme.AppCompat.DayNight.Dialog" />
