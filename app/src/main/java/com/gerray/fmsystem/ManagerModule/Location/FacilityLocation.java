@@ -26,6 +26,10 @@ import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.gerray.fmsystem.ManagerModule.Assets.AssetViewHolder;
+import com.gerray.fmsystem.ManagerModule.Assets.FacilityAssets;
+import com.gerray.fmsystem.ManagerModule.Consultants.ConsultantViewHolder;
+import com.gerray.fmsystem.ManagerModule.Consultants.FacilityConsultant;
 import com.gerray.fmsystem.R;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
@@ -41,6 +45,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.StorageReference;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionDeniedResponse;
@@ -55,12 +60,30 @@ public class FacilityLocation extends AppCompatActivity {
     private FusedLocationProviderClient client;
     DatabaseReference databaseReference;
     FirebaseDatabase firebaseDatabase;
-    DatabaseReference firebaseDatabaseReference;
+    DatabaseReference firebaseDatabaseReference, reference;
     FirebaseAuth auth;
     ProgressDialog progressDialog;
-    FirebaseUser firebaseUser;
+    FirebaseUser firebaseUser, locateAuth;
+    RecyclerView recyclerView;
+
+    FirebaseRecyclerOptions<LocationClass> options;
+    FirebaseRecyclerAdapter<LocationClass, LocationViewHolder> adapter;
 
     int PLACE_PICKER_REQUEST = 1;
+
+    public void onStart() {
+        super.onStart();
+        adapter.startListening();
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (adapter != null) {
+            adapter.stopListening();
+        }
+    }
 
 
     @Override
@@ -105,7 +128,7 @@ public class FacilityLocation extends AppCompatActivity {
                                                         facilityEmail = Objects.requireNonNull(snapshot.child("emailAddress").getValue()).toString();
                                                     }
 
-                                                    LocationClass locationClass = new LocationClass(facilityName, facilityType, facilityEmail, locLatitude, locLongitude,firebaseUser.getUid());
+                                                    LocationClass locationClass = new LocationClass(facilityName, facilityType, facilityEmail, locLatitude, locLongitude, firebaseUser.getUid());
 //                                                    databaseReference.child(firebaseUser.getUid()).setValue(locationClass);
                                                     DatabaseReference dbLoc = databaseReference.push();
                                                     dbLoc.setValue(locationClass);
@@ -191,7 +214,36 @@ public class FacilityLocation extends AppCompatActivity {
                 }
             }
         });
+        locateAuth = FirebaseAuth.getInstance().getCurrentUser();
+        reference = FirebaseDatabase.getInstance().getReference().child("Locations");
+        reference.keepSynced(true);
 
+        options = new FirebaseRecyclerOptions.Builder<LocationClass>().setQuery(reference, LocationClass.class).build();
+        adapter = new FirebaseRecyclerAdapter<LocationClass, LocationViewHolder>(options) {
+            @Override
+            protected void onBindViewHolder(@NonNull LocationViewHolder holder, int position, @NonNull LocationClass model) {
+                String userID = model.getUserID();
+                String latitude = String.valueOf(model.getLatitude());
+                String longitude = String.valueOf(model.getLongitude());
+                if (userID.equals(locateAuth.getUid())) {
+                    holder.tvLat.setText(latitude);
+                    holder.tvLong.setText(longitude);
+                } else {
+                    recyclerView.setVisibility(View.GONE);
+                }
+            }
+
+            @NonNull
+            @Override
+            public LocationViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                return new LocationViewHolder(LayoutInflater.from(FacilityLocation.this).inflate(R.layout.location_item, parent, false));
+            }
+        };
+
+        recyclerView = findViewById(R.id.recycler_view_loc);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(adapter);
+        adapter.startListening();
     }
 
 

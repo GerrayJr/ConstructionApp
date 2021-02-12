@@ -1,4 +1,4 @@
-package com.gerray.fmsystem.ManagerModule.Consultants;
+package com.gerray.fmsystem.LesseeModule;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,12 +15,12 @@ import android.widget.Toast;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.gerray.fmsystem.ConsultantModule.CreateConsultant;
-import com.gerray.fmsystem.ManagerModule.FacilityManager;
+import com.gerray.fmsystem.ManagerModule.Consultants.ConsultantViewHolder;
 import com.gerray.fmsystem.R;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class FacilityConsultant extends AppCompatActivity {
+public class LesseeConsultant extends AppCompatActivity {
 
     FirebaseRecyclerOptions<CreateConsultant> options;
     FirebaseRecyclerAdapter<CreateConsultant, ConsultantViewHolder> plumbAdapter, doorAdapter, dryAdapter, paintAdapter, exteriorAdapter, electricAdapter, restAdapter, lightAdapter, floorAdapter;
@@ -93,7 +93,7 @@ public class FacilityConsultant extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_facility_consultant);
+        setContentView(R.layout.activity_lessee_consultant);
 
         dbRef = FirebaseDatabase.getInstance().getReference().child("Consultants");
         dbRef.keepSynced(true);
@@ -120,7 +120,7 @@ public class FacilityConsultant extends AppCompatActivity {
             @NonNull
             @Override
             public ConsultantViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                return new ConsultantViewHolder(LayoutInflater.from(FacilityConsultant.this).inflate(R.layout.consultants_cards, parent, false));
+                return new ConsultantViewHolder(LayoutInflater.from(LesseeConsultant.this).inflate(R.layout.consultants_cards, parent, false));
             }
         };
         restAdapter = new FirebaseRecyclerAdapter<CreateConsultant, ConsultantViewHolder>(options) {
@@ -139,7 +139,7 @@ public class FacilityConsultant extends AppCompatActivity {
             @NonNull
             @Override
             public ConsultantViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                return new ConsultantViewHolder(LayoutInflater.from(FacilityConsultant.this).inflate(R.layout.consultants_cards, parent, false));
+                return new ConsultantViewHolder(LayoutInflater.from(LesseeConsultant.this).inflate(R.layout.consultants_cards, parent, false));
             }
         };
         exteriorAdapter = new FirebaseRecyclerAdapter<CreateConsultant, ConsultantViewHolder>(options) {
@@ -158,7 +158,7 @@ public class FacilityConsultant extends AppCompatActivity {
             @NonNull
             @Override
             public ConsultantViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                return new ConsultantViewHolder(LayoutInflater.from(FacilityConsultant.this).inflate(R.layout.consultants_cards, parent, false));
+                return new ConsultantViewHolder(LayoutInflater.from(LesseeConsultant.this).inflate(R.layout.consultants_cards, parent, false));
             }
         };
         electricAdapter = new FirebaseRecyclerAdapter<CreateConsultant, ConsultantViewHolder>(options) {
@@ -177,7 +177,7 @@ public class FacilityConsultant extends AppCompatActivity {
             @NonNull
             @Override
             public ConsultantViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                return new ConsultantViewHolder(LayoutInflater.from(FacilityConsultant.this).inflate(R.layout.consultants_cards, parent, false));
+                return new ConsultantViewHolder(LayoutInflater.from(LesseeConsultant.this).inflate(R.layout.consultants_cards, parent, false));
             }
         };
         doorAdapter = new FirebaseRecyclerAdapter<CreateConsultant, ConsultantViewHolder>(options) {
@@ -196,7 +196,7 @@ public class FacilityConsultant extends AppCompatActivity {
             @NonNull
             @Override
             public ConsultantViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                return new ConsultantViewHolder(LayoutInflater.from(FacilityConsultant.this).inflate(R.layout.consultants_cards, parent, false));
+                return new ConsultantViewHolder(LayoutInflater.from(LesseeConsultant.this).inflate(R.layout.consultants_cards, parent, false));
             }
         };
         lightAdapter = new FirebaseRecyclerAdapter<CreateConsultant, ConsultantViewHolder>(options) {
@@ -215,7 +215,7 @@ public class FacilityConsultant extends AppCompatActivity {
             @NonNull
             @Override
             public ConsultantViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                return new ConsultantViewHolder(LayoutInflater.from(FacilityConsultant.this).inflate(R.layout.consultants_cards, parent, false));
+                return new ConsultantViewHolder(LayoutInflater.from(LesseeConsultant.this).inflate(R.layout.consultants_cards, parent, false));
             }
         };
         dryAdapter = new FirebaseRecyclerAdapter<CreateConsultant, ConsultantViewHolder>(options) {
@@ -234,7 +234,7 @@ public class FacilityConsultant extends AppCompatActivity {
             @NonNull
             @Override
             public ConsultantViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                return new ConsultantViewHolder(LayoutInflater.from(FacilityConsultant.this).inflate(R.layout.consultants_cards, parent, false));
+                return new ConsultantViewHolder(LayoutInflater.from(LesseeConsultant.this).inflate(R.layout.consultants_cards, parent, false));
             }
         };
         paintAdapter = new FirebaseRecyclerAdapter<CreateConsultant, ConsultantViewHolder>(options) {
@@ -253,7 +253,7 @@ public class FacilityConsultant extends AppCompatActivity {
             @NonNull
             @Override
             public ConsultantViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                return new ConsultantViewHolder(LayoutInflater.from(FacilityConsultant.this).inflate(R.layout.consultants_cards, parent, false));
+                return new ConsultantViewHolder(LayoutInflater.from(LesseeConsultant.this).inflate(R.layout.consultants_cards, parent, false));
             }
         };
         floorAdapter = new FirebaseRecyclerAdapter<CreateConsultant, ConsultantViewHolder>(options) {
@@ -272,7 +272,7 @@ public class FacilityConsultant extends AppCompatActivity {
             @NonNull
             @Override
             public ConsultantViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                return new ConsultantViewHolder(LayoutInflater.from(FacilityConsultant.this).inflate(R.layout.consultants_cards, parent, false));
+                return new ConsultantViewHolder(LayoutInflater.from(LesseeConsultant.this).inflate(R.layout.consultants_cards, parent, false));
             }
         };
 
@@ -330,7 +330,7 @@ public class FacilityConsultant extends AppCompatActivity {
         try {
             startActivity(Intent.createChooser(i, "Send mail..."));
         } catch (android.content.ActivityNotFoundException ex) {
-            Toast.makeText(FacilityConsultant.this, "There are no Email Clients installed.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(LesseeConsultant.this, "There are no Email Clients installed.", Toast.LENGTH_SHORT).show();
         }
     }
 }

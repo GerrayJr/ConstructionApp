@@ -152,7 +152,7 @@ public class LesseeActivity extends AppCompatActivity implements NavigationView.
                         //To be added
                         break;
                     case R.id.drawer_consLessee:
-                        //To be added
+                        startActivity(new Intent(LesseeActivity.this, LesseeConsultant.class));
                         break;
                     case R.id.drawer_lessee_profile:
                         //To be added
