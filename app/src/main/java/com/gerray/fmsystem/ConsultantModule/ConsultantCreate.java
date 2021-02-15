@@ -64,7 +64,7 @@ public class ConsultantCreate extends AppCompatActivity {
 
     @SuppressLint("SetTextI18n")
     private void consultantCreate() {
-        progressDialog.setMessage("Let us Begin");
+        progressDialog.setMessage("Updating");
         progressDialog.show();
 
         firebaseDatabase = FirebaseDatabase.getInstance();
@@ -76,22 +76,30 @@ public class ConsultantCreate extends AppCompatActivity {
                     .addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            String firstName = null, secondName = null;
+                            String firstName = null, secondName = null, email = null;
+                            int phone = 123456;
                             if (snapshot.child("firstName").exists()) {
                                 firstName = snapshot.child("firstName").getValue().toString().trim();
-                            } else if (snapshot.child("secondName").exists()) {
+                            }
+                            if (snapshot.child("secondName").exists()) {
                                 secondName = snapshot.child("secondName").getValue().toString().trim();
+                            }
+                            if (snapshot.child("email").exists()) {
+                                email = snapshot.child("email").getValue().toString().trim();
+                            }
+                            if (snapshot.child("phone").exists()) {
+                                phone = Integer.parseInt(snapshot.child("phone").getValue().toString().trim());
                             }
 
                             final String consultantName = firstName + " " + secondName;
                             final String consLocation = locSpinner.getSelectedItem().toString().trim();
                             final String consCategory = catSpinner.getSelectedItem().toString().trim();
                             final String consSpecs = specSpinner.getSelectedItem().toString().trim();
-                            final String consID = UUID.randomUUID().toString();
                             final String userID = auth.getUid();
 
+                            String nUrl = "null";
 
-                            CreateConsultant createConsultant = new CreateConsultant(consultantName,consCategory,consSpecs,consLocation,consID,userID);
+                            CreateConsultant createConsultant = new CreateConsultant(consultantName, consCategory, consSpecs, consLocation, userID, email, phone, nUrl);
                             databaseReference.child(userID).setValue(createConsultant);
                             progressDialog.dismiss();
                             ConsultantCreate.this.finish();

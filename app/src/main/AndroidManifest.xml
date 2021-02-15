@@ -15,7 +15,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".LesseeModule.LesseeConsultant"></activity>
+        <activity
+            android:name=".ConsultantModule.UpdateConsultant"
+            android:theme="@style/Theme.AppCompat.DayNight.Dialog" />
+        <activity android:name=".LesseeModule.LesseeConsultant" />
         <activity android:name=".LesseeModule.FacilityInformation" />
         <activity android:name=".LesseeModule.FindFacility" />
         <activity

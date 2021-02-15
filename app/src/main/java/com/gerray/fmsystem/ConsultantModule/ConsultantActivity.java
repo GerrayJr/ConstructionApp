@@ -145,7 +145,7 @@ public class ConsultantActivity extends AppCompatActivity implements NavigationV
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.cons_update:
-                //startActivity(new Intent(this, ProfileActivity.class));
+                startActivity(new Intent(this, UpdateConsultant.class));
                 return true;
 
             case R.id.cons_settings:

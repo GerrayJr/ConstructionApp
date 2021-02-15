@@ -21,20 +21,19 @@
             android:id="@+id/linearLayout4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:layout_gravity="center"
             android:layout_marginBottom="20dp"
+            android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
-                android:id="@+id/Consultant_image"
+                android:id="@+id/consultant_image"
                 android:layout_width="match_parent"
                 android:layout_height="160dp"
                 android:layout_gravity="center"
                 android:layout_margin="20dp"
-                android:src="@drawable/person"
                 android:gravity="center" />
 
             <RelativeLayout
@@ -66,10 +65,54 @@
                     android:textStyle="normal|italic" />
 
                 <TextView
-                    android:id="@+id/tv_employ"
+                    android:id="@+id/tv_email"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/cons_name"
+                    android:layout_alignStart="@+id/tv_name"
+                    android:layout_marginTop="10dp"
+                    android:text="Email Address: "
+                    android:textSize="17sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/cons_email"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_email"
+                    android:layout_alignStart="@+id/cons_name"
+                    android:layout_marginTop="5dp"
+                    android:text=""
+                    android:textSize="17sp"
+                    android:textStyle="normal|italic" />
+
+                <TextView
+                    android:id="@+id/tv_phone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/cons_email"
+                    android:layout_alignStart="@+id/tv_name"
+                    android:layout_marginTop="10dp"
+                    android:text="Phone Number: "
+                    android:textSize="17sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/cons_phone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_phone"
+                    android:layout_alignStart="@+id/cons_name"
+                    android:layout_marginTop="5dp"
+                    android:text=""
+                    android:textSize="17sp"
+                    android:textStyle="normal|italic" />
+
+                <TextView
+                    android:id="@+id/tv_employ"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/cons_phone"
                     android:layout_alignStart="@+id/tv_name"
                     android:layout_marginTop="10dp"
                     android:text="Employment Type: "

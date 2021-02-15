@@ -162,7 +162,7 @@ public class ProfilePopUp extends AppCompatActivity {
     }
 
     private void facilityCreate() {
-        progressDialog.setMessage("Let us Begin");
+        progressDialog.setMessage("Updating");
         progressDialog.show();
 
         firebaseDatabase = FirebaseDatabase.getInstance();

@@ -5,19 +5,23 @@ public class CreateConsultant {
     public String category;
     public String specialization;
     public String consultantLocation;
-    public String consID;
     public String userID;
+    public String emailAddress;
+    public int phoneNumber;
+    public String consultantImageUrl;
 
     public CreateConsultant() {
     }
 
-    public CreateConsultant(String consultantName, String category, String specialization, String consultantLocation, String consID, String userID) {
+    public CreateConsultant(String consultantName, String category, String specialization, String consultantLocation,  String userID, String emailAddress, int phoneNumber, String consultantImageUrl) {
         this.consultantName = consultantName;
         this.category = category;
         this.specialization = specialization;
         this.consultantLocation = consultantLocation;
-        this.consID = consID;
         this.userID = userID;
+        this.emailAddress = emailAddress;
+        this.phoneNumber = phoneNumber;
+        this.consultantImageUrl = consultantImageUrl;
     }
 
     public String getConsultantName() {
@@ -52,19 +56,35 @@ public class CreateConsultant {
         this.consultantLocation = consultantLocation;
     }
 
-    public String getConsID() {
-        return consID;
-    }
-
-    public void setConsID(String consID) {
-        this.consID = consID;
-    }
-
     public String getUserID() {
         return userID;
     }
 
     public void setUserID(String userID) {
         this.userID = userID;
+    }
+
+    public String getEmailAddress() {
+        return emailAddress;
+    }
+
+    public void setEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
+    }
+
+    public int getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(int phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getConsultantImageUrl() {
+        return consultantImageUrl;
+    }
+
+    public void setConsultantImageUrl(String consultantImageUrl) {
+        this.consultantImageUrl = consultantImageUrl;
     }
 }

@@ -66,7 +66,7 @@
     <string name="cons_cat">Category</string>
     <string-array name="consultant_category">
         <item>Self-Employed</item>
-        <item>Company or Agency</item>
+        <item>Company</item>
     </string-array>
 
     <string name="cons_specs">Specialization</string>
