@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.gerray.fmsystem.ConsultantModule.CreateConsultant;
+import com.gerray.fmsystem.ContractorModule.CreateConsultant;
 import com.gerray.fmsystem.ManagerModule.Consultants.ConsultantViewHolder;
 import com.gerray.fmsystem.R;
 import com.google.firebase.database.DatabaseReference;

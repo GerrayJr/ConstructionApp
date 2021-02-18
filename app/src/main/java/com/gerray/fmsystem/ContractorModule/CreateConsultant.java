@@ -1,4 +1,4 @@
-package com.gerray.fmsystem.ConsultantModule;
+package com.gerray.fmsystem.ContractorModule;
 
 public class CreateConsultant {
     public String consultantName;

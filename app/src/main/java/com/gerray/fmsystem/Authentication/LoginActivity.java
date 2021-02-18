@@ -11,10 +11,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.gerray.fmsystem.ConsultantModule.ConsultantActivity;
-import com.gerray.fmsystem.ConsultantModule.ConsultantCreate;
-import com.gerray.fmsystem.LesseeModule.LesseeActivity;
-import com.gerray.fmsystem.ManagerModule.FacilityManager;
 import com.gerray.fmsystem.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;

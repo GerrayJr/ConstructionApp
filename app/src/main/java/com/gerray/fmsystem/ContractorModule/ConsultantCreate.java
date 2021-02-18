@@ -1,4 +1,4 @@
-package com.gerray.fmsystem.ConsultantModule;
+package com.gerray.fmsystem.ContractorModule;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
@@ -13,7 +13,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.gerray.fmsystem.R;
-import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -21,8 +20,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import java.util.UUID;
 
 public class ConsultantCreate extends AppCompatActivity {
     private Spinner locSpinner, catSpinner, specSpinner;

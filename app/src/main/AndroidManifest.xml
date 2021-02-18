@@ -16,7 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".ConsultantModule.UpdateConsultant"
+            android:name=".ContractorModule.UpdateConsultant"
             android:theme="@style/Theme.AppCompat.DayNight.Dialog" />
         <activity android:name=".LesseeModule.LesseeConsultant" />
         <activity android:name=".LesseeModule.FacilityInformation" />
@@ -39,10 +39,10 @@
             android:name=".ManagerModule.Consultants.FacilityConsultant"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".ConsultantModule.ConsultantCreate"
+            android:name=".ContractorModule.ConsultantCreate"
             android:theme="@style/Theme.AppCompat.DayNight.Dialog" />
         <activity android:name=".ManagerModule.Location.FacilityLocation" />
-        <activity android:name=".ConsultantModule.ConsultantActivity" />
+        <activity android:name=".ContractorModule.ConsultantActivity" />
         <activity android:name=".LesseeModule.LesseeActivity" />
         <activity
             android:name=".ManagerModule.Profile.ProfilePopUp"

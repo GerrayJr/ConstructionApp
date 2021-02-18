@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.gerray.fmsystem.ConsultantModule.ConsultantActivity;
+import com.gerray.fmsystem.ContractorModule.ConsultantActivity;
 import com.gerray.fmsystem.LesseeModule.LesseeActivity;
 import com.gerray.fmsystem.ManagerModule.FacilityManager;
 import com.gerray.fmsystem.R;

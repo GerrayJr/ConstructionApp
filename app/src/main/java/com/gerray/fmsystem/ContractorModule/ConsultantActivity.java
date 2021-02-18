@@ -1,7 +1,6 @@
-package com.gerray.fmsystem.ConsultantModule;
+package com.gerray.fmsystem.ContractorModule;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -17,7 +16,6 @@ import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.gerray.fmsystem.Authentication.LoginActivity;
-import com.gerray.fmsystem.ManagerModule.FacilityManager;
 import com.gerray.fmsystem.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;

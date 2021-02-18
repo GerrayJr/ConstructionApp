@@ -1,4 +1,4 @@
-package com.gerray.fmsystem.ConsultantModule;
+package com.gerray.fmsystem.ContractorModule;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,9 +17,6 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.gerray.fmsystem.ManagerModule.Assets.AssetPopUp;
-import com.gerray.fmsystem.ManagerModule.Assets.FacilityAssets;
-import com.gerray.fmsystem.ManagerModule.Profile.ProfilePopUp;
 import com.gerray.fmsystem.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -36,8 +33,6 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
-
-import java.util.UUID;
 
 public class UpdateConsultant extends AppCompatActivity {
 

@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_alignEnd="@+id/tv_ConsName"
             android:layout_marginTop="10dp"
-            android:layout_marginEnd="-60dp"
+            android:layout_marginEnd="-80dp"
             android:text=""
             android:textSize="17sp"
             android:textStyle="normal|italic" />

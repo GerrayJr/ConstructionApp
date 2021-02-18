@@ -35,8 +35,8 @@ public class LesseeFragment extends Fragment {
         addLessee.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), LesseePopUp.class);
-                startActivityForResult(intent, 1);
+//                Intent intent = new Intent(getActivity(), LesseePopUp.class);
+//                startActivityForResult(intent, 1);
             }
         });
         return view;

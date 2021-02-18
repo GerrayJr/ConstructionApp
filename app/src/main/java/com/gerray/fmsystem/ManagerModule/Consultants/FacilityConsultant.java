@@ -14,8 +14,7 @@ import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.gerray.fmsystem.ConsultantModule.CreateConsultant;
-import com.gerray.fmsystem.ManagerModule.FacilityManager;
+import com.gerray.fmsystem.ContractorModule.CreateConsultant;
 import com.gerray.fmsystem.R;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -100,7 +99,7 @@ public class FacilityConsultant extends AppCompatActivity {
         options = new FirebaseRecyclerOptions.Builder<CreateConsultant>().setQuery(dbRef, CreateConsultant.class).build();
         plumbAdapter = new FirebaseRecyclerAdapter<CreateConsultant, ConsultantViewHolder>(options) {
             @Override
-            protected void onBindViewHolder(@NonNull ConsultantViewHolder holder, int position, @NonNull CreateConsultant model) {
+            protected void onBindViewHolder(@NonNull ConsultantViewHolder holder, int position, @NonNull final CreateConsultant model) {
                 String specialization = model.getSpecialization();
                 if (specialization.equals("Plumbing installation and Repair")) {
                     holder.tvName.setText(model.getConsultantName());
@@ -109,7 +108,7 @@ public class FacilityConsultant extends AppCompatActivity {
                     holder.itemView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-
+                            Toast.makeText(FacilityConsultant.this, model.getEmailAddress(), Toast.LENGTH_SHORT).show();
                         }
                     });
                 } else {
@@ -125,12 +124,18 @@ public class FacilityConsultant extends AppCompatActivity {
         };
         restAdapter = new FirebaseRecyclerAdapter<CreateConsultant, ConsultantViewHolder>(options) {
             @Override
-            protected void onBindViewHolder(@NonNull ConsultantViewHolder holder, int position, @NonNull CreateConsultant model) {
+            protected void onBindViewHolder(@NonNull ConsultantViewHolder holder, int position, @NonNull final CreateConsultant model) {
                 String specialization = model.getSpecialization();
                 if (specialization.equals("Restroom Maintenance and repairs")) {
                     holder.tvName.setText(model.getConsultantName());
                     holder.tvCategory.setText(model.getCategory());
                     holder.tvloc.setText(model.getConsultantLocation());
+                    holder.itemView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Toast.makeText(FacilityConsultant.this, model.getEmailAddress(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 } else {
                     restRecycler.setVisibility(View.GONE);
                 }
@@ -144,12 +149,18 @@ public class FacilityConsultant extends AppCompatActivity {
         };
         exteriorAdapter = new FirebaseRecyclerAdapter<CreateConsultant, ConsultantViewHolder>(options) {
             @Override
-            protected void onBindViewHolder(@NonNull ConsultantViewHolder holder, int position, @NonNull CreateConsultant model) {
+            protected void onBindViewHolder(@NonNull ConsultantViewHolder holder, int position, @NonNull final CreateConsultant model) {
                 String specialization = model.getSpecialization();
                 if (specialization.equals("Exterior Maintenance")) {
                     holder.tvName.setText(model.getConsultantName());
                     holder.tvCategory.setText(model.getCategory());
                     holder.tvloc.setText(model.getConsultantLocation());
+                    holder.itemView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Toast.makeText(FacilityConsultant.this, model.getEmailAddress(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 } else {
                     exteriorRecycler.setVisibility(View.GONE);
                 }
@@ -163,12 +174,18 @@ public class FacilityConsultant extends AppCompatActivity {
         };
         electricAdapter = new FirebaseRecyclerAdapter<CreateConsultant, ConsultantViewHolder>(options) {
             @Override
-            protected void onBindViewHolder(@NonNull ConsultantViewHolder holder, int position, @NonNull CreateConsultant model) {
+            protected void onBindViewHolder(@NonNull ConsultantViewHolder holder, int position, @NonNull final CreateConsultant model) {
                 String specialization = model.getSpecialization();
                 if (specialization.equals("Electrical Maintenance")) {
                     holder.tvName.setText(model.getConsultantName());
                     holder.tvCategory.setText(model.getCategory());
                     holder.tvloc.setText(model.getConsultantLocation());
+                    holder.itemView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Toast.makeText(FacilityConsultant.this, model.getEmailAddress(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 } else {
                     electricRecycler.setVisibility(View.GONE);
                 }
@@ -182,12 +199,18 @@ public class FacilityConsultant extends AppCompatActivity {
         };
         doorAdapter = new FirebaseRecyclerAdapter<CreateConsultant, ConsultantViewHolder>(options) {
             @Override
-            protected void onBindViewHolder(@NonNull ConsultantViewHolder holder, int position, @NonNull CreateConsultant model) {
+            protected void onBindViewHolder(@NonNull ConsultantViewHolder holder, int position, @NonNull final CreateConsultant model) {
                 String specialization = model.getSpecialization();
                 if (specialization.equals("Door installation and Repairs")) {
                     holder.tvName.setText(model.getConsultantName());
                     holder.tvCategory.setText(model.getCategory());
                     holder.tvloc.setText(model.getConsultantLocation());
+                    holder.itemView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Toast.makeText(FacilityConsultant.this, model.getEmailAddress(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 } else {
                     doorRecycler.setVisibility(View.GONE);
                 }
@@ -201,12 +224,18 @@ public class FacilityConsultant extends AppCompatActivity {
         };
         lightAdapter = new FirebaseRecyclerAdapter<CreateConsultant, ConsultantViewHolder>(options) {
             @Override
-            protected void onBindViewHolder(@NonNull ConsultantViewHolder holder, int position, @NonNull CreateConsultant model) {
+            protected void onBindViewHolder(@NonNull ConsultantViewHolder holder, int position, @NonNull final CreateConsultant model) {
                 String specialization = model.getSpecialization();
                 if (specialization.equals("Light Fixture Installation and Repair")) {
                     holder.tvName.setText(model.getConsultantName());
                     holder.tvCategory.setText(model.getCategory());
                     holder.tvloc.setText(model.getConsultantLocation());
+                    holder.itemView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Toast.makeText(FacilityConsultant.this, model.getEmailAddress(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 } else {
                     lightRecycler.setVisibility(View.GONE);
                 }
@@ -220,12 +249,18 @@ public class FacilityConsultant extends AppCompatActivity {
         };
         dryAdapter = new FirebaseRecyclerAdapter<CreateConsultant, ConsultantViewHolder>(options) {
             @Override
-            protected void onBindViewHolder(@NonNull ConsultantViewHolder holder, int position, @NonNull CreateConsultant model) {
+            protected void onBindViewHolder(@NonNull ConsultantViewHolder holder, int position, @NonNull final CreateConsultant model) {
                 String specialization = model.getSpecialization();
                 if (specialization.equals("Drywall repair and installation")) {
                     holder.tvName.setText(model.getConsultantName());
                     holder.tvCategory.setText(model.getCategory());
                     holder.tvloc.setText(model.getConsultantLocation());
+                    holder.itemView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Toast.makeText(FacilityConsultant.this, model.getEmailAddress(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 } else {
                     dryRecycler.setVisibility(View.GONE);
                 }
@@ -239,12 +274,18 @@ public class FacilityConsultant extends AppCompatActivity {
         };
         paintAdapter = new FirebaseRecyclerAdapter<CreateConsultant, ConsultantViewHolder>(options) {
             @Override
-            protected void onBindViewHolder(@NonNull ConsultantViewHolder holder, int position, @NonNull CreateConsultant model) {
+            protected void onBindViewHolder(@NonNull ConsultantViewHolder holder, int position, @NonNull final CreateConsultant model) {
                 String specialization = model.getSpecialization();
                 if (specialization.equals("Painting and staining")) {
                     holder.tvName.setText(model.getConsultantName());
                     holder.tvCategory.setText(model.getCategory());
                     holder.tvloc.setText(model.getConsultantLocation());
+                    holder.itemView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Toast.makeText(FacilityConsultant.this, model.getEmailAddress(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 } else {
                     paintRecycler.setVisibility(View.GONE);
                 }
@@ -258,12 +299,18 @@ public class FacilityConsultant extends AppCompatActivity {
         };
         floorAdapter = new FirebaseRecyclerAdapter<CreateConsultant, ConsultantViewHolder>(options) {
             @Override
-            protected void onBindViewHolder(@NonNull ConsultantViewHolder holder, int position, @NonNull CreateConsultant model) {
+            protected void onBindViewHolder(@NonNull ConsultantViewHolder holder, int position, @NonNull final CreateConsultant model) {
                 String specialization = model.getSpecialization();
                 if (specialization.equals("Floor repair and installation")) {
                     holder.tvName.setText(model.getConsultantName());
                     holder.tvCategory.setText(model.getCategory());
                     holder.tvloc.setText(model.getConsultantLocation());
+                    holder.itemView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Toast.makeText(FacilityConsultant.this, model.getEmailAddress(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 } else {
                     floorRecycler.setVisibility(View.GONE);
                 }
