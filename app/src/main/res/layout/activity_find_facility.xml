@@ -13,6 +13,7 @@
         android:layout_height="match_parent"
         tools:context=".MapsActivity" />
 
+
     <RelativeLayout
         android:id="@+id/relLayout1"
         android:layout_width="match_parent"
@@ -46,7 +47,6 @@
             android:textSize="15sp" />
 
     </RelativeLayout>
-
     <ImageView
         android:id="@+id/ic_gps"
         android:layout_width="40dp"

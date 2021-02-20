@@ -16,6 +16,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".ManagerModule.Lessee.ConfirmAdd"
+            android:theme="@style/Theme.AppCompat.DayNight.Dialog"/>
+        <activity
+            android:name=".ManagerModule.Lessee.SearchLessee"
+            android:label="Search Lessees"
+            android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar" />
+        <activity
             android:name=".ContractorModule.UpdateConsultant"
             android:theme="@style/Theme.AppCompat.DayNight.Dialog" />
         <activity android:name=".LesseeModule.LesseeConsultant" />
@@ -56,9 +63,6 @@
             android:name=".ManagerModule.FacilityCreate"
             android:theme="@style/Theme.AppCompat.DayNight.Dialog" />
         <activity android:name=".Authentication.CreateActivity" />
-        <activity
-            android:name=".ManagerModule.Lessee.LesseePopUp"
-            android:theme="@style/Theme.AppCompat.DayNight.Dialog" />
         <activity
             android:name=".ManagerModule.Assets.AssetPopUp"
             android:theme="@style/Theme.AppCompat.DayNight.Dialog" />

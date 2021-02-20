@@ -2,12 +2,11 @@ package com.gerray.fmsystem.ManagerModule.Lessee;
 
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.fragment.app.Fragment;
 
 import com.gerray.fmsystem.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -35,8 +34,7 @@ public class LesseeFragment extends Fragment {
         addLessee.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent = new Intent(getActivity(), LesseePopUp.class);
-//                startActivityForResult(intent, 1);
+                startActivity(new Intent(getActivity(), SearchLessee.class));
             }
         });
         return view;
