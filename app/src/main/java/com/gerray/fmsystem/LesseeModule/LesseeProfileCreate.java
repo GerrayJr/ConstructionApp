@@ -97,7 +97,8 @@ public class LesseeProfileCreate extends AppCompatActivity {
                                 Toast.makeText(LesseeProfileCreate.this, "Enter Organization Name", Toast.LENGTH_SHORT).show();
                                 return;
                             }
-                            LesCreate lesCreate = new LesCreate(contactName, name, activity, lesseeID, userID);
+                            final String roomNo = null;
+                            LesCreate lesCreate = new LesCreate(contactName, name, activity, lesseeID, userID, roomNo);
                             databaseReference.child(userID).setValue(lesCreate);
                             progressDialog.dismiss();
                             LesseeProfileCreate.this.finish();

@@ -76,7 +76,7 @@ public class ConfirmAdd extends AppCompatActivity {
         progressDialog.show();
         auth = FirebaseAuth.getInstance();
         final String roomNo = roomNumber.getText().toString().trim();
-        FirebaseUser currentUser = auth.getCurrentUser();
+        final FirebaseUser currentUser = auth.getCurrentUser();
         reference = FirebaseDatabase.getInstance().getReference().child("Facilities").child(currentUser.getUid());
         reference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -86,7 +86,7 @@ public class ConfirmAdd extends AppCompatActivity {
                     Intent intent = getIntent();
                     final String lesseeID = intent.getExtras().getString("lesseeID");
                     final String userID = intent.getExtras().getString("userID");
-                    databaseReference = FirebaseDatabase.getInstance().getReference().child("FacilityOccupants").child(facilityID).child(roomNo);
+                    databaseReference = FirebaseDatabase.getInstance().getReference().child("FacilityOccupants").child(currentUser.getUid()).child(roomNo);
                     refLessee = FirebaseDatabase.getInstance().getReference().child("Lessees").child(userID);
                     refLessee.addValueEventListener(new ValueEventListener() {
                         String lesseeName, contactName, activityType;
@@ -103,7 +103,7 @@ public class ConfirmAdd extends AppCompatActivity {
                                 activityType = snapshot.child("activityType").getValue().toString();
                             }
 
-                            LesCreate lesCreate = new LesCreate(contactName, lesseeName, activityType, lesseeID, userID);
+                            LesCreate lesCreate = new LesCreate(contactName, lesseeName, activityType, lesseeID, userID, roomNo);
                             databaseReference.setValue(lesCreate);
 
 //                            for (int counter = 1; counter > 0; counter--) {

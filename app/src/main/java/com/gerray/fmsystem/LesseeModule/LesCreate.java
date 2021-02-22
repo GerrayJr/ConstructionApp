@@ -6,17 +6,19 @@ public class LesCreate {
     public String activityType;
     public String lesseeID;
     public String userID;
+    public String room;
 
     public LesCreate() {
 
     }
 
-    public LesCreate(String contactName, String lesseeName, String activityType, String lesseeID, String userID) {
+    public LesCreate(String contactName, String lesseeName, String activityType, String lesseeID, String userID, String room) {
         this.contactName = contactName;
         this.lesseeName = lesseeName;
         this.activityType = activityType;
         this.lesseeID = lesseeID;
         this.userID = userID;
+        this.room = room;
     }
 
     public String getContactName() {
@@ -57,5 +59,13 @@ public class LesCreate {
 
     public void setUserID(String userID) {
         this.userID = userID;
+    }
+
+    public String getRoom() {
+        return room;
+    }
+
+    public void setRoom(String room) {
+        this.room = room;
     }
 }
