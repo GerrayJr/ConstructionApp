@@ -98,7 +98,7 @@ public class ChatSelectFM extends AppCompatActivity {
                                 reference.child(chatID).setValue(chatClass);
 
                                 Intent intent = new Intent(ChatSelectFM.this, ChatActivity.class);
-                                intent.putExtra("receiverName", model.getLesseeName());
+                                intent.putExtra("receiverName", model.getContactName());
                                 intent.putExtra("senderName", managerName);
                                 intent.putExtra("chatID", chatID);
                                 startActivity(intent);

@@ -1,10 +1,12 @@
 package com.gerray.fmsystem.ManagerModule.Consultants;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,17 +16,30 @@ import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.gerray.fmsystem.CommunicationModule.ChatActivity;
+import com.gerray.fmsystem.CommunicationModule.ChatClass;
 import com.gerray.fmsystem.ContractorModule.CreateConsultant;
+import com.gerray.fmsystem.LesseeModule.LesseeConsultant;
 import com.gerray.fmsystem.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.Calendar;
+import java.util.Date;
+import java.util.UUID;
 
 public class FacilityConsultant extends AppCompatActivity {
 
     FirebaseRecyclerOptions<CreateConsultant> options;
     FirebaseRecyclerAdapter<CreateConsultant, ConsultantViewHolder> plumbAdapter, doorAdapter, dryAdapter, paintAdapter, exteriorAdapter, electricAdapter, restAdapter, lightAdapter, floorAdapter;
     RecyclerView lightRecycler, doorRecycler, plumbRecycler, exteriorRecycler, electricRecycler, floorRecycler, restRecycler, paintRecycler, dryRecycler;
-    DatabaseReference dbRef;
+    DatabaseReference dbRef, databaseReference, reference;
+    FirebaseAuth user;
 
     public void onStart() {
         super.onStart();
@@ -108,7 +123,7 @@ public class FacilityConsultant extends AppCompatActivity {
                     holder.itemView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Toast.makeText(FacilityConsultant.this, model.getEmailAddress(), Toast.LENGTH_SHORT).show();
+                            contactContractor(model.getEmailAddress(),model.getUserID(),model.getConsultantName(), model.getSpecialization());
                         }
                     });
                 } else {
@@ -133,7 +148,7 @@ public class FacilityConsultant extends AppCompatActivity {
                     holder.itemView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Toast.makeText(FacilityConsultant.this, model.getEmailAddress(), Toast.LENGTH_SHORT).show();
+                            contactContractor(model.getEmailAddress(),model.getUserID(),model.getConsultantName(), model.getSpecialization());
                         }
                     });
                 } else {
@@ -158,7 +173,7 @@ public class FacilityConsultant extends AppCompatActivity {
                     holder.itemView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Toast.makeText(FacilityConsultant.this, model.getEmailAddress(), Toast.LENGTH_SHORT).show();
+                            contactContractor(model.getEmailAddress(),model.getUserID(),model.getConsultantName(), model.getSpecialization());
                         }
                     });
                 } else {
@@ -183,7 +198,7 @@ public class FacilityConsultant extends AppCompatActivity {
                     holder.itemView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Toast.makeText(FacilityConsultant.this, model.getEmailAddress(), Toast.LENGTH_SHORT).show();
+                            contactContractor(model.getEmailAddress(),model.getUserID(),model.getConsultantName(), model.getSpecialization());
                         }
                     });
                 } else {
@@ -208,7 +223,7 @@ public class FacilityConsultant extends AppCompatActivity {
                     holder.itemView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Toast.makeText(FacilityConsultant.this, model.getEmailAddress(), Toast.LENGTH_SHORT).show();
+                            contactContractor(model.getEmailAddress(),model.getUserID(),model.getConsultantName(), model.getSpecialization());
                         }
                     });
                 } else {
@@ -233,7 +248,7 @@ public class FacilityConsultant extends AppCompatActivity {
                     holder.itemView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Toast.makeText(FacilityConsultant.this, model.getEmailAddress(), Toast.LENGTH_SHORT).show();
+                            contactContractor(model.getEmailAddress(),model.getUserID(),model.getConsultantName(), model.getSpecialization());
                         }
                     });
                 } else {
@@ -258,7 +273,7 @@ public class FacilityConsultant extends AppCompatActivity {
                     holder.itemView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Toast.makeText(FacilityConsultant.this, model.getEmailAddress(), Toast.LENGTH_SHORT).show();
+                            contactContractor(model.getEmailAddress(),model.getUserID(),model.getConsultantName(), model.getSpecialization());
                         }
                     });
                 } else {
@@ -283,7 +298,7 @@ public class FacilityConsultant extends AppCompatActivity {
                     holder.itemView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Toast.makeText(FacilityConsultant.this, model.getEmailAddress(), Toast.LENGTH_SHORT).show();
+                            contactContractor(model.getEmailAddress(),model.getUserID(),model.getConsultantName(), model.getSpecialization());
                         }
                     });
                 } else {
@@ -308,7 +323,7 @@ public class FacilityConsultant extends AppCompatActivity {
                     holder.itemView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Toast.makeText(FacilityConsultant.this, model.getEmailAddress(), Toast.LENGTH_SHORT).show();
+                            contactContractor(model.getEmailAddress(),model.getUserID(),model.getConsultantName(), model.getSpecialization());
                         }
                     });
                 } else {
@@ -370,14 +385,68 @@ public class FacilityConsultant extends AppCompatActivity {
 
     }
 
-    private void emailContact() {
+    public void contactContractor(final String emailAddress, final String contractorID, final String contractorName, final String receiverActivity) {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(FacilityConsultant.this);
+        alertDialog.setMessage("How do you wish to Communicate?")
+                .setCancelable(false)
+                .setPositiveButton("Email", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        contactUs(emailAddress);
+                        return;
+                    }
+                })
+                .setNegativeButton("Chat", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        final String conID = String.valueOf(contractorID);
+                        user = FirebaseAuth.getInstance();
+                        FirebaseUser firebaseUser = user.getCurrentUser();
+                        final String chatID = String.valueOf(UUID.randomUUID());
+                        final Date currentTime = Calendar.getInstance().getTime();
+                        final String senderID = firebaseUser.getUid();
+
+                        databaseReference = FirebaseDatabase.getInstance().getReference().child("Facilities").child(senderID);
+                        databaseReference.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                String managerName = null, facilityName = null;
+                                if (snapshot.child("facilityManager").exists()) {
+                                    managerName = snapshot.child("facilityManager").getValue().toString();
+                                }
+                                ChatClass chatClass = new ChatClass(chatID, senderID, conID, currentTime, receiverActivity, contractorName, managerName);
+                                reference = FirebaseDatabase.getInstance().getReference().child("ChatRooms");
+                                reference.child(chatID).setValue(chatClass);
+                                Intent intent = new Intent(FacilityConsultant.this, ChatActivity.class);
+                                intent.putExtra("receiverName", contractorName);
+                                intent.putExtra("senderName", managerName);
+                                intent.putExtra("chatID", chatID);
+                                startActivity(intent);
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+
+                    }
+                });
+        AlertDialog alert = alertDialog.create();
+        alert.setTitle("Communicating Options");
+        alert.show();
+    }
+
+    public void contactUs(String emailAddress) {
         Intent i = new Intent(Intent.ACTION_SEND);
         i.setType("message/rfc822");
-        i.putExtra(Intent.EXTRA_EMAIL, new String[]{});
+        i.putExtra(Intent.EXTRA_EMAIL, new String[]{emailAddress});
         try {
             startActivity(Intent.createChooser(i, "Send mail..."));
         } catch (android.content.ActivityNotFoundException ex) {
             Toast.makeText(FacilityConsultant.this, "There are no Email Clients installed.", Toast.LENGTH_SHORT).show();
         }
     }
+
+
 }
