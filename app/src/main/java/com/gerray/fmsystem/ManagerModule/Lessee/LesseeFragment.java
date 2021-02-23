@@ -32,7 +32,7 @@ public class LesseeFragment extends Fragment {
     private FloatingActionButton addLessee;
     FirebaseRecyclerOptions<LesCreate> options;
     FirebaseRecyclerAdapter<LesCreate, LesseeRecyclerViewHolder> adapter;
-    DatabaseReference dbRef, reference;
+    DatabaseReference dbRef;
     FirebaseAuth auth;
 
     public LesseeFragment() {

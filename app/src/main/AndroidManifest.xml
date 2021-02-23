@@ -15,9 +15,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".CommunicationModule.ChatActivity"></activity>
+        <activity
+            android:name=".ManagerModule.ChatRoom.ChatSelectFM"
+            android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar" />
         <activity
             android:name=".ManagerModule.Lessee.ConfirmAdd"
-            android:theme="@style/Theme.AppCompat.DayNight.Dialog"/>
+            android:theme="@style/Theme.AppCompat.DayNight.Dialog" />
         <activity
             android:name=".ManagerModule.Lessee.SearchLessee"
             android:label="Search Lessees"
