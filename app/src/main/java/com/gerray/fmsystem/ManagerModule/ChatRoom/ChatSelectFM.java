@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,14 +14,18 @@ import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.gerray.fmsystem.CommunicationModule.ChatActivity;
 import com.gerray.fmsystem.CommunicationModule.ChatClass;
 import com.gerray.fmsystem.LesseeModule.LesCreate;
 import com.gerray.fmsystem.ManagerModule.Lessee.LesseeRecyclerViewHolder;
 import com.gerray.fmsystem.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -29,7 +34,7 @@ import java.util.UUID;
 public class ChatSelectFM extends AppCompatActivity {
     FirebaseRecyclerOptions<LesCreate> options;
     FirebaseRecyclerAdapter<LesCreate, LesseeRecyclerViewHolder> adapter;
-    DatabaseReference dbRef, reference;
+    DatabaseReference dbRef, reference, databaseReference;
     FirebaseAuth auth;
 
     public void onStart() {
@@ -54,7 +59,7 @@ public class ChatSelectFM extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_select_f_m);
         auth = FirebaseAuth.getInstance();
-        FirebaseUser currentUser = auth.getCurrentUser();
+        final FirebaseUser currentUser = auth.getCurrentUser();
 
 
         dbRef = FirebaseDatabase.getInstance().getReference().child("FacilityOccupants").child(currentUser.getUid());
@@ -70,16 +75,42 @@ public class ChatSelectFM extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         Toast.makeText(ChatSelectFM.this, "Clicked", Toast.LENGTH_SHORT).show();
-                        String senderID = auth.getUid();
-                        String receiverID = model.getLesseeID();
-                        Date currentTime = Calendar.getInstance().getTime();
-                        String receiverName = model.getLesseeName();
-                        String receiverContact = model.getContactName();
-                        String chatID = String.valueOf(UUID.randomUUID());
+                        final String senderID = auth.getUid();
+                        final String receiverID = model.getUserID();
+                        final Date currentTime = Calendar.getInstance().getTime();
+                        final String receiverName = model.getLesseeName();
+                        final String receiverContact = model.getContactName();
+                        final String chatID = String.valueOf(UUID.randomUUID());
 
-                        ChatClass chatClass = new ChatClass(chatID,senderID,receiverID,currentTime,receiverName,receiverContact);
-                        reference = FirebaseDatabase.getInstance().getReference().child("ChatRooms");
-                        reference.child(chatID).setValue(chatClass);
+                        databaseReference = FirebaseDatabase.getInstance().getReference().child("Facilities").child(currentUser.getUid());
+                        databaseReference.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                String managerName = null, facilityName = null;
+                                if (snapshot.child("facilityManager").exists()) {
+                                    managerName = snapshot.child("facilityManager").getValue().toString();
+                                }
+                                if (snapshot.child("name").exists()) {
+                                    facilityName = snapshot.child("name").getValue().toString();
+                                }
+                                ChatClass chatClass = new ChatClass(chatID, senderID, receiverID, currentTime, receiverName, receiverContact, managerName);
+                                reference = FirebaseDatabase.getInstance().getReference().child("ChatRooms");
+                                reference.child(chatID).setValue(chatClass);
+
+                                Intent intent = new Intent(ChatSelectFM.this, ChatActivity.class);
+                                intent.putExtra("receiverName", model.getLesseeName());
+                                intent.putExtra("senderName", managerName);
+                                intent.putExtra("chatID", chatID);
+                                startActivity(intent);
+
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+
                     }
                 });
             }

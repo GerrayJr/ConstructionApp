@@ -8,18 +8,20 @@ public class ChatClass {
     public String receiverID;
     public String receiverName;
     public String receiverContact;
+    public String senderName;
     public Date time;
 
     public ChatClass() {
     }
 
-    public ChatClass(String chatID, String senderID, String receiverID, Date time, String receiverName, String receiverContact) {
+    public ChatClass(String chatID, String senderID, String receiverID, Date time, String receiverName, String receiverContact, String senderName) {
         this.chatID = chatID;
         this.senderID = senderID;
         this.receiverID = receiverID;
         this.time = time;
         this.receiverContact = receiverContact;
         this.receiverName = receiverName;
+        this.senderName = senderName;
     }
 
     public String getChatID() {
@@ -68,5 +70,13 @@ public class ChatClass {
 
     public void setReceiverContact(String receiverContact) {
         this.receiverContact = receiverContact;
+    }
+
+    public String getSenderName() {
+        return senderName;
+    }
+
+    public void setSenderName(String senderName) {
+        this.senderName = senderName;
     }
 }

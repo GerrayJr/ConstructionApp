@@ -86,9 +86,8 @@ public class ChatFragment extends Fragment {
         options = new FirebaseRecyclerOptions.Builder<ChatClass>().setQuery(databaseReference, ChatClass.class).build();
         firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<ChatClass, ChatViewHolder>(options) {
             @Override
-            protected void onBindViewHolder(@NonNull ChatViewHolder holder, int position, @NonNull ChatClass model) {
-                if (firebaseUser.getUid().equals(model.senderID))
-                {
+            protected void onBindViewHolder(@NonNull ChatViewHolder holder, int position, @NonNull final ChatClass model) {
+                if (firebaseUser.getUid().equals(model.senderID)) {
                     holder.contactName.setText(model.getReceiverContact());
                     holder.lesseeName.setText(model.getReceiverName());
                     holder.time.setText(String.valueOf(model.getTime()));
@@ -96,6 +95,26 @@ public class ChatFragment extends Fragment {
                         @Override
                         public void onClick(View v) {
                             Intent intent = new Intent(getActivity(), ChatActivity.class);
+                            intent.putExtra("receiverName", model.getReceiverName());
+                            intent.putExtra("receiverID", model.getReceiverID());
+                            intent.putExtra("chatID", model.getChatID());
+                            startActivity(intent);
+                        }
+                    });
+
+                }
+                if (firebaseUser.getUid().equals(model.receiverID)) {
+                    holder.contactName.setText(model.getReceiverContact());
+                    holder.lesseeName.setText(model.getReceiverName());
+                    holder.time.setText(String.valueOf(model.getTime()));
+                    holder.itemView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(getActivity(), ChatActivity.class);
+                            intent.putExtra("receiverName", model.getReceiverContact());
+                            intent.putExtra("receiverID", model.getReceiverID());
+                            intent.putExtra("senderName", model.getSenderName());
+                            intent.putExtra("chatID", model.getChatID());
                             startActivity(intent);
                         }
                     });
@@ -127,12 +146,12 @@ public class ChatFragment extends Fragment {
 //            });
 
 
-            RecyclerView recyclerView = view.findViewById(R.id.recycler_view_chat);
-            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-            recyclerView.setAdapter(firebaseRecyclerAdapter);
-            firebaseRecyclerAdapter.startListening();
-            // Inflate the layout for this fragment
+        RecyclerView recyclerView = view.findViewById(R.id.recycler_view_chat);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setAdapter(firebaseRecyclerAdapter);
+        firebaseRecyclerAdapter.startListening();
+        // Inflate the layout for this fragment
 
-            return view;
-        }
+        return view;
     }
+}
