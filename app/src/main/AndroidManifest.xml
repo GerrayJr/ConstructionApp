@@ -15,7 +15,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".CommunicationModule.ChatActivity"></activity>
+        <activity
+            android:name=".LesseeModule.RequestPopUp"
+            android:theme="@style/Theme.AppCompat.DayNight.Dialog" />
+        <activity android:name=".CommunicationModule.ChatActivity" />
         <activity
             android:name=".ManagerModule.ChatRoom.ChatSelectFM"
             android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar" />

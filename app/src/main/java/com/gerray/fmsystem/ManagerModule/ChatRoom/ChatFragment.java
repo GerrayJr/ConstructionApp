@@ -36,7 +36,7 @@ import com.google.firebase.database.ValueEventListener;
 
 public class ChatFragment extends Fragment {
     private FloatingActionButton selectChat;
-    private DatabaseReference databaseReference, reference;
+    private DatabaseReference databaseReference;
     FirebaseRecyclerAdapter<ChatClass, ChatViewHolder> firebaseRecyclerAdapter;
     FirebaseRecyclerOptions<ChatClass> options;
     FirebaseUser firebaseUser;
@@ -81,7 +81,7 @@ public class ChatFragment extends Fragment {
             }
         });
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        databaseReference = (DatabaseReference) FirebaseDatabase.getInstance().getReference().child("ChatRooms");
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("ChatRooms");
 
         options = new FirebaseRecyclerOptions.Builder<ChatClass>().setQuery(databaseReference, ChatClass.class).build();
         firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<ChatClass, ChatViewHolder>(options) {
@@ -128,22 +128,6 @@ public class ChatFragment extends Fragment {
                 return new ChatViewHolder(LayoutInflater.from(getActivity()).inflate(R.layout.chat_card, parent, false));
             }
         };
-//        if (firebaseUser != null) {
-//            databaseReference.addValueEventListener(new ValueEventListener() {
-//                @Override
-//                public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-//                        final String senderID = dataSnapshot.child("senderID").getValue().toString();
-//
-//
-//                    }
-//                }
-//
-//                @Override
-//                public void onCancelled(@NonNull DatabaseError error) {
-//
-//                }
-//            });
 
 
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view_chat);

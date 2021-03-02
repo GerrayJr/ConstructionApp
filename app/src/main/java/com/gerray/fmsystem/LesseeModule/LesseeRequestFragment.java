@@ -1,59 +1,64 @@
 package com.gerray.fmsystem.LesseeModule;
 
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.gerray.fmsystem.CommunicationModule.ChatClass;
+import com.gerray.fmsystem.CommunicationModule.ChatViewHolder;
 import com.gerray.fmsystem.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link LesseeRequestFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class LesseeRequestFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private DatabaseReference databaseReference;
+    FirebaseRecyclerAdapter<LesseeRequestClass, LesseeRequestHolder> firebaseRecyclerAdapter;
+    FirebaseRecyclerOptions<LesseeRequestClass> options;
+    FirebaseUser firebaseUser;
 
     public LesseeRequestFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment LesseeRequestFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static LesseeRequestFragment newInstance(String param1, String param2) {
-        LesseeRequestFragment fragment = new LesseeRequestFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+
+    }
+
+    public void onStart() {
+        super.onStart();
+        firebaseRecyclerAdapter.startListening();
+        firebaseRecyclerAdapter.notifyDataSetChanged();
+        // Check if user is signed in (non-null) and update UI accordingly.
+//        FirebaseUser currentUser = auth.getCurrentUser();
+
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (firebaseRecyclerAdapter != null) {
+            firebaseRecyclerAdapter.stopListening();
         }
     }
 
@@ -61,6 +66,58 @@ public class LesseeRequestFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_lessee_request, container, false);
+        View view = inflater.inflate(R.layout.fragment_lessee_request, container, false);
+
+
+        FloatingActionButton addRequest = view.findViewById(R.id.fab_request);
+        addRequest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), RequestPopUp.class);
+                startActivity(intent);
+            }
+        });
+
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("Requests");
+
+        options = new FirebaseRecyclerOptions.Builder<LesseeRequestClass>().setQuery(databaseReference,LesseeRequestClass.class).build();
+        firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<LesseeRequestClass, LesseeRequestHolder>(options) {
+            @Override
+            protected void onBindViewHolder(@NonNull final LesseeRequestHolder holder, int position, @NonNull final LesseeRequestClass model) {
+                databaseReference.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                            String userID = dataSnapshot.child("userID").getValue().toString();
+                            if (userID.equals(firebaseUser.getUid()))
+                            {
+                                holder.tvDescription.setText(model.getDescription());
+                                holder.tvDate.setText(model.getRequestDate());
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+            }
+
+            @NonNull
+            @Override
+            public LesseeRequestHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                return new LesseeRequestHolder(LayoutInflater.from(getActivity()).inflate(R.layout.request_card , parent, false));
+            }
+        };
+
+        RecyclerView recyclerView = view.findViewById(R.id.recycler_view_requests);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setAdapter(firebaseRecyclerAdapter);
+        firebaseRecyclerAdapter.startListening();
+
+
+        return view;
     }
 }
