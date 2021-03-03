@@ -74,8 +74,33 @@ public class RequestFragment extends Fragment {
         firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<LesseeRequestClass, LesseeRequestHolder>(options) {
             @Override
             protected void onBindViewHolder(@NonNull final LesseeRequestHolder holder, int position, @NonNull final LesseeRequestClass model) {
-                holder.tvDescription.setText(model.getDescription());
-                holder.tvDate.setText(model.getRequestDate());
+                final String lesseeID = model.getUserID();
+                reference = FirebaseDatabase.getInstance().getReference().child("FacilityOccupants");
+                reference.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                            if (dataSnapshot.getKey().equals(firebaseUser.getUid())) {
+                                for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
+                                    String user = dataSnapshot1.child("userID").getValue().toString();
+                                    if (user.equals(lesseeID)) {
+                                        holder.tvRoom.setText(dataSnapshot1.getKey());
+                                        holder.tvLessee.setText(dataSnapshot1.child("lesseeName").getValue().toString());
+                                        holder.tvDescription.setText(model.getDescription());
+                                        holder.tvDate.setText(model.getRequestDate());
+                                    }
+                                }
+
+                            }
+
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
             }
 
             @NonNull
