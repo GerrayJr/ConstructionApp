@@ -15,7 +15,7 @@
         android:padding="10dp">
 
         <TextView
-            android:id="@+id/tv_requestDate"
+            android:id="@+id/tv_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="17dp"
@@ -27,7 +27,7 @@
             android:id="@+id/tv_room"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_requestDate"
+            android:layout_below="@+id/tv_description"
             android:layout_marginStart="15dp"
             android:layout_marginTop="10dp"
             android:text=""
@@ -38,7 +38,7 @@
             android:id="@+id/tv_lessee"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_requestDate"
+            android:layout_below="@+id/tv_description"
             android:layout_toEndOf="@+id/tv_room"
             android:layout_alignParentEnd="true"
             android:layout_marginStart="130dp"
@@ -50,7 +50,7 @@
             android:textStyle="italic" />
 
         <TextView
-            android:id="@+id/tv_description"
+            android:id="@+id/tv_requestDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_room"
@@ -58,7 +58,7 @@
             android:layout_marginTop="10dp"
             android:text=""
             android:textSize="13sp"
-            android:textStyle="italic" />
+            android:textStyle="italic|bold" />
 
 
     </RelativeLayout>

@@ -29,7 +29,7 @@ import com.google.firebase.database.ValueEventListener;
 
 public class LesseeRequestFragment extends Fragment {
 
-    private DatabaseReference databaseReference;
+    private DatabaseReference databaseReference, reference;
     FirebaseRecyclerAdapter<LesseeRequestClass, LesseeRequestHolder> firebaseRecyclerAdapter;
     FirebaseRecyclerOptions<LesseeRequestClass> options;
     FirebaseUser firebaseUser;
@@ -80,21 +80,40 @@ public class LesseeRequestFragment extends Fragment {
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         databaseReference = FirebaseDatabase.getInstance().getReference().child("Requests");
+        reference = FirebaseDatabase.getInstance().getReference().child("FacilityOccupants");
 
-        options = new FirebaseRecyclerOptions.Builder<LesseeRequestClass>().setQuery(databaseReference,LesseeRequestClass.class).build();
+        options = new FirebaseRecyclerOptions.Builder<LesseeRequestClass>().setQuery(databaseReference, LesseeRequestClass.class).build();
         firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<LesseeRequestClass, LesseeRequestHolder>(options) {
             @Override
             protected void onBindViewHolder(@NonNull final LesseeRequestHolder holder, int position, @NonNull final LesseeRequestClass model) {
-                databaseReference.addValueEventListener(new ValueEventListener() {
+                reference.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+//                            String userID = dataSnapshot.child("userID").getValue().toString();
+//                            if (userID.equals(firebaseUser.getUid()))
+//                            {
+//                                holder.tvDescription.setText(model.getDescription());
+//                                holder.tvDate.setText(model.getRequestDate());
+//                            }
+//                        }
                         for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                            String userID = dataSnapshot.child("userID").getValue().toString();
-                            if (userID.equals(firebaseUser.getUid()))
-                            {
-                                holder.tvDescription.setText(model.getDescription());
-                                holder.tvDate.setText(model.getRequestDate());
+                            for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
+                                String user = dataSnapshot1.child("userID").getValue().toString();
+                                if (user.equals(model.getUserID())) {
+                                    holder.tvRoom.setText(dataSnapshot1.getKey());
+                                    holder.tvDescription.setText(model.getDescription());
+                                    holder.tvDate.setText(model.getRequestDate());
+                                    holder.itemView.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+
+                                        }
+                                    });
+                                }
+
                             }
+
                         }
                     }
 
@@ -108,7 +127,7 @@ public class LesseeRequestFragment extends Fragment {
             @NonNull
             @Override
             public LesseeRequestHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                return new LesseeRequestHolder(LayoutInflater.from(getActivity()).inflate(R.layout.request_card , parent, false));
+                return new LesseeRequestHolder(LayoutInflater.from(getActivity()).inflate(R.layout.request_card, parent, false));
             }
         };
 

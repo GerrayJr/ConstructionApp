@@ -88,6 +88,12 @@ public class RequestFragment extends Fragment {
                                         holder.tvLessee.setText(dataSnapshot1.child("lesseeName").getValue().toString());
                                         holder.tvDescription.setText(model.getDescription());
                                         holder.tvDate.setText(model.getRequestDate());
+                                        holder.itemView.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                
+                                            }
+                                        });
                                     }
                                 }
 
