@@ -16,6 +16,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".ManagerModule.WorkOrder.WorkDetails"
+            android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar" />
+        <activity
             android:name=".LesseeModule.RequestPopUp"
             android:theme="@style/Theme.AppCompat.DayNight.Dialog" />
         <activity android:name=".CommunicationModule.ChatActivity" />
@@ -25,6 +28,9 @@
         <activity
             android:name=".ManagerModule.Lessee.ConfirmAdd"
             android:theme="@style/Theme.AppCompat.DayNight.Dialog" />
+        <activity
+            android:name=".ManagerModule.WorkOrder.SelectConsultant"
+            android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar" />
         <activity
             android:name=".ManagerModule.Lessee.SearchLessee"
             android:label="Search Lessees"

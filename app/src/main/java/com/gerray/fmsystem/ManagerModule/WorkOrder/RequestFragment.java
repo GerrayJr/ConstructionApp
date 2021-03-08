@@ -1,9 +1,11 @@
 package com.gerray.fmsystem.ManagerModule.WorkOrder;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,6 +19,8 @@ import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.gerray.fmsystem.LesseeModule.LesseeRequestClass;
 import com.gerray.fmsystem.LesseeModule.LesseeRequestHolder;
 import com.gerray.fmsystem.LesseeModule.RequestPopUp;
+import com.gerray.fmsystem.ManagerModule.Lessee.ConfirmAdd;
+import com.gerray.fmsystem.ManagerModule.Lessee.SearchLessee;
 import com.gerray.fmsystem.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
@@ -84,14 +88,40 @@ public class RequestFragment extends Fragment {
                                 for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
                                     String user = dataSnapshot1.child("userID").getValue().toString();
                                     if (user.equals(lesseeID)) {
+                                        final String lesseeName = dataSnapshot1.child("lesseeName").getValue().toString();
                                         holder.tvRoom.setText(dataSnapshot1.getKey());
-                                        holder.tvLessee.setText(dataSnapshot1.child("lesseeName").getValue().toString());
+                                        holder.tvLessee.setText(lesseeName);
                                         holder.tvDescription.setText(model.getDescription());
                                         holder.tvDate.setText(model.getRequestDate());
                                         holder.itemView.setOnClickListener(new View.OnClickListener() {
                                             @Override
                                             public void onClick(View v) {
-                                                
+                                                AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
+                                                alertDialog.setMessage("Respond to this request.")
+                                                        .setCancelable(false)
+                                                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                                            @Override
+                                                            public void onClick(DialogInterface dialog, int which) {
+                                                                String lessee = lesseeName;
+                                                                String date = model.getRequestDate();
+                                                                String description = model.getDescription();
+                                                                Intent intent = new Intent(getActivity(), WorkDetails.class);
+                                                                intent.putExtra("lessee", lessee);
+                                                                intent.putExtra("date", date);
+                                                                intent.putExtra("imageUrl", model.getImageUrl());
+                                                                intent.putExtra("description",description);
+                                                                startActivity(intent);
+                                                            }
+                                                        })
+                                                        .setNegativeButton("Dismiss", new DialogInterface.OnClickListener() {
+                                                            @Override
+                                                            public void onClick(DialogInterface dialog, int which) {
+//                                                                startActivity(new Intent(SearchLessee.this, SearchLessee.class));
+                                                            }
+                                                        });
+                                                AlertDialog alert = alertDialog.create();
+                                                alert.setTitle(model.getDescription());
+                                                alert.show();
                                             }
                                         });
                                     }

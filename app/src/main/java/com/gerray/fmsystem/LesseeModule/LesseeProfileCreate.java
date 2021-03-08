@@ -12,8 +12,6 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.gerray.fmsystem.ManagerModule.FacilityCreate;
-import com.gerray.fmsystem.ManagerModule.WorkOrder.FacRegister;
 import com.gerray.fmsystem.R;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;

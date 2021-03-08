@@ -50,8 +50,6 @@ public class LesseeRequestFragment extends Fragment {
         firebaseRecyclerAdapter.startListening();
         firebaseRecyclerAdapter.notifyDataSetChanged();
         // Check if user is signed in (non-null) and update UI accordingly.
-//        FirebaseUser currentUser = auth.getCurrentUser();
-
     }
 
     @Override
@@ -89,14 +87,6 @@ public class LesseeRequestFragment extends Fragment {
                 reference.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-//                            String userID = dataSnapshot.child("userID").getValue().toString();
-//                            if (userID.equals(firebaseUser.getUid()))
-//                            {
-//                                holder.tvDescription.setText(model.getDescription());
-//                                holder.tvDate.setText(model.getRequestDate());
-//                            }
-//                        }
                         for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                             for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
                                 String user = dataSnapshot1.child("userID").getValue().toString();

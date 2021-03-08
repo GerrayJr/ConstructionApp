@@ -60,7 +60,7 @@ public class ConfirmAdd extends AppCompatActivity {
         btnExit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(ConfirmAdd.this, LesseeSearch.class));
+                startActivity(new Intent(ConfirmAdd.this, SearchLessee.class));
             }
         });
 
