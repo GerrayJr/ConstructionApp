@@ -104,7 +104,7 @@ public class WorkDetails extends AppCompatActivity implements View.OnClickListen
 
         auth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = auth.getCurrentUser();
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("Facilities").child(currentUser.getUid());
+//        databaseReference = FirebaseDatabase.getInstance().getReference().child("Facilities").child(currentUser.getUid());
         mStorageRef = FirebaseStorage.getInstance().getReference().child("Facilities").child(currentUser.getUid());
         progressDialog = new ProgressDialog(this);
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
