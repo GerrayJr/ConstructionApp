@@ -406,7 +406,7 @@ public class SelectConsultant extends AppCompatActivity {
 
         DetailsClass detailsClass = new DetailsClass(workID, userID, lessee, reqDate, workDate, description, status, consultantID, cost, imageUrl);
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("Work Orders");
-        databaseReference.push().setValue(detailsClass);
+        databaseReference.child(workID).setValue(detailsClass);
 
         startActivity(new Intent(SelectConsultant.this, FacilityManager.class));
 

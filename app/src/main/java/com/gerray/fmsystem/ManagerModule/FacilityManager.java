@@ -204,6 +204,8 @@ public class FacilityManager extends AppCompatActivity implements NavigationView
 
 
         });
+
+        mNav.setSelectedItemId(R.id.nav_work);
     }
 
     private void setFragment(Fragment fragment) {

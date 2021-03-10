@@ -134,6 +134,7 @@ public class LesseeActivity extends AppCompatActivity implements NavigationView.
 
 
         });
+        mNav.setSelectedItemId(R.id.nav_lesseeChat);
 
         NavigationView navigationView = findViewById(R.id.nav_view_lessee);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {

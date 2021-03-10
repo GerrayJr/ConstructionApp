@@ -1,66 +1,120 @@
 package com.gerray.fmsystem.ContractorModule;
 
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.gerray.fmsystem.ManagerModule.WorkOrder.DetailsClass;
+import com.gerray.fmsystem.ManagerModule.WorkOrder.WorkViewHolder;
 import com.gerray.fmsystem.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link ConsultantWork#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.util.Objects;
+
 public class ConsultantWork extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public ConsultantWork() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ConsultantWork.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static ConsultantWork newInstance(String param1, String param2) {
-        ConsultantWork fragment = new ConsultantWork();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
+    private DatabaseReference reference;
+    FirebaseRecyclerAdapter<DetailsClass, WorkViewHolder> firebaseRecyclerAdapter;
+    FirebaseRecyclerOptions<DetailsClass> options;
+    FirebaseUser firebaseUser;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+
+    }
+
+    public ConsultantWork() {
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (firebaseRecyclerAdapter != null) {
+            firebaseRecyclerAdapter.stopListening();
         }
+    }
+
+    public void onStart() {
+        super.onStart();
+        firebaseRecyclerAdapter.startListening();
+        firebaseRecyclerAdapter.notifyDataSetChanged();
+        // Check if user is signed in (non-null) and update UI accordingly.
+//        FirebaseUser currentUser = auth.getCurrentUser();
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_consultant_work, container, false);
-    }
+        View view = inflater.inflate(R.layout.fragment_consultant_work, container, false);
+
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("Work Orders");
+
+        options = new FirebaseRecyclerOptions.Builder<DetailsClass>().setQuery(databaseReference, DetailsClass.class).build();
+        firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<DetailsClass, WorkViewHolder>(options) {
+            @Override
+            protected void onBindViewHolder(@NonNull final WorkViewHolder holder, int position, @NonNull final DetailsClass model) {
+                if (model.getConsultantID().equals(firebaseUser.getUid())) {
+                    holder.tvStatus.setText(model.getStatus());
+                    holder.tvWork.setText(model.getWorkDescription());
+                    holder.tvWorkDate.setText(model.getWorkDate());
+                    reference = FirebaseDatabase.getInstance().getReference().child("Facilities").child(model.getfManagerID());
+                    reference.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            holder.tvConsultant.setText(Objects.requireNonNull(snapshot.child("name").getValue()).toString());
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+                }
+
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(getActivity(),EditWorkDetails.class);
+                        intent.putExtra("workID",model.getWorkID());
+                        startActivity(intent);
+                    }
+                });
+
+
+            }
+
+            @NonNull
+            @Override
+            public WorkViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                return new WorkViewHolder(LayoutInflater.from(getActivity()).inflate(R.layout.cons_work_card, parent, false));
+            }
+        };
+
+        RecyclerView recyclerView = view.findViewById(R.id.recycler_view_consWork);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setAdapter(firebaseRecyclerAdapter);
+        firebaseRecyclerAdapter.startListening();
+
+
+        return view;    }
 }

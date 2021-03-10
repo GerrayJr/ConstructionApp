@@ -50,6 +50,12 @@
         <item>Hotels and multi story residential buildings</item>
     </string-array>
 
+    <string-array name="status">
+        <item>Accepted</item>
+        <item>Progress</item>
+        <item>Finished</item>
+    </string-array>
+
     <string name="title_activity_facility_manager">MainActivity</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>

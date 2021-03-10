@@ -122,6 +122,7 @@ public class ConsultantActivity extends AppCompatActivity implements NavigationV
 
 
         });
+        mNav.setSelectedItemId(R.id.nav_work_cons);
     }
 
     private void setFragment(Fragment fragment) {
