@@ -75,7 +75,7 @@ public class WorkFragment extends Fragment {
         options = new FirebaseRecyclerOptions.Builder<DetailsClass>().setQuery(databaseReference, DetailsClass.class).build();
         firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<DetailsClass, WorkViewHolder>(options) {
             @Override
-            protected void onBindViewHolder(@NonNull final WorkViewHolder holder, int position, @NonNull DetailsClass model) {
+            protected void onBindViewHolder(@NonNull final WorkViewHolder holder, int position, @NonNull final DetailsClass model) {
                 if (model.getfManagerID().equals(firebaseUser.getUid())) {
                     holder.tvStatus.setText(model.getStatus());
                     holder.tvWork.setText(model.getWorkDescription());
@@ -90,6 +90,14 @@ public class WorkFragment extends Fragment {
                         @Override
                         public void onCancelled(@NonNull DatabaseError error) {
 
+                        }
+                    });
+                    holder.itemView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(getActivity(), WorkPopUp.class);
+                            intent.putExtra("workID", model.getWorkID());
+                            startActivity(intent);
                         }
                     });
                 }

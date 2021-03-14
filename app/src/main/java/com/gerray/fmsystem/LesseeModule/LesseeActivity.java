@@ -162,7 +162,7 @@ public class LesseeActivity extends AppCompatActivity implements NavigationView.
                         shareApp();
                         break;
                     case R.id.drawer_lessee_pay:
-                        Toast.makeText(LesseeActivity.this, "Payment Activity", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(LesseeActivity.this, LesseePay.class));
                         break;
                     case R.id.drawer_lessee_logOut:
                         auth.signOut();

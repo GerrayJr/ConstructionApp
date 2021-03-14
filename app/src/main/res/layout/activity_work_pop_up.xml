@@ -1,28 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ContractorModule.EditWorkDetails">
+    android:layout_width="350dp"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:fadeScrollbars="false"
+    android:padding="5dp"
+    android:scrollbars="vertical"
+    tools:context=".ManagerModule.WorkOrder.WorkPopUp">
 
     <LinearLayout
-        android:id="@+id/linearLayout4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="30dp"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/asset_imageView"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:gravity="center" />
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
             android:orientation="vertical"
-            android:padding="15dp">
+            android:padding="20dp">
 
             <TextView
                 android:id="@+id/tv_work"
@@ -43,48 +47,27 @@
                 android:textSize="17sp"
                 android:textStyle="normal|italic" />
 
+
+
             <TextView
-                android:id="@+id/tv_des"
+                android:id="@+id/tv_consultant"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_work"
                 android:layout_alignStart="@+id/tv_work"
                 android:layout_marginTop="15dp"
-                android:text="Description: "
+                android:text="Contractor: "
                 android:textSize="17sp"
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/ed_description"
+                android:id="@+id/ed_consultant"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/ed_work"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="15dp"
-                android:layout_toEndOf="@id/tv_des"
-                android:text=""
-                android:textSize="17sp"
-                android:textStyle="normal|italic" />
-
-            <TextView
-                android:id="@+id/tv_facility"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/tv_des"
-                android:layout_alignStart="@+id/tv_work"
-                android:layout_marginTop="15dp"
-                android:text="Facility: "
-                android:textSize="17sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/ed_facility"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/ed_description"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="15dp"
-                android:layout_toEndOf="@id/tv_facility"
+                android:layout_toEndOf="@id/tv_consultant"
                 android:text=""
                 android:textSize="17sp"
                 android:textStyle="normal|italic" />
@@ -93,7 +76,7 @@
                 android:id="@+id/tv_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/tv_facility"
+                android:layout_below="@+id/tv_consultant"
                 android:layout_alignStart="@+id/tv_work"
                 android:layout_marginTop="15dp"
                 android:text="Date Posted"
@@ -104,7 +87,7 @@
                 android:id="@+id/ed_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/ed_facility"
+                android:layout_below="@id/ed_consultant"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="15dp"
                 android:layout_toEndOf="@id/tv_date"
@@ -160,35 +143,15 @@
 
         </RelativeLayout>
 
-        <ImageView
-            android:id="@+id/editWork_image"
-            android:layout_width="match_parent"
-            android:layout_height="160dp"
-            android:layout_gravity="center"
-            android:layout_margin="20dp"
-            android:gravity="center" />
-
         <Button
-            android:id="@+id/btn_chat"
+            android:id="@+id/delete_work"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginStart="30dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="10dp"
             android:layout_marginEnd="30dp"
-            android:text="Chat" />
-
-        <Button
-            android:id="@+id/btn_update_work"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginEnd="30dp"
-            android:text="Update Work Details" />
+            android:text="Delete Work" />
 
     </LinearLayout>
-
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
