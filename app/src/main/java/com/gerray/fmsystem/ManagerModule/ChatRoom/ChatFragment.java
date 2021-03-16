@@ -2,41 +2,29 @@ package com.gerray.fmsystem.ManagerModule.ChatRoom;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
-import androidx.annotation.IntRange;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.gerray.fmsystem.CommunicationModule.ChatActivity;
 import com.gerray.fmsystem.CommunicationModule.ChatClass;
 import com.gerray.fmsystem.CommunicationModule.ChatViewHolder;
-import com.gerray.fmsystem.LesseeModule.LesCreate;
-import com.gerray.fmsystem.ManagerModule.Assets.AssetPopUp;
-import com.gerray.fmsystem.ManagerModule.Assets.AssetViewHolder;
-import com.gerray.fmsystem.ManagerModule.Lessee.LesseeRecyclerViewHolder;
-import com.gerray.fmsystem.ManagerModule.Lessee.SearchViewHolder;
 import com.gerray.fmsystem.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 
 public class ChatFragment extends Fragment {
-    private FloatingActionButton selectChat;
-    private DatabaseReference databaseReference;
     FirebaseRecyclerAdapter<ChatClass, ChatViewHolder> firebaseRecyclerAdapter;
     FirebaseRecyclerOptions<ChatClass> options;
     FirebaseUser firebaseUser;
@@ -72,16 +60,13 @@ public class ChatFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_chat, container, false);
-        selectChat = view.findViewById(R.id.fab_text);
-        selectChat.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), ChatSelectFM.class);
-                startActivityForResult(intent, 1);
-            }
+        FloatingActionButton selectChat = view.findViewById(R.id.fab_text);
+        selectChat.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), ChatSelectFM.class);
+            startActivityForResult(intent, 1);
         });
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("ChatRooms");
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("ChatRooms");
 
         options = new FirebaseRecyclerOptions.Builder<ChatClass>().setQuery(databaseReference, ChatClass.class).build();
         firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<ChatClass, ChatViewHolder>(options) {
@@ -91,15 +76,12 @@ public class ChatFragment extends Fragment {
                     holder.contactName.setText(model.getReceiverContact());
                     holder.lesseeName.setText(model.getReceiverName());
                     holder.time.setText(String.valueOf(model.getTime()));
-                    holder.itemView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent intent = new Intent(getActivity(), ChatActivity.class);
-                            intent.putExtra("receiverName", model.getReceiverName());
-                            intent.putExtra("receiverID", model.getReceiverID());
-                            intent.putExtra("chatID", model.getChatID());
-                            startActivity(intent);
-                        }
+                    holder.itemView.setOnClickListener(v -> {
+                        Intent intent = new Intent(getActivity(), ChatActivity.class);
+                        intent.putExtra("receiverName", model.getReceiverName());
+                        intent.putExtra("receiverID", model.getReceiverID());
+                        intent.putExtra("chatID", model.getChatID());
+                        startActivity(intent);
                     });
 
                 }
@@ -107,16 +89,13 @@ public class ChatFragment extends Fragment {
                     holder.contactName.setText(model.getReceiverContact());
                     holder.lesseeName.setText(model.getReceiverName());
                     holder.time.setText(String.valueOf(model.getTime()));
-                    holder.itemView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent intent = new Intent(getActivity(), ChatActivity.class);
-                            intent.putExtra("receiverName", model.getReceiverContact());
-                            intent.putExtra("receiverID", model.getReceiverID());
-                            intent.putExtra("senderName", model.getSenderName());
-                            intent.putExtra("chatID", model.getChatID());
-                            startActivity(intent);
-                        }
+                    holder.itemView.setOnClickListener(v -> {
+                        Intent intent = new Intent(getActivity(), ChatActivity.class);
+                        intent.putExtra("receiverName", model.getReceiverContact());
+                        intent.putExtra("receiverID", model.getReceiverID());
+                        intent.putExtra("senderName", model.getSenderName());
+                        intent.putExtra("chatID", model.getChatID());
+                        startActivity(intent);
                     });
 
                 }

@@ -3,6 +3,7 @@ package com.gerray.fmsystem.Transactions;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.View;
@@ -32,10 +33,13 @@ public class MpesaAcitivity extends AppCompatActivity implements View.OnClickLis
     private DarajaApiClient mApiClient;
     private ProgressDialog mProgressDialog;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.etAmount)
     EditText mAmount;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.etPhone)
     EditText mPhone;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.btnPay)
     Button mPay;
 
@@ -61,6 +65,7 @@ public class MpesaAcitivity extends AppCompatActivity implements View.OnClickLis
             public void onResponse(@NonNull Call<AccessToken> call, @NonNull Response<AccessToken> response) {
 
                 if (response.isSuccessful()) {
+                    assert response.body() != null;
                     mApiClient.setAuthToken(response.body().accessToken);
                 }
             }
@@ -114,6 +119,7 @@ public class MpesaAcitivity extends AppCompatActivity implements View.OnClickLis
                     if (response.isSuccessful()) {
                         Timber.d("post submitted to API. %s", response.body());
                     } else {
+                        assert response.errorBody() != null;
                         Timber.e("Response %s", response.errorBody().string());
                     }
                 } catch (Exception e) {

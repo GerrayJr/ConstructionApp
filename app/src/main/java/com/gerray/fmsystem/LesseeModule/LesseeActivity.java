@@ -1,5 +1,11 @@
 package com.gerray.fmsystem.LesseeModule;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.MenuItem;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,19 +15,9 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.MenuItem;
-import android.widget.FrameLayout;
-import android.widget.Toast;
-
 import com.gerray.fmsystem.Authentication.LoginActivity;
-import com.gerray.fmsystem.ManagerModule.Consultants.FacilityConsultant;
-import com.gerray.fmsystem.ManagerModule.FacilityCreate;
-import com.gerray.fmsystem.ManagerModule.FacilityManager;
-import com.gerray.fmsystem.ManagerModule.Location.FacilityLocation;
-import com.gerray.fmsystem.ManagerModule.Profile.FacilityProfile;
 import com.gerray.fmsystem.R;
+import com.gerray.fmsystem.Transactions.TransactionActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -38,11 +34,7 @@ public class LesseeActivity extends AppCompatActivity implements NavigationView.
     DatabaseReference firebaseDatabaseReference, reference;
     FirebaseUser firebaseUser;
 
-    private BottomNavigationView mNav;
-    private FrameLayout mFrame;
     private DrawerLayout drawerLayout;
-    private Toolbar toolbar;
-    ;
 
     private LesseeAssetsFragment lesseeAssetsFragment;
     private LesseeChatFragment lesseeChatFragment;
@@ -50,6 +42,7 @@ public class LesseeActivity extends AppCompatActivity implements NavigationView.
 
 
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,10 +86,9 @@ public class LesseeActivity extends AppCompatActivity implements NavigationView.
                     });
         }
 
-        mFrame = findViewById(R.id.mFrame);
-        mNav = findViewById(R.id.bottom_lessee_nav);
+        BottomNavigationView mNav = findViewById(R.id.bottom_lessee_nav);
 
-        toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         drawerLayout = findViewById(R.id.drawer_layout);
@@ -109,69 +101,61 @@ public class LesseeActivity extends AppCompatActivity implements NavigationView.
         lesseeRequestFragment = new LesseeRequestFragment();
 
         setFragment(lesseeChatFragment);
-        mNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        mNav.setOnNavigationItemSelectedListener(item -> {
 
-                switch (item.getItemId()) {
-                    case R.id.nav_lesseeAssets:
-                        setFragment(lesseeAssetsFragment);
-                        return true;
+            switch (item.getItemId()) {
+                case R.id.nav_lesseeAssets:
+                    setFragment(lesseeAssetsFragment);
+                    return true;
 
-                    case R.id.nav_lesseeChat:
-                        setFragment(lesseeChatFragment);
-                        return true;
+                case R.id.nav_lesseeChat:
+                    setFragment(lesseeChatFragment);
+                    return true;
 
-                    case R.id.nav_lesseeRequest:
-                        setFragment(lesseeRequestFragment);
-                        return true;
+                case R.id.nav_lesseeRequest:
+                    setFragment(lesseeRequestFragment);
+                    return true;
 
-                    default:
-                        return false;
+                default:
+                    return false;
 
-                }
             }
-
-
         });
         mNav.setSelectedItemId(R.id.nav_lesseeChat);
 
         NavigationView navigationView = findViewById(R.id.nav_view_lessee);
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()) {
+        navigationView.setNavigationItemSelectedListener(item -> {
+            switch (item.getItemId()) {
 
-                    case R.id.drawer_lessee_contact:
-                        contactUs();
-                        break;
-                    case R.id.drawer_lessee_help:
-                        Toast.makeText(LesseeActivity.this, "Help activity", Toast.LENGTH_SHORT).show();
-                        break;
-                    case R.id.drawer_facilityLocate:
-                        startActivity(new Intent(LesseeActivity.this, FindFacility.class));
-                        //To be added
-                        break;
-                    case R.id.drawer_consLessee:
-                        startActivity(new Intent(LesseeActivity.this, LesseeConsultant.class));
-                        break;
-                    case R.id.drawer_lessee_profile:
-                        //To be added
-                        break;
-                    case R.id.drawer_lessee_share:
-                        shareApp();
-                        break;
-                    case R.id.drawer_lessee_pay:
-                        startActivity(new Intent(LesseeActivity.this, LesseePay.class));
-                        break;
-                    case R.id.drawer_lessee_logOut:
-                        auth.signOut();
-                        startActivity(new Intent(LesseeActivity.this, LoginActivity.class));
-                        break;
-                }
-                drawerLayout.closeDrawer(GravityCompat.START);
-                return true;
+                case R.id.drawer_lessee_contact:
+                    contactUs();
+                    break;
+                case R.id.drawer_lessee_help:
+                    Toast.makeText(LesseeActivity.this, "Help activity", Toast.LENGTH_SHORT).show();
+                    break;
+                case R.id.drawer_facilityLocate:
+                    startActivity(new Intent(LesseeActivity.this, FindFacility.class));
+                    //To be added
+                    break;
+                case R.id.drawer_consLessee:
+                    startActivity(new Intent(LesseeActivity.this, LesseeConsultant.class));
+                    break;
+                case R.id.drawer_lessee_profile:
+                    startActivity(new Intent(LesseeActivity.this,LesseeProfileActivity.class));
+                    break;
+                case R.id.drawer_lessee_share:
+                    shareApp();
+                    break;
+                case R.id.drawer_lessee_pay:
+                    startActivity(new Intent(LesseeActivity.this, TransactionActivity.class));
+                    break;
+                case R.id.drawer_lessee_logOut:
+                    auth.signOut();
+                    startActivity(new Intent(LesseeActivity.this, LoginActivity.class));
+                    break;
             }
+            drawerLayout.closeDrawer(GravityCompat.START);
+            return true;
         });
     }
 

@@ -1,12 +1,5 @@
 package com.gerray.fmsystem.ManagerModule.Consultants;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,12 +7,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.gerray.fmsystem.CommunicationModule.ChatActivity;
 import com.gerray.fmsystem.CommunicationModule.ChatClass;
 import com.gerray.fmsystem.ContractorModule.CreateConsultant;
-import com.gerray.fmsystem.LesseeModule.LesseeConsultant;
 import com.gerray.fmsystem.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -31,6 +29,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Objects;
 import java.util.UUID;
 
 public class FacilityConsultant extends AppCompatActivity {
@@ -120,12 +119,7 @@ public class FacilityConsultant extends AppCompatActivity {
                     holder.tvName.setText(model.getConsultantName());
                     holder.tvCategory.setText(model.getCategory());
                     holder.tvloc.setText(model.getConsultantLocation());
-                    holder.itemView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            contactContractor(model.getEmailAddress(),model.getUserID(),model.getConsultantName(), model.getSpecialization());
-                        }
-                    });
+                    holder.itemView.setOnClickListener(v -> contactContractor(model.getEmailAddress(),model.getUserID(),model.getConsultantName(), model.getSpecialization()));
                 } else {
                     plumbRecycler.setVisibility(View.GONE);
                 }
@@ -145,12 +139,7 @@ public class FacilityConsultant extends AppCompatActivity {
                     holder.tvName.setText(model.getConsultantName());
                     holder.tvCategory.setText(model.getCategory());
                     holder.tvloc.setText(model.getConsultantLocation());
-                    holder.itemView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            contactContractor(model.getEmailAddress(),model.getUserID(),model.getConsultantName(), model.getSpecialization());
-                        }
-                    });
+                    holder.itemView.setOnClickListener(v -> contactContractor(model.getEmailAddress(),model.getUserID(),model.getConsultantName(), model.getSpecialization()));
                 } else {
                     restRecycler.setVisibility(View.GONE);
                 }
@@ -170,12 +159,7 @@ public class FacilityConsultant extends AppCompatActivity {
                     holder.tvName.setText(model.getConsultantName());
                     holder.tvCategory.setText(model.getCategory());
                     holder.tvloc.setText(model.getConsultantLocation());
-                    holder.itemView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            contactContractor(model.getEmailAddress(),model.getUserID(),model.getConsultantName(), model.getSpecialization());
-                        }
-                    });
+                    holder.itemView.setOnClickListener(v -> contactContractor(model.getEmailAddress(),model.getUserID(),model.getConsultantName(), model.getSpecialization()));
                 } else {
                     exteriorRecycler.setVisibility(View.GONE);
                 }
@@ -195,12 +179,7 @@ public class FacilityConsultant extends AppCompatActivity {
                     holder.tvName.setText(model.getConsultantName());
                     holder.tvCategory.setText(model.getCategory());
                     holder.tvloc.setText(model.getConsultantLocation());
-                    holder.itemView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            contactContractor(model.getEmailAddress(),model.getUserID(),model.getConsultantName(), model.getSpecialization());
-                        }
-                    });
+                    holder.itemView.setOnClickListener(v -> contactContractor(model.getEmailAddress(),model.getUserID(),model.getConsultantName(), model.getSpecialization()));
                 } else {
                     electricRecycler.setVisibility(View.GONE);
                 }
@@ -220,12 +199,7 @@ public class FacilityConsultant extends AppCompatActivity {
                     holder.tvName.setText(model.getConsultantName());
                     holder.tvCategory.setText(model.getCategory());
                     holder.tvloc.setText(model.getConsultantLocation());
-                    holder.itemView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            contactContractor(model.getEmailAddress(),model.getUserID(),model.getConsultantName(), model.getSpecialization());
-                        }
-                    });
+                    holder.itemView.setOnClickListener(v -> contactContractor(model.getEmailAddress(),model.getUserID(),model.getConsultantName(), model.getSpecialization()));
                 } else {
                     doorRecycler.setVisibility(View.GONE);
                 }
@@ -245,12 +219,7 @@ public class FacilityConsultant extends AppCompatActivity {
                     holder.tvName.setText(model.getConsultantName());
                     holder.tvCategory.setText(model.getCategory());
                     holder.tvloc.setText(model.getConsultantLocation());
-                    holder.itemView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            contactContractor(model.getEmailAddress(),model.getUserID(),model.getConsultantName(), model.getSpecialization());
-                        }
-                    });
+                    holder.itemView.setOnClickListener(v -> contactContractor(model.getEmailAddress(),model.getUserID(),model.getConsultantName(), model.getSpecialization()));
                 } else {
                     lightRecycler.setVisibility(View.GONE);
                 }
@@ -270,12 +239,7 @@ public class FacilityConsultant extends AppCompatActivity {
                     holder.tvName.setText(model.getConsultantName());
                     holder.tvCategory.setText(model.getCategory());
                     holder.tvloc.setText(model.getConsultantLocation());
-                    holder.itemView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            contactContractor(model.getEmailAddress(),model.getUserID(),model.getConsultantName(), model.getSpecialization());
-                        }
-                    });
+                    holder.itemView.setOnClickListener(v -> contactContractor(model.getEmailAddress(),model.getUserID(),model.getConsultantName(), model.getSpecialization()));
                 } else {
                     dryRecycler.setVisibility(View.GONE);
                 }
@@ -295,12 +259,7 @@ public class FacilityConsultant extends AppCompatActivity {
                     holder.tvName.setText(model.getConsultantName());
                     holder.tvCategory.setText(model.getCategory());
                     holder.tvloc.setText(model.getConsultantLocation());
-                    holder.itemView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            contactContractor(model.getEmailAddress(),model.getUserID(),model.getConsultantName(), model.getSpecialization());
-                        }
-                    });
+                    holder.itemView.setOnClickListener(v -> contactContractor(model.getEmailAddress(),model.getUserID(),model.getConsultantName(), model.getSpecialization()));
                 } else {
                     paintRecycler.setVisibility(View.GONE);
                 }
@@ -320,12 +279,7 @@ public class FacilityConsultant extends AppCompatActivity {
                     holder.tvName.setText(model.getConsultantName());
                     holder.tvCategory.setText(model.getCategory());
                     holder.tvloc.setText(model.getConsultantLocation());
-                    holder.itemView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            contactContractor(model.getEmailAddress(),model.getUserID(),model.getConsultantName(), model.getSpecialization());
-                        }
-                    });
+                    holder.itemView.setOnClickListener(v -> contactContractor(model.getEmailAddress(),model.getUserID(),model.getConsultantName(), model.getSpecialization()));
                 } else {
                     floorRecycler.setVisibility(View.GONE);
                 }
@@ -389,48 +343,40 @@ public class FacilityConsultant extends AppCompatActivity {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(FacilityConsultant.this);
         alertDialog.setMessage("How do you wish to Communicate?")
                 .setCancelable(false)
-                .setPositiveButton("Email", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        contactUs(emailAddress);
-                        return;
-                    }
-                })
-                .setNegativeButton("Chat", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        final String conID = String.valueOf(contractorID);
-                        user = FirebaseAuth.getInstance();
-                        FirebaseUser firebaseUser = user.getCurrentUser();
-                        final String chatID = String.valueOf(UUID.randomUUID());
-                        final Date currentTime = Calendar.getInstance().getTime();
-                        final String senderID = firebaseUser.getUid();
+                .setPositiveButton("Email", (dialog, which) -> contactUs(emailAddress))
+                .setNegativeButton("Chat", (dialog, which) -> {
+                    final String conID = String.valueOf(contractorID);
+                    user = FirebaseAuth.getInstance();
+                    FirebaseUser firebaseUser = user.getCurrentUser();
+                    final String chatID = String.valueOf(UUID.randomUUID());
+                    final Date currentTime = Calendar.getInstance().getTime();
+                    assert firebaseUser != null;
+                    final String senderID = firebaseUser.getUid();
 
-                        databaseReference = FirebaseDatabase.getInstance().getReference().child("Facilities").child(senderID);
-                        databaseReference.addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                String managerName = null, facilityName = null;
-                                if (snapshot.child("facilityManager").exists()) {
-                                    managerName = snapshot.child("facilityManager").getValue().toString();
-                                }
-                                ChatClass chatClass = new ChatClass(chatID, senderID, conID, currentTime, receiverActivity, contractorName, managerName);
-                                reference = FirebaseDatabase.getInstance().getReference().child("ChatRooms");
-                                reference.child(chatID).setValue(chatClass);
-                                Intent intent = new Intent(FacilityConsultant.this, ChatActivity.class);
-                                intent.putExtra("receiverName", contractorName);
-                                intent.putExtra("senderName", managerName);
-                                intent.putExtra("chatID", chatID);
-                                startActivity(intent);
+                    databaseReference = FirebaseDatabase.getInstance().getReference().child("Facilities").child(senderID);
+                    databaseReference.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            String managerName = null;
+                            if (snapshot.child("facilityManager").exists()) {
+                                managerName = Objects.requireNonNull(snapshot.child("facilityManager").getValue()).toString();
                             }
+                            ChatClass chatClass = new ChatClass(chatID, senderID, conID, currentTime, receiverActivity, contractorName, managerName);
+                            reference = FirebaseDatabase.getInstance().getReference().child("ChatRooms");
+                            reference.child(chatID).setValue(chatClass);
+                            Intent intent = new Intent(FacilityConsultant.this, ChatActivity.class);
+                            intent.putExtra("receiverName", contractorName);
+                            intent.putExtra("senderName", managerName);
+                            intent.putExtra("chatID", chatID);
+                            startActivity(intent);
+                        }
 
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
 
-                            }
-                        });
+                        }
+                    });
 
-                    }
                 });
         AlertDialog alert = alertDialog.create();
         alert.setTitle("Communicating Options");

@@ -18,12 +18,10 @@ public class Utils {
         }
 
         if (phone.length() < 11 & phone.startsWith("0")) {
-            String p = phone.replaceFirst("^0", "254");
-            return p;
+            return phone.replaceFirst("^0", "254");
         }
         if (phone.length() == 13 && phone.startsWith("+")) {
-            String p = phone.replaceFirst("^+", "");
-            return p;
+            return phone.replaceFirst("^+", "");
         }
         return phone;
     }

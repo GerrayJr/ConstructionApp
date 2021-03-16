@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.gerray.fmsystem.ContractorModule.ConsultantActivity;
+import com.gerray.fmsystem.ContractorModule.ContractorActivity;
 import com.gerray.fmsystem.LesseeModule.LesseeActivity;
 import com.gerray.fmsystem.ManagerModule.FacilityManager;
 import com.gerray.fmsystem.R;
@@ -37,19 +37,23 @@ public class UserSelector extends AppCompatActivity {
             firebaseDatabaseReference.child("Users").child(firebaseUser.getUid())
                     .addValueEventListener(new ValueEventListener() {
                         @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             //  Check user type and redirect accordingly
                             if (dataSnapshot.child("category").exists()) {
                                 String userType = dataSnapshot.child("category").getValue().toString();
-                                if (userType.equals("Facility Manager")) {
-                                    startActivity(new Intent(UserSelector.this,
-                                            FacilityManager.class));
-                                } else if (userType.equals("Lessee")) {
-                                    startActivity(new Intent(UserSelector.this,
-                                            LesseeActivity.class));
-                                } else if (userType.equals("Consultant")) {
-                                    startActivity(new Intent(UserSelector.this,
-                                            ConsultantActivity.class));
+                                switch (userType) {
+                                    case "Facility Manager":
+                                        startActivity(new Intent(UserSelector.this,
+                                                FacilityManager.class));
+                                        break;
+                                    case "Lessee":
+                                        startActivity(new Intent(UserSelector.this,
+                                                LesseeActivity.class));
+                                        break;
+                                    case "Consultant":
+                                        startActivity(new Intent(UserSelector.this,
+                                                ContractorActivity.class));
+                                        break;
                                 }
                             }
 

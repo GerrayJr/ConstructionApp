@@ -1,10 +1,5 @@
 package com.gerray.fmsystem.CommunicationModule;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.format.DateFormat;
@@ -15,13 +10,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.gerray.fmsystem.R;
 import com.github.library.bubbleview.BubbleTextView;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 
 import java.util.Date;
 
@@ -32,7 +31,6 @@ public class ChatActivity extends AppCompatActivity {
     FirebaseRecyclerOptions<MessageClass> options;
     private DatabaseReference databaseReference;
     private FirebaseRecyclerAdapter<MessageClass, MessageViewHolder> adapter;
-    private Button btnSend;
     private EditText edMessage;
 
     public void onStart() {
@@ -70,18 +68,14 @@ public class ChatActivity extends AppCompatActivity {
 
         edMessage = findViewById(R.id.writeMessageEditText);
 
-        btnSend = findViewById(R.id.sendChatMessageButton);
-        btnSend.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String message = edMessage.getText().toString().trim();
-                String user = senderName;
-                long chatTime = new Date().getTime();
-                MessageClass messageClass = new MessageClass(message, user, chatTime);
-                databaseReference.push().setValue(messageClass);
-                edMessage.setText("");
-                edMessage.requestFocus();
-            }
+        Button btnSend = findViewById(R.id.sendChatMessageButton);
+        btnSend.setOnClickListener(v -> {
+            String message = edMessage.getText().toString().trim();
+            long chatTime = new Date().getTime();
+            MessageClass messageClass = new MessageClass(message, senderName, chatTime);
+            databaseReference.push().setValue(messageClass);
+            edMessage.setText("");
+            edMessage.requestFocus();
         });
         displayChatMessage();
 
@@ -112,7 +106,7 @@ public class ChatActivity extends AppCompatActivity {
         adapter.startListening();
     }
 
-    private class MessageViewHolder extends RecyclerView.ViewHolder {
+    private static class MessageViewHolder extends RecyclerView.ViewHolder {
         TextView messageText, messageUser, messageTime;
 
         public MessageViewHolder(@NonNull View itemView) {

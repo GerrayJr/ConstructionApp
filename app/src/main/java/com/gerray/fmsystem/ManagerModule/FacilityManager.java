@@ -1,10 +1,19 @@
 package com.gerray.fmsystem.ManagerModule;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.widget.FrameLayout;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.gerray.fmsystem.Authentication.LoginActivity;
 import com.gerray.fmsystem.ManagerModule.Assets.AssetFragment;
@@ -16,6 +25,7 @@ import com.gerray.fmsystem.ManagerModule.Profile.FacilityProfile;
 import com.gerray.fmsystem.ManagerModule.WorkOrder.RequestFragment;
 import com.gerray.fmsystem.ManagerModule.WorkOrder.WorkFragment;
 import com.gerray.fmsystem.R;
+import com.gerray.fmsystem.Transactions.TransactionActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -26,18 +36,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
+import java.util.Objects;
 
 public class FacilityManager extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-    private BottomNavigationView mNav;
-    private FrameLayout mFrame;
     private DrawerLayout drawerLayout;
 
     private AssetFragment assetFragment;
@@ -52,6 +53,7 @@ public class FacilityManager extends AppCompatActivity implements NavigationView
     DatabaseReference firebaseDatabaseReference, reference;
     FirebaseUser firebaseUser;
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,20 +76,18 @@ public class FacilityManager extends AppCompatActivity implements NavigationView
                                         .addValueEventListener(new ValueEventListener() {
                                             @Override
                                             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                                String facilityID = null, managerID = null, managerName = null, facilityName = null;
+                                                String facilityID = null, managerName = null, facilityName = null;
                                                 if (snapshot.child("facilityID").exists()) {
-                                                    facilityID = snapshot.child("facilityID").getValue().toString();
+                                                    facilityID = Objects.requireNonNull(snapshot.child("facilityID").getValue()).toString();
                                                 }
                                                 if (snapshot.child("facilityManager").exists()) {
-                                                    managerName = snapshot.child("facilityManager").getValue().toString();
+                                                    managerName = Objects.requireNonNull(snapshot.child("facilityManager").getValue()).toString();
                                                 }
                                                 if (snapshot.child("name").exists()) {
-                                                    facilityName = snapshot.child("name").getValue().toString();
+                                                    facilityName = Objects.requireNonNull(snapshot.child("name").getValue()).toString();
                                                     toolbar.setTitle(facilityName);
                                                 }
-                                                if (snapshot.child("userID").exists()) {
-                                                    managerID = snapshot.child("userID").getValue().toString();
-                                                }
+
                                                 Toast.makeText(FacilityManager.this, facilityName + " " + managerName, Toast.LENGTH_SHORT).show();
                                                 Bundle bundle = new Bundle();
                                                 bundle.putString("facilityID", facilityID);
@@ -116,8 +116,7 @@ public class FacilityManager extends AppCompatActivity implements NavigationView
 
         }
 
-        mFrame = findViewById(R.id.mFrame);
-        mNav = findViewById(R.id.bottom_nav);
+        BottomNavigationView mNav = findViewById(R.id.bottom_nav);
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -136,73 +135,65 @@ public class FacilityManager extends AppCompatActivity implements NavigationView
         setFragment(workFragment);
         NavigationView navigationView = findViewById(R.id.nav_view);
 
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()) {
+        navigationView.setNavigationItemSelectedListener(item -> {
+            switch (item.getItemId()) {
 
-                    case R.id.drawer_contact:
-                        contactUs();
-                        break;
-                    case R.id.drawer_help:
-                        Toast.makeText(FacilityManager.this, "Help activity", Toast.LENGTH_SHORT).show();
-                        break;
-                    case R.id.drawer_location:
-                        startActivity(new Intent(FacilityManager.this, FacilityLocation.class));
-                        break;
-                    case R.id.drawer_team:
-                        startActivity(new Intent(FacilityManager.this, FacilityConsultant.class));
-                        break;
-                    case R.id.drawer_profile:
-                        startActivity(new Intent(FacilityManager.this, FacilityProfile.class));
-                        break;
-                    case R.id.drawer_share:
-                        shareApp();
-                        break;
-                    case R.id.drawer_payment:
-                        Toast.makeText(FacilityManager.this, "Payment Activity", Toast.LENGTH_SHORT).show();
-                        break;
-                    case R.id.drawer_logOut:
-                        auth.signOut();
-                        startActivity(new Intent(FacilityManager.this, LoginActivity.class));
-                        break;
-                }
-                drawerLayout.closeDrawer(GravityCompat.START);
-                return true;
+                case R.id.drawer_contact:
+                    contactUs();
+                    break;
+                case R.id.drawer_help:
+                    Toast.makeText(FacilityManager.this, "Help activity", Toast.LENGTH_SHORT).show();
+                    break;
+                case R.id.drawer_location:
+                    startActivity(new Intent(FacilityManager.this, FacilityLocation.class));
+                    break;
+                case R.id.drawer_team:
+                    startActivity(new Intent(FacilityManager.this, FacilityConsultant.class));
+                    break;
+                case R.id.drawer_profile:
+                    startActivity(new Intent(FacilityManager.this, FacilityProfile.class));
+                    break;
+                case R.id.drawer_share:
+                    shareApp();
+                    break;
+                case R.id.drawer_payment:
+                    startActivity(new Intent(FacilityManager.this, TransactionActivity.class));
+                    break;
+                case R.id.drawer_logOut:
+                    auth.signOut();
+                    startActivity(new Intent(FacilityManager.this, LoginActivity.class));
+                    break;
             }
+            drawerLayout.closeDrawer(GravityCompat.START);
+            return true;
         });
-        mNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        mNav.setOnNavigationItemSelectedListener(item -> {
 
-                switch (item.getItemId()) {
-                    case R.id.nav_assets:
-                        setFragment(assetFragment);
-                        return true;
+            switch (item.getItemId()) {
+                case R.id.nav_assets:
+                    setFragment(assetFragment);
+                    return true;
 
-                    case R.id.nav_chat:
-                        setFragment(chatFragment);
-                        return true;
+                case R.id.nav_chat:
+                    setFragment(chatFragment);
+                    return true;
 
-                    case R.id.nav_work:
-                        setFragment(workFragment);
-                        return true;
+                case R.id.nav_work:
+                    setFragment(workFragment);
+                    return true;
 
-                    case R.id.nav_request:
-                        setFragment(requestFragment);
-                        return true;
+                case R.id.nav_request:
+                    setFragment(requestFragment);
+                    return true;
 
-                    case R.id.nav_lessee:
-                        setFragment(lesseeFragment);
-                        return true;
+                case R.id.nav_lessee:
+                    setFragment(lesseeFragment);
+                    return true;
 
-                    default:
-                        return false;
+                default:
+                    return false;
 
-                }
             }
-
-
         });
 
         mNav.setSelectedItemId(R.id.nav_work);

@@ -1,26 +1,19 @@
 package com.gerray.fmsystem.ManagerModule.WorkOrder;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.gerray.fmsystem.LesseeModule.LesseeRequestClass;
-import com.gerray.fmsystem.LesseeModule.LesseeRequestHolder;
-import com.gerray.fmsystem.ManagerModule.Lessee.SearchLessee;
 import com.gerray.fmsystem.R;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -29,8 +22,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Objects;
+
 public class WorkFragment extends Fragment {
-    private DatabaseReference databaseReference, reference;
+    private DatabaseReference reference;
     FirebaseRecyclerAdapter<DetailsClass, WorkViewHolder> firebaseRecyclerAdapter;
     FirebaseRecyclerOptions<DetailsClass> options;
     FirebaseUser firebaseUser;
@@ -70,7 +65,7 @@ public class WorkFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_work, container, false);
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("Work Orders");
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("Work Orders");
 
         options = new FirebaseRecyclerOptions.Builder<DetailsClass>().setQuery(databaseReference, DetailsClass.class).build();
         firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<DetailsClass, WorkViewHolder>(options) {
@@ -85,7 +80,7 @@ public class WorkFragment extends Fragment {
                         reference.addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                holder.tvConsultant.setText(snapshot.child("consultantName").getValue().toString());
+                                holder.tvConsultant.setText(Objects.requireNonNull(snapshot.child("consultantName").getValue()).toString());
                             }
 
                             @Override
@@ -93,13 +88,10 @@ public class WorkFragment extends Fragment {
 
                             }
                         });
-                        holder.itemView.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Intent intent = new Intent(getActivity(), WorkPopUp.class);
-                                intent.putExtra("workID", model.getWorkID());
-                                startActivity(intent);
-                            }
+                        holder.itemView.setOnClickListener(v -> {
+                            Intent intent = new Intent(getActivity(), WorkPopUp.class);
+                            intent.putExtra("workID", model.getWorkID());
+                            startActivity(intent);
                         });
                     }
                 }else {

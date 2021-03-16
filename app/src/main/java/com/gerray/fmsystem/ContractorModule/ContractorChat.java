@@ -23,14 +23,13 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class ConsultantChat extends Fragment {
-    private DatabaseReference databaseReference, reference;
+public class ContractorChat extends Fragment {
     FirebaseRecyclerAdapter<ChatClass, ChatViewHolder> firebaseRecyclerAdapter;
     FirebaseRecyclerOptions<ChatClass> options;
     FirebaseUser firebaseUser;
 
 
-    public ConsultantChat() {
+    public ContractorChat() {
         // Required empty public constructor
     }
 
@@ -47,7 +46,7 @@ public class ConsultantChat extends Fragment {
         View view = inflater.inflate(R.layout.fragment_consultant_chat, container, false);
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        databaseReference = (DatabaseReference) FirebaseDatabase.getInstance().getReference().child("ChatRooms");
+        DatabaseReference databaseReference = (DatabaseReference) FirebaseDatabase.getInstance().getReference().child("ChatRooms");
 
         options = new FirebaseRecyclerOptions.Builder<ChatClass>().setQuery(databaseReference, ChatClass.class).build();
         firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<ChatClass, ChatViewHolder>(options) {
@@ -56,16 +55,13 @@ public class ConsultantChat extends Fragment {
                 if (firebaseUser.getUid().equals(model.receiverID)) {
                     holder.contactName.setText(model.getSenderName());
                     holder.time.setText(String.valueOf(model.getTime()));
-                    holder.itemView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent intent = new Intent(getActivity(), ChatActivity.class);
-                            intent.putExtra("receiverName", model.getSenderName());
-                            intent.putExtra("receiverID", model.getReceiverID());
-                            intent.putExtra("senderName", model.getReceiverName());
-                            intent.putExtra("chatID", model.getChatID());
-                            startActivity(intent);
-                        }
+                    holder.itemView.setOnClickListener(v -> {
+                        Intent intent = new Intent(getActivity(), ChatActivity.class);
+                        intent.putExtra("receiverName", model.getSenderName());
+                        intent.putExtra("receiverID", model.getReceiverID());
+                        intent.putExtra("senderName", model.getReceiverName());
+                        intent.putExtra("chatID", model.getChatID());
+                        startActivity(intent);
                     });
 
                 }

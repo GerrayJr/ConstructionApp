@@ -1,8 +1,5 @@
 package com.gerray.fmsystem.ManagerModule.Profile;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
@@ -10,17 +7,16 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
-import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.gerray.fmsystem.R;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -30,11 +26,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
-import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
+
+import java.util.Objects;
 
 public class ProfilePopUp extends AppCompatActivity {
     private TextInputEditText profAuth, profAddress, profEmail, profOcc;
@@ -67,20 +63,10 @@ public class ProfilePopUp extends AppCompatActivity {
         getWindow().setLayout((int) (width * .9), (int) (height * .6));
 
         Button btnUpdate = findViewById(R.id.btn_update_prof);
-        btnUpdate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                facilityCreate();
-            }
-        });
+        btnUpdate.setOnClickListener(v -> facilityCreate());
 
         Button btnProfImage = findViewById(R.id.prof_image);
-        btnProfImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openFileChooser();
-            }
-        });
+        btnProfImage.setOnClickListener(v -> openFileChooser());
 
         profImage = findViewById(R.id.prof_imageView);
         profAuth = findViewById(R.id.facility_auth);
@@ -92,6 +78,7 @@ public class ProfilePopUp extends AppCompatActivity {
 
         auth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = auth.getCurrentUser();
+        assert currentUser != null;
         databaseReference = FirebaseDatabase.getInstance().getReference().child("Facilities").child(currentUser.getUid());
         mStorageRef = FirebaseStorage.getInstance().getReference().child("Facilities").child(currentUser.getUid());
         progressDialog = new ProgressDialog(this);
@@ -103,23 +90,23 @@ public class ProfilePopUp extends AppCompatActivity {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             if (snapshot.child("authorityName").exists()) {
-                                String authName = snapshot.child("authorityName").getValue().toString().trim();
+                                String authName = Objects.requireNonNull(snapshot.child("authorityName").getValue()).toString().trim();
                                 profAuth.setText(authName);
                             }
                             if (snapshot.child("emailAddress").exists()) {
-                                String emailAddress = snapshot.child("emailAddress").getValue().toString().trim();
+                                String emailAddress = Objects.requireNonNull(snapshot.child("emailAddress").getValue()).toString().trim();
                                 profEmail.setText(emailAddress);
                             }
                             if (snapshot.child("occupancyNo").exists()) {
-                                String occNo = snapshot.child("occupancyNo").getValue().toString().trim();
+                                String occNo = Objects.requireNonNull(snapshot.child("occupancyNo").getValue()).toString().trim();
                                 profOcc.setText(occNo);
                             }
                             if (snapshot.child("postalAddress").exists()) {
-                                String postal = snapshot.child("postalAddress").getValue().toString().trim();
+                                String postal = Objects.requireNonNull(snapshot.child("postalAddress").getValue()).toString().trim();
                                 profAddress.setText(postal);
                             }
                             if (snapshot.child("facilityImageUrl").exists()) {
-                                String imageUrl = snapshot.child("facilityImageUrl").getValue().toString().trim();
+                                String imageUrl = Objects.requireNonNull(snapshot.child("facilityImageUrl").getValue()).toString().trim();
                                 Picasso.with(ProfilePopUp.this).load(imageUrl).into(profImage);
                             }
 
@@ -176,18 +163,18 @@ public class ProfilePopUp extends AppCompatActivity {
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             String getName = null, getFacilityID = null;
                             if (snapshot.child("name").exists()) {
-                                getName = snapshot.child("name").getValue().toString().trim();
+                                getName = Objects.requireNonNull(snapshot.child("name").getValue()).toString().trim();
                             }
                             if (snapshot.child("facilityID").exists()) {
-                                getFacilityID = snapshot.child("facilityID").getValue().toString().trim();
+                                getFacilityID = Objects.requireNonNull(snapshot.child("facilityID").getValue()).toString().trim();
                             }
                             final String name = getName;
                             final String facilityID = getFacilityID;
-                            final String auth = profAuth.getText().toString().trim();
-                            final String postal = profAddress.getText().toString().trim();
-                            final String email = profEmail.getText().toString().trim();
+                            final String auth = Objects.requireNonNull(profAuth.getText()).toString().trim();
+                            final String postal = Objects.requireNonNull(profAddress.getText()).toString().trim();
+                            final String email = Objects.requireNonNull(profEmail.getText()).toString().trim();
                             final String activity = profActivity.getSelectedItem().toString().trim();
-                            final int occupancy = Integer.parseInt(profOcc.getText().toString().trim());
+                            final int occupancy = Integer.parseInt(Objects.requireNonNull(profOcc.getText()).toString().trim());
 
                             if (TextUtils.isEmpty(name)) {
                                 Toast.makeText(ProfilePopUp.this, "Enter Name", Toast.LENGTH_SHORT).show();
@@ -210,38 +197,23 @@ public class ProfilePopUp extends AppCompatActivity {
                                         + "." + getFileExtension(mImageUri));
 
                                 mUploadTask = fileReference.putFile(mImageUri)
-                                        .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                                            @Override
-                                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                                                fileReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                                    @Override
-                                                    public void onSuccess(Uri uri) {
-                                                        Uri downloadUri = uri;
-                                                        final String downUri = downloadUri.toString().trim();
+                                        .addOnSuccessListener(taskSnapshot -> {
+                                            fileReference.getDownloadUrl().addOnSuccessListener(uri -> {
+                                                final String downUri = uri.toString().trim();
 
-                                                        FacProfile facProfile = new FacProfile(name, auth, activity, postal, email, occupancy, facilityID, downUri);
-                                                        databaseReference.child("Profile").setValue(facProfile);
-                                                    }
-                                                });
+                                                FacProfile facProfile = new FacProfile(name, auth, activity, postal, email, occupancy, facilityID, downUri);
+                                                databaseReference.child("Profile").setValue(facProfile);
+                                            });
 
 
-                                                progressDialog.dismiss();
-                                                Toast.makeText(ProfilePopUp.this, "Saved", Toast.LENGTH_SHORT).show();
-                                                ProfilePopUp.this.finish();
-                                            }
+                                            progressDialog.dismiss();
+                                            Toast.makeText(ProfilePopUp.this, "Saved", Toast.LENGTH_SHORT).show();
+                                            ProfilePopUp.this.finish();
                                         })
-                                        .addOnFailureListener(new OnFailureListener() {
-                                            @Override
-                                            public void onFailure(@NonNull Exception e) {
-                                                Toast.makeText(ProfilePopUp.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                                            }
-                                        })
-                                        .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                                            @Override
-                                            public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                                                double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
-                                                progressDialog.setProgress((int) progress);
-                                            }
+                                        .addOnFailureListener(e -> Toast.makeText(ProfilePopUp.this, e.getMessage(), Toast.LENGTH_SHORT).show())
+                                        .addOnProgressListener(taskSnapshot -> {
+                                            double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
+                                            progressDialog.setProgress((int) progress);
                                         });
                             } else {
                                 Toast.makeText(ProfilePopUp.this, "No file selected", Toast.LENGTH_SHORT).show();

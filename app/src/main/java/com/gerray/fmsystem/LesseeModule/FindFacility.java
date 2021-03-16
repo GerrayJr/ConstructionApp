@@ -7,6 +7,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
@@ -15,15 +16,12 @@ import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.gerray.fmsystem.ManagerModule.Location.LocationClass;
 import com.gerray.fmsystem.R;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -31,23 +29,21 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class FindFacility extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
@@ -66,7 +62,8 @@ public class FindFacility extends AppCompatActivity implements OnMapReadyCallbac
     private Boolean mLocationPermissionsGranted = false;
     private GoogleMap mMap;
     FirebaseDatabase firebaseDatabase;
-    DatabaseReference firebaseDatabaseReference, reference;
+    DatabaseReference firebaseDatabaseReference;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,36 +76,32 @@ public class FindFacility extends AppCompatActivity implements OnMapReadyCallbac
         getLocationPermission();
     }
 
+    @SuppressLint("LogNotTimber")
     private void init() {
         Log.d(TAG, "init: initializing");
 
-        mSearchText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
-                if (actionId == EditorInfo.IME_ACTION_SEARCH
-                        || actionId == EditorInfo.IME_ACTION_DONE
-                        || keyEvent.getAction() == KeyEvent.ACTION_DOWN
-                        || keyEvent.getAction() == KeyEvent.KEYCODE_ENTER) {
+        mSearchText.setOnEditorActionListener((textView, actionId, keyEvent) -> {
+            if (actionId == EditorInfo.IME_ACTION_SEARCH
+                    || actionId == EditorInfo.IME_ACTION_DONE
+                    || keyEvent.getAction() == KeyEvent.ACTION_DOWN
+                    || keyEvent.getAction() == KeyEvent.KEYCODE_ENTER) {
 
-                    //execute our method for searching
-                    geoLocate();
-                }
-
-                return false;
+                //execute our method for searching
+                geoLocate();
             }
+
+            return false;
         });
 
-        mGps.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.d(TAG, "onClick: clicked gps icon");
-                getDeviceLocation();
-            }
+        mGps.setOnClickListener(view -> {
+            Log.d(TAG, "onClick: clicked gps icon");
+            getDeviceLocation();
         });
 
         hideSoftKeyboard();
     }
 
+    @SuppressLint("LogNotTimber")
     private void geoLocate() {
         Log.d(TAG, "geoLocate: GeoLocating");
 
@@ -128,13 +121,15 @@ public class FindFacility extends AppCompatActivity implements OnMapReadyCallbac
             Log.d(TAG, "geoLocate: found a location: " + address.toString());
             //Toast.makeText(this, address.toString(), Toast.LENGTH_SHORT).show();
             mMap.clear();
-            moveCamera(new LatLng(address.getLatitude(), address.getLongitude()), DEFAULT_ZOOM,
+            moveCamera(new LatLng(address.getLatitude(), address.getLongitude()),
                     address.getAddressLine(0));
         } else {
             Toast.makeText(this, "Area not Recognised in the map", Toast.LENGTH_SHORT).show();
         }
     }
 
+    @SuppressLint("LogNotTimber")
+    @SuppressWarnings("unchecked")
     private void getDeviceLocation() {
         Log.d(TAG, "getDeviceLocation: getting the devices current location");
 
@@ -144,22 +139,19 @@ public class FindFacility extends AppCompatActivity implements OnMapReadyCallbac
             if (mLocationPermissionsGranted) {
 
                 final Task location = mFusedLocationProviderClient.getLastLocation();
-                location.addOnCompleteListener(new OnCompleteListener() {
-                    @Override
-                    public void onComplete(@NonNull Task task) {
-                        if (task.isSuccessful()) {
-                            Log.d(TAG, "onComplete: found location!");
-                            Location currentLocation = (Location) task.getResult();
+                location.addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        Log.d(TAG, "onComplete: found location!");
+                        Location currentLocation = (Location) task.getResult();
 
-                            moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()),
-                                    DEFAULT_ZOOM,
-                                    "My Location");
+                        assert currentLocation != null;
+                        moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()),
+                                "My Location");
 
 
-                        } else {
-                            Log.d(TAG, "onComplete: current location is null");
-                            Toast.makeText(FindFacility.this, "unable to get current location", Toast.LENGTH_SHORT).show();
-                        }
+                    } else {
+                        Log.d(TAG, "onComplete: current location is null");
+                        Toast.makeText(FindFacility.this, "unable to get current location", Toast.LENGTH_SHORT).show();
                     }
                 });
             }
@@ -168,9 +160,10 @@ public class FindFacility extends AppCompatActivity implements OnMapReadyCallbac
         }
     }
 
-    private void moveCamera(LatLng latLng, float zoom, String title) {
+    @SuppressLint("LogNotTimber")
+    private void moveCamera(LatLng latLng, String title) {
         Log.d(TAG, "moveCamera: moving the camera to: lat: " + latLng.latitude + ", lng: " + latLng.longitude);
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, FindFacility.DEFAULT_ZOOM));
 
         //For GeoLocated Places
         if (!title.equals("My Location")) {
@@ -183,37 +176,39 @@ public class FindFacility extends AppCompatActivity implements OnMapReadyCallbac
         hideSoftKeyboard();
     }
 
+    @SuppressLint("LogNotTimber")
     private void initMap() {
         Log.d(TAG, "initMap: initializing map");
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
 
+        assert mapFragment != null;
         mapFragment.getMapAsync(FindFacility.this);
     }
 
+    @SuppressLint("LogNotTimber")
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         Log.d(TAG, "onRequestPermissionsResult: called.");
         mLocationPermissionsGranted = false;
 
-        switch (requestCode) {
-            case LOCATION_PERMISSION_REQUEST_CODE: {
-                if (grantResults.length > 0) {
-                    for (int grantResult : grantResults) {
-                        if (grantResult != PackageManager.PERMISSION_GRANTED) {
-                            mLocationPermissionsGranted = false;
-                            Log.d(TAG, "onRequestPermissionsResult: permission failed");
-                            return;
-                        }
+        if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
+            if (grantResults.length > 0) {
+                for (int grantResult : grantResults) {
+                    if (grantResult != PackageManager.PERMISSION_GRANTED) {
+                        mLocationPermissionsGranted = false;
+                        Log.d(TAG, "onRequestPermissionsResult: permission failed");
+                        return;
                     }
-                    Log.d(TAG, "onRequestPermissionsResult: permission granted");
-                    mLocationPermissionsGranted = true;
-                    //initialize our map
-                    initMap();
                 }
+                Log.d(TAG, "onRequestPermissionsResult: permission granted");
+                mLocationPermissionsGranted = true;
+                //initialize our map
+                initMap();
             }
         }
     }
 
+    @SuppressLint("LogNotTimber")
     private void getLocationPermission() {
         Log.d(TAG, "getLocationPermission: getting location permissions");
         String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION,
@@ -238,6 +233,7 @@ public class FindFacility extends AppCompatActivity implements OnMapReadyCallbac
     }
 
 
+    @SuppressLint("LogNotTimber")
     @Override
     public void onMapReady(GoogleMap googleMap) {
         Toast.makeText(this, "Map is Ready", Toast.LENGTH_SHORT).show();
@@ -264,7 +260,7 @@ public class FindFacility extends AppCompatActivity implements OnMapReadyCallbac
                             snapshot.child("latitude").getValue(Double.class),
                             snapshot.child("longitude").getValue(Double.class)
                     );
-                    String facilityType = snapshot.child("facilityType").getValue().toString();
+                    String facilityType = Objects.requireNonNull(snapshot.child("facilityType").getValue()).toString();
                     String facilityName = snapshot.child("facilityName").getValue(String.class);
                     String facilityUserID = snapshot.child("userID").getValue(String.class);
                     if (facilityType.equals("Industrial")) {
@@ -347,18 +343,15 @@ public class FindFacility extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public boolean onMarkerClick(Marker marker) {
         mMap.setInfoWindowAdapter(new InfoWindow(FindFacility.this));
-        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
-            @Override
-            public void onInfoWindowClick(Marker marker) {
+        mMap.setOnInfoWindowClickListener(marker1 -> {
 
-                String fcName = marker.getTitle();
-                String fcID = marker.getSnippet();
+            String fcName = marker1.getTitle();
+            String fcID = marker1.getSnippet();
 
-                Intent viewInfo = new Intent(FindFacility.this,FacilityInformation.class);
-                viewInfo.putExtra("title", fcName);
-                viewInfo.putExtra("userID", fcID);
-                startActivity(viewInfo);
-            }
+            Intent viewInfo = new Intent(FindFacility.this,FacilityInformation.class);
+            viewInfo.putExtra("title", fcName);
+            viewInfo.putExtra("userID", fcID);
+            startActivity(viewInfo);
         });
         return false;
     }

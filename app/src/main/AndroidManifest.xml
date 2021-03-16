@@ -14,13 +14,13 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
-        tools:replace="android:icon"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".Transactions.MpesaAcitivity"/>
-        <activity android:name=".LesseeModule.LesseeWorkDetails"/>
-        <activity android:name=".LesseeModule.PaymentDetails" />
-        <activity android:name=".LesseeModule.LesseePay" />
+        android:theme="@style/AppTheme"
+        tools:replace="android:icon">
+        <activity android:name=".LesseeModule.LesseeProfileActivity" />
+        <activity android:name=".Transactions.MpesaAcitivity" />
+        <activity android:name=".LesseeModule.LesseeWorkDetails" />
+        <activity android:name=".Transactions.TransactionActivity" />
         <activity
             android:name=".ManagerModule.WorkOrder.WorkPopUp"
             android:theme="@style/Theme.AppCompat.DayNight.Dialog" />
@@ -48,7 +48,7 @@
             android:label="Search Lessees"
             android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar" />
         <activity
-            android:name=".ContractorModule.UpdateConsultant"
+            android:name=".ContractorModule.UpdateContractor"
             android:theme="@style/Theme.AppCompat.DayNight.Dialog" />
         <activity android:name=".LesseeModule.LesseeConsultant" />
         <activity android:name=".LesseeModule.FacilityInformation" />
@@ -71,10 +71,10 @@
             android:name=".ManagerModule.Consultants.FacilityConsultant"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".ContractorModule.ConsultantCreate"
+            android:name=".ContractorModule.ContractorCreate"
             android:theme="@style/Theme.AppCompat.DayNight.Dialog" />
         <activity android:name=".ManagerModule.Location.FacilityLocation" />
-        <activity android:name=".ContractorModule.ConsultantActivity" />
+        <activity android:name=".ContractorModule.ContractorActivity" />
         <activity android:name=".LesseeModule.LesseeActivity" />
         <activity
             android:name=".ManagerModule.Profile.ProfilePopUp"

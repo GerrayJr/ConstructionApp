@@ -3,16 +3,17 @@ package com.gerray.fmsystem.ContractorModule;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.drawerlayout.widget.DrawerLayout;
+
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.FrameLayout;
+
 import android.widget.Toast;
 
 import com.gerray.fmsystem.Authentication.LoginActivity;
@@ -27,7 +28,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class ConsultantActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class ContractorActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private FirebaseAuth auth;
     FirebaseDatabase firebaseDatabase;
@@ -35,26 +36,22 @@ public class ConsultantActivity extends AppCompatActivity implements NavigationV
     FirebaseUser firebaseUser;
 
     Toolbar toolbar;
-    private BottomNavigationView mNav;
-    private FrameLayout mFrame;
-    private DrawerLayout drawerLayout;
 
-    ConsultantProfile consultantProfile;
-    ConsultantChat consultantChat;
-    ConsultantWork consultantWork;
+    ContractorProfile contractorProfile;
+    ContractorChat contractorChat;
+    ContractorWork contractorWork;
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_consultant);
 
-        mFrame = findViewById(R.id.mFrame);
-        mNav = findViewById(R.id.bottom_nav);
+        BottomNavigationView mNav = findViewById(R.id.bottom_nav);
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        drawerLayout = findViewById(R.id.drawer_layout);
         auth = FirebaseAuth.getInstance();
 
         firebaseDatabase = FirebaseDatabase.getInstance();
@@ -79,7 +76,7 @@ public class ConsultantActivity extends AppCompatActivity implements NavigationV
                                             }
                                         });
                             } else {
-                                startActivity(new Intent(ConsultantActivity.this, ConsultantCreate.class));
+                                startActivity(new Intent(ContractorActivity.this, ContractorCreate.class));
                             }
 
                         }
@@ -92,35 +89,30 @@ public class ConsultantActivity extends AppCompatActivity implements NavigationV
 
         }
 
-        consultantProfile = new ConsultantProfile();
-        consultantChat = new ConsultantChat();
-        consultantWork = new ConsultantWork();
+        contractorProfile = new ContractorProfile();
+        contractorChat = new ContractorChat();
+        contractorWork = new ContractorWork();
 
-        setFragment(consultantWork);
-        mNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        setFragment(contractorWork);
+        mNav.setOnNavigationItemSelectedListener(item -> {
 
-                switch (item.getItemId()) {
-                    case R.id.nav_profile_cons:
-                        setFragment(consultantProfile);
-                        return true;
+            switch (item.getItemId()) {
+                case R.id.nav_profile_cons:
+                    setFragment(contractorProfile);
+                    return true;
 
-                    case R.id.nav_work_cons:
-                        setFragment(consultantWork);
-                        return true;
+                case R.id.nav_work_cons:
+                    setFragment(contractorWork);
+                    return true;
 
-                    case R.id.nav_chat_cons:
-                        setFragment(consultantChat);
-                        return true;
+                case R.id.nav_chat_cons:
+                    setFragment(contractorChat);
+                    return true;
 
-                    default:
-                        return false;
+                default:
+                    return false;
 
-                }
             }
-
-
         });
         mNav.setSelectedItemId(R.id.nav_work_cons);
     }
@@ -140,11 +132,12 @@ public class ConsultantActivity extends AppCompatActivity implements NavigationV
         return true;
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.cons_update:
-                startActivity(new Intent(this, UpdateConsultant.class));
+                startActivity(new Intent(this, UpdateContractor.class));
                 return true;
 
             case R.id.cons_settings:
@@ -161,7 +154,7 @@ public class ConsultantActivity extends AppCompatActivity implements NavigationV
 
             case R.id.cons_logout:
                 auth.signOut();
-                startActivity(new Intent(ConsultantActivity.this, LoginActivity.class));
+                startActivity(new Intent(ContractorActivity.this, LoginActivity.class));
                 return true;
 
             default:
@@ -183,7 +176,7 @@ public class ConsultantActivity extends AppCompatActivity implements NavigationV
         try {
             startActivity(Intent.createChooser(i, "Send mail..."));
         } catch (android.content.ActivityNotFoundException ex) {
-            Toast.makeText(ConsultantActivity.this, "There are no Email Clients installed.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(ContractorActivity.this, "There are no Email Clients installed.", Toast.LENGTH_SHORT).show();
         }
     }
 

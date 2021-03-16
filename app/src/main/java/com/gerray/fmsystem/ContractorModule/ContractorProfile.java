@@ -21,7 +21,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
-public class ConsultantProfile extends Fragment {
+public class ContractorProfile extends Fragment {
     private ImageView consImage;
     private TextView consName, consEmail, consPhone, consSpec, consLoc, consType;
 
@@ -30,7 +30,7 @@ public class ConsultantProfile extends Fragment {
     DatabaseReference firebaseDatabaseReference, reference;
     FirebaseUser firebaseUser;
 
-    public ConsultantProfile() {
+    public ContractorProfile() {
         // Required empty public constructor
     }
 

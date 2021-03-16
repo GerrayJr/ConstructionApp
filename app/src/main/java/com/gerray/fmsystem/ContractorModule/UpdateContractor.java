@@ -1,15 +1,11 @@
 package com.gerray.fmsystem.ContractorModule;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,9 +13,10 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.gerray.fmsystem.R;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -28,18 +25,17 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
-import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
-public class UpdateConsultant extends AppCompatActivity {
+import java.util.Objects;
+
+public class UpdateContractor extends AppCompatActivity {
 
     private ImageView imageView;
     private EditText edName, edEmail, edPhone;
     private Spinner locSpin, specSpin, catSpin;
-    private Button btnUpdate, btnSelect;
 
     DatabaseReference databaseReference;
     StorageReference mStorageRef;
@@ -67,7 +63,7 @@ public class UpdateConsultant extends AppCompatActivity {
         getWindow().setLayout((int) (width * .9), (int) (height * .6));
 
         imageView = findViewById(R.id.consultant_imageView);
-        btnSelect = findViewById(R.id.consultant_btnImage);
+        Button btnSelect = findViewById(R.id.consultant_btnImage);
         edName = findViewById(R.id.consultant_name);
         edEmail = findViewById(R.id.consultant_email);
         edPhone = findViewById(R.id.consultant_phone);
@@ -75,29 +71,20 @@ public class UpdateConsultant extends AppCompatActivity {
         locSpin = findViewById(R.id.consLoc_spinner);
         catSpin = findViewById(R.id.consEmp_spinner);
         specSpin = findViewById(R.id.consSpec_spinner);
-        btnUpdate = findViewById(R.id.cons_update);
+        Button btnUpdate = findViewById(R.id.cons_update);
 
 
         auth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = auth.getCurrentUser();
         databaseReference = FirebaseDatabase.getInstance().getReference().child("Consultants");
+        assert currentUser != null;
         mStorageRef = FirebaseStorage.getInstance().getReference().child("Consultants").child(currentUser.getUid());
         progressDialog = new ProgressDialog(this);
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 
-        btnUpdate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                updateConsultant();
-            }
-        });
+        btnUpdate.setOnClickListener(v -> updateConsultant());
 
-        btnSelect.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openFileChooser();
-            }
-        });
+        btnSelect.setOnClickListener(v -> openFileChooser());
 
         if (auth.getCurrentUser() != null) {
             databaseReference.child(currentUser.getUid())
@@ -105,20 +92,20 @@ public class UpdateConsultant extends AppCompatActivity {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             if (snapshot.child("consultantName").exists()) {
-                                String name = snapshot.child("consultantName").getValue().toString().trim();
+                                String name = Objects.requireNonNull(snapshot.child("consultantName").getValue()).toString().trim();
                                 edName.setText(name);
                             }
                             if (snapshot.child("emailAddress").exists()) {
-                                String emailAddress = snapshot.child("emailAddress").getValue().toString().trim();
+                                String emailAddress = Objects.requireNonNull(snapshot.child("emailAddress").getValue()).toString().trim();
                                 edEmail.setText(emailAddress);
                             }
                             if (snapshot.child("phoneNumber").exists()) {
-                                String phone = snapshot.child("phoneNumber").getValue().toString().trim();
+                                String phone = Objects.requireNonNull(snapshot.child("phoneNumber").getValue()).toString().trim();
                                 edPhone.setText(phone);
                             }
                             if (snapshot.child("consultantImageUrl").exists()) {
-                                String imageUrl = snapshot.child("consultantImageUrl").getValue().toString().trim();
-                                Picasso.with(UpdateConsultant.this).load(imageUrl).into(imageView);
+                                String imageUrl = Objects.requireNonNull(snapshot.child("consultantImageUrl").getValue()).toString().trim();
+                                Picasso.with(UpdateContractor.this).load(imageUrl).into(imageView);
                             }
 
                         }
@@ -179,40 +166,26 @@ public class UpdateConsultant extends AppCompatActivity {
                     + "." + getFileExtension(mImageUri));
 
             mUploadTask = fileReference.putFile(mImageUri)
-                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            fileReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                @Override
-                                public void onSuccess(Uri uri) {
-                                    Uri downloadUri = uri;
-                                    final String downUri = downloadUri.toString().trim();
+                    .addOnSuccessListener(taskSnapshot -> {
+                        fileReference.getDownloadUrl().addOnSuccessListener(uri -> {
+                            final String downUri = uri.toString().trim();
 
-                                    CreateConsultant createConsultant = new CreateConsultant(consultantName, consCategory, consSpecs, consLocation, userID, email, phone, downUri);
-                                    databaseReference.child(userID).setValue(createConsultant);
-                                    progressDialog.dismiss();
-                                    UpdateConsultant.this.finish();
-                                }
-                            });
-
-
+                            CreateConsultant createConsultant = new CreateConsultant(consultantName, consCategory, consSpecs, consLocation, userID, email, phone, downUri);
+                            assert userID != null;
+                            databaseReference.child(userID).setValue(createConsultant);
                             progressDialog.dismiss();
-                            Toast.makeText(UpdateConsultant.this, "Saved", Toast.LENGTH_SHORT).show();
-                            UpdateConsultant.this.finish();
-                        }
+                            UpdateContractor.this.finish();
+                        });
+
+
+                        progressDialog.dismiss();
+                        Toast.makeText(UpdateContractor.this, "Saved", Toast.LENGTH_SHORT).show();
+                        UpdateContractor.this.finish();
                     })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(UpdateConsultant.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    })
-                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                            double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
-                            progressDialog.setProgress((int) progress);
-                        }
+                    .addOnFailureListener(e -> Toast.makeText(UpdateContractor.this, e.getMessage(), Toast.LENGTH_SHORT).show())
+                    .addOnProgressListener(taskSnapshot -> {
+                        double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
+                        progressDialog.setProgress((int) progress);
                     });
         } else {
             Toast.makeText(this, "No file selected", Toast.LENGTH_SHORT).show();

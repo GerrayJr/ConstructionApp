@@ -27,8 +27,6 @@ import com.google.firebase.database.FirebaseDatabase;
 
 
 public class LesseeChatFragment extends Fragment {
-    private FloatingActionButton selectChat;
-    private DatabaseReference databaseReference, reference;
     FirebaseRecyclerAdapter<ChatClass, ChatViewHolder> firebaseRecyclerAdapter;
     FirebaseRecyclerOptions<ChatClass> options;
     FirebaseUser firebaseUser;
@@ -49,16 +47,13 @@ public class LesseeChatFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_lessee_chat, container, false);
-        selectChat = v.findViewById(R.id.fab_text);
-        selectChat.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), ChatSelectFM.class);
-                startActivityForResult(intent, 1);
-            }
+        FloatingActionButton selectChat = v.findViewById(R.id.fab_text);
+        selectChat.setOnClickListener(v1 -> {
+            Intent intent = new Intent(getActivity(), ChatSelectFM.class);
+            startActivityForResult(intent, 1);
         });
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        databaseReference = (DatabaseReference) FirebaseDatabase.getInstance().getReference().child("ChatRooms");
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("ChatRooms");
 
         options = new FirebaseRecyclerOptions.Builder<ChatClass>().setQuery(databaseReference, ChatClass.class).build();
         firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<ChatClass, ChatViewHolder>(options) {
@@ -68,31 +63,25 @@ public class LesseeChatFragment extends Fragment {
                     holder.contactName.setText(model.getReceiverContact());
                     holder.lesseeName.setText(model.getReceiverName());
                     holder.time.setText(String.valueOf(model.getTime()));
-                    holder.itemView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent intent = new Intent(getActivity(), ChatActivity.class);
-                            intent.putExtra("receiverName", model.getSenderName());
-                            intent.putExtra("receiverID", model.getReceiverID());
-                            intent.putExtra("chatID", model.getChatID());
-                            startActivity(intent);
-                        }
+                    holder.itemView.setOnClickListener(v12 -> {
+                        Intent intent = new Intent(getActivity(), ChatActivity.class);
+                        intent.putExtra("receiverName", model.getSenderName());
+                        intent.putExtra("receiverID", model.getReceiverID());
+                        intent.putExtra("chatID", model.getChatID());
+                        startActivity(intent);
                     });
 
                 }
                 if (firebaseUser.getUid().equals(model.receiverID)) {
                     holder.lesseeName.setText(model.getSenderName());
                     holder.time.setText(String.valueOf(model.getTime()));
-                    holder.itemView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent intent = new Intent(getActivity(), ChatActivity.class);
-                            intent.putExtra("receiverName", model.getSenderName());
-                            intent.putExtra("senderName", model.getReceiverContact());
-                            intent.putExtra("receiverID", model.getSenderID());
-                            intent.putExtra("chatID", model.getChatID());
-                            startActivity(intent);
-                        }
+                    holder.itemView.setOnClickListener(v13 -> {
+                        Intent intent = new Intent(getActivity(), ChatActivity.class);
+                        intent.putExtra("receiverName", model.getSenderName());
+                        intent.putExtra("senderName", model.getReceiverContact());
+                        intent.putExtra("receiverID", model.getSenderID());
+                        intent.putExtra("chatID", model.getChatID());
+                        startActivity(intent);
                     });
 
                 }

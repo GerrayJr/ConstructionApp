@@ -1,14 +1,13 @@
 package com.gerray.fmsystem.ManagerModule.Profile;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.gerray.fmsystem.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -19,6 +18,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
+
+import java.util.Objects;
 
 public class FacilityProfile extends AppCompatActivity {
     private TextView facilityName, facilityAuth, facilityManager, facilityPostal, facilityEmail, facilityActivity, facilityOccupancy;
@@ -45,12 +46,7 @@ public class FacilityProfile extends AppCompatActivity {
         facilityImage = findViewById(R.id.facility_imageView);
 
         Button btnUpdate = findViewById(R.id.profile_update);
-        btnUpdate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(FacilityProfile.this, ProfilePopUp.class));
-            }
-        });
+        btnUpdate.setOnClickListener(v -> startActivity(new Intent(FacilityProfile.this, ProfilePopUp.class)));
 
         auth = FirebaseAuth.getInstance();
         firebaseDatabase = FirebaseDatabase.getInstance();
@@ -64,7 +60,7 @@ public class FacilityProfile extends AppCompatActivity {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             if (snapshot.child("facilityManager").exists()) {
-                                String facManager = snapshot.child("facilityManager").getValue().toString().trim();
+                                String facManager = Objects.requireNonNull(snapshot.child("facilityManager").getValue()).toString().trim();
                                 facilityManager.setText(facManager);
                             }
                         }
@@ -81,31 +77,31 @@ public class FacilityProfile extends AppCompatActivity {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
                                 if (snapshot.child("authorityName").exists()) {
-                                    String authName = snapshot.child("authorityName").getValue().toString().trim();
+                                    String authName = Objects.requireNonNull(snapshot.child("authorityName").getValue()).toString().trim();
                                     facilityAuth.setText(authName);
                                 }
                                 if (snapshot.child("emailAddress").exists()) {
-                                    String emailAddress = snapshot.child("emailAddress").getValue().toString().trim();
+                                    String emailAddress = Objects.requireNonNull(snapshot.child("emailAddress").getValue()).toString().trim();
                                     facilityEmail.setText(emailAddress);
                                 }
                                 if (snapshot.child("facilityName").exists()) {
-                                    String facName = snapshot.child("facilityName").getValue().toString().trim();
+                                    String facName = Objects.requireNonNull(snapshot.child("facilityName").getValue()).toString().trim();
                                     facilityName.setText(facName);
                                 }
                                 if (snapshot.child("facilityType").exists()) {
-                                    String facilityType = snapshot.child("facilityType").getValue().toString().trim();
+                                    String facilityType = Objects.requireNonNull(snapshot.child("facilityType").getValue()).toString().trim();
                                     facilityActivity.setText(facilityType);
                                 }
                                 if (snapshot.child("occupancyNo").exists()) {
-                                    String occNo = snapshot.child("occupancyNo").getValue().toString().trim();
+                                    String occNo = Objects.requireNonNull(snapshot.child("occupancyNo").getValue()).toString().trim();
                                     facilityOccupancy.setText(occNo);
                                 }
                                 if (snapshot.child("postalAddress").exists()) {
-                                    String postal = snapshot.child("postalAddress").getValue().toString().trim();
+                                    String postal = Objects.requireNonNull(snapshot.child("postalAddress").getValue()).toString().trim();
                                     facilityPostal.setText(postal);
                                 }
                                 if (snapshot.child("facilityImageUrl").exists()) {
-                                    String imageUrl = snapshot.child("facilityImageUrl").getValue().toString().trim();
+                                    String imageUrl = Objects.requireNonNull(snapshot.child("facilityImageUrl").getValue()).toString().trim();
                                     Picasso.with(FacilityProfile.this).load(imageUrl).into(facilityImage);
                                 }
 

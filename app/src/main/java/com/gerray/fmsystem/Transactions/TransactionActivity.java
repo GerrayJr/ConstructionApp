@@ -1,19 +1,16 @@
-package com.gerray.fmsystem.LesseeModule;
+package com.gerray.fmsystem.Transactions;
+
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.Toast;
-
-import com.gerray.fmsystem.Config.Config;
 import com.gerray.fmsystem.R;
-import com.gerray.fmsystem.Transactions.MpesaAcitivity;
+import com.gerray.fmsystem.Transactions.Config.Config;
 import com.google.android.material.textfield.TextInputEditText;
 import com.paypal.android.sdk.payments.PayPalConfiguration;
 import com.paypal.android.sdk.payments.PayPalPayment;
@@ -24,11 +21,12 @@ import com.paypal.android.sdk.payments.PaymentConfirmation;
 import org.json.JSONException;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
-public class LesseePay extends AppCompatActivity {
+public class TransactionActivity extends AppCompatActivity {
 
     private static final int PAYPAL_REQUEST_CODE = 7171;
-    private static PayPalConfiguration configuration = new PayPalConfiguration()
+    private static final PayPalConfiguration configuration = new PayPalConfiguration()
             .environment(PayPalConfiguration.ENVIRONMENT_SANDBOX)
             .clientId(Config.PAYPAL_CLIENT_API);
 
@@ -55,23 +53,13 @@ public class LesseePay extends AppCompatActivity {
         btnPay = findViewById(R.id.btn_Pay);
         edAmount = findViewById(R.id.edpay);
 
-        btnPay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                processPayment();
-            }
-        });
+        btnPay.setOnClickListener(v -> processPayment());
         btnMpesa = findViewById(R.id.btn_Mpesa);
-        btnMpesa.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(LesseePay.this, MpesaAcitivity.class));
-            }
-        });
+        btnMpesa.setOnClickListener(v -> startActivity(new Intent(TransactionActivity.this, MpesaAcitivity.class)));
     }
 
     private void processPayment() {
-        amount = edAmount.getText().toString();
+        amount = Objects.requireNonNull(edAmount.getText()).toString();
         PayPalPayment payPalPayment = new PayPalPayment(new BigDecimal(String.valueOf(amount)), "USD", "Payment: ", PayPalPayment.PAYMENT_INTENT_SALE);
 
         Intent intent = new Intent(this, PaymentActivity.class);
@@ -85,11 +73,12 @@ public class LesseePay extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PAYPAL_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
+                assert data != null;
                 PaymentConfirmation confirmation = data.getParcelableExtra(PaymentActivity.EXTRA_RESULT_CONFIRMATION);
                 if (confirmation != null) {
                     try {
                         String paymentDetails = confirmation.toJSONObject().toString(4);
-                        startActivity(new Intent(this, PaymentDetails.class)
+                            startActivity(new Intent(this, PaymentDetails.class)
                                 .putExtra("PaymentDetails", paymentDetails)
                                 .putExtra("PaymentAmount", amount));
                     } catch (JSONException e) {

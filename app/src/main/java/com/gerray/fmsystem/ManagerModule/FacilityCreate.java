@@ -1,15 +1,14 @@
 package com.gerray.fmsystem.ManagerModule;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
-import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.gerray.fmsystem.R;
 import com.google.android.material.textfield.TextInputEditText;
@@ -21,6 +20,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Objects;
 import java.util.UUID;
 
 public class FacilityCreate extends AppCompatActivity {
@@ -46,17 +46,11 @@ public class FacilityCreate extends AppCompatActivity {
         getWindow().setLayout((int) (width * .9), (int) (height * .6));
 
         Button btnContinue = findViewById(R.id.fac_continue);
-        btnContinue.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                registerFacility();
-            }
-        });
+        btnContinue.setOnClickListener(v -> registerFacility());
 
         facName = findViewById(R.id.fac_name);
 
         auth = FirebaseAuth.getInstance();
-        FirebaseUser currentUser = auth.getCurrentUser();
         databaseReference = FirebaseDatabase.getInstance().getReference().child("Facilities");
         progressDialog = new ProgressDialog(this);
 
@@ -73,20 +67,19 @@ public class FacilityCreate extends AppCompatActivity {
         if (firebaseUser != null) {
             firebaseDatabaseReference.child("Users").child(firebaseUser.getUid())
                     .addValueEventListener(new ValueEventListener() {
-                        String fManager;
 
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             String firstName = null, secondName = null;
                             if (snapshot.child("firstName").exists()) {
-                                firstName = snapshot.child("firstName").getValue().toString().trim();
+                                firstName = Objects.requireNonNull(snapshot.child("firstName").getValue()).toString().trim();
                             }
                             if (snapshot.child("secondName").exists()) {
-                                secondName = snapshot.child("secondName").getValue().toString().trim();
+                                secondName = Objects.requireNonNull(snapshot.child("secondName").getValue()).toString().trim();
                             }
 
                             final String fManager = firstName + " " + secondName;
-                            final String name = facName.getText().toString().trim();
+                            final String name = Objects.requireNonNull(facName.getText()).toString().trim();
                             final String facID = UUID.randomUUID().toString();
                             final String userID = auth.getUid();
 
@@ -95,6 +88,7 @@ public class FacilityCreate extends AppCompatActivity {
                                 return;
                             }
                             FacRegister facRegister = new FacRegister(facID, userID, name, fManager);
+                            assert userID != null;
                             databaseReference.child(userID).setValue(facRegister);
                             progressDialog.dismiss();
                             FacilityCreate.this.finish();

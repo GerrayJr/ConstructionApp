@@ -23,7 +23,7 @@ import com.google.firebase.database.ValueEventListener;
 public class UpdateDialog extends AppCompatDialogFragment {
     private TextInputEditText edCost;
     private Spinner edStatus;
-    private String text;
+    private final String text;
 
     public UpdateDialog(String text) {
         this.text = text;

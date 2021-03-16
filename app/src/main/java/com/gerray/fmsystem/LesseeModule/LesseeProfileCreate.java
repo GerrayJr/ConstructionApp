@@ -1,16 +1,15 @@
 package com.gerray.fmsystem.LesseeModule;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
-import android.view.View;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.gerray.fmsystem.R;
 import com.google.android.material.textfield.TextInputEditText;
@@ -22,6 +21,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Objects;
 import java.util.UUID;
 
 public class LesseeProfileCreate extends AppCompatActivity {
@@ -55,12 +55,7 @@ public class LesseeProfileCreate extends AppCompatActivity {
         activitySpinner = findViewById(R.id.spinner_lessee);
 
         Button btnRegister = findViewById(R.id.les_continue);
-        btnRegister.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                registerLessee();
-            }
-        });
+        btnRegister.setOnClickListener(v -> registerLessee());
     }
 
     private void registerLessee() {
@@ -79,14 +74,14 @@ public class LesseeProfileCreate extends AppCompatActivity {
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             String firstName = null, secondName = null;
                             if (snapshot.child("firstName").exists()) {
-                                firstName = snapshot.child("firstName").getValue().toString().trim();
+                                firstName = Objects.requireNonNull(snapshot.child("firstName").getValue()).toString().trim();
                             }
                             if (snapshot.child("secondName").exists()) {
-                                secondName = snapshot.child("secondName").getValue().toString().trim();
+                                secondName = Objects.requireNonNull(snapshot.child("secondName").getValue()).toString().trim();
                             }
 
                             final String contactName = firstName + " " + secondName;
-                            final String name = bznName.getText().toString().trim();
+                            final String name = Objects.requireNonNull(bznName.getText()).toString().trim();
                             final String activity = activitySpinner.getSelectedItem().toString().trim();
                             final String lesseeID = UUID.randomUUID().toString();
                             final String userID = auth.getUid();
@@ -95,8 +90,8 @@ public class LesseeProfileCreate extends AppCompatActivity {
                                 Toast.makeText(LesseeProfileCreate.this, "Enter Organization Name", Toast.LENGTH_SHORT).show();
                                 return;
                             }
-                            final String roomNo = null;
-                            LesCreate lesCreate = new LesCreate(contactName, name, activity, lesseeID, userID, roomNo);
+                            LesCreate lesCreate = new LesCreate(contactName, name, activity, lesseeID, userID, null);
+                            assert userID != null;
                             databaseReference.child(userID).setValue(lesCreate);
                             progressDialog.dismiss();
                             LesseeProfileCreate.this.finish();

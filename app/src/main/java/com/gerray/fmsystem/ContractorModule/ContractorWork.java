@@ -28,7 +28,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.Objects;
 
-public class ConsultantWork extends Fragment {
+public class ContractorWork extends Fragment {
 
     private DatabaseReference reference, dbRef;
     FirebaseRecyclerAdapter<DetailsClass, WorkViewHolder> firebaseRecyclerAdapter;
@@ -43,7 +43,7 @@ public class ConsultantWork extends Fragment {
 
     }
 
-    public ConsultantWork() {
+    public ContractorWork() {
     }
 
     @Override
@@ -100,18 +100,13 @@ public class ConsultantWork extends Fragment {
 
                             }
                         });
-                    } else {
-
                     }
                 }
 
-                holder.itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(getActivity(), EditWorkDetails.class);
-                        intent.putExtra("workID", model.getWorkID());
-                        startActivity(intent);
-                    }
+                holder.itemView.setOnClickListener(v -> {
+                    Intent intent = new Intent(getActivity(), EditWorkDetails.class);
+                    intent.putExtra("workID", model.getWorkID());
+                    startActivity(intent);
                 });
 
 
@@ -147,13 +142,10 @@ public class ConsultantWork extends Fragment {
                             }
                         });
                     }
-                    holder1.itemView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent intent = new Intent(getActivity(), EditWorkDetails.class);
-                            intent.putExtra("workID", model.getWorkID());
-                            startActivity(intent);
-                        }
+                    holder1.itemView.setOnClickListener(v -> {
+                        Intent intent = new Intent(getActivity(), EditWorkDetails.class);
+                        intent.putExtra("workID", model.getWorkID());
+                        startActivity(intent);
                     });
                 }
             }

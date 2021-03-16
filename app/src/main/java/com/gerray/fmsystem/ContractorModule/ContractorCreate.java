@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.view.View;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -21,7 +20,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class ConsultantCreate extends AppCompatActivity {
+public class ContractorCreate extends AppCompatActivity {
     private Spinner locSpinner, catSpinner, specSpinner;
     DatabaseReference databaseReference;
     FirebaseAuth auth;
@@ -44,12 +43,7 @@ public class ConsultantCreate extends AppCompatActivity {
         getWindow().setLayout((int) (width * .9), (int) (height * .6));
 
         Button btnContinue = findViewById(R.id.btnConsCreate);
-        btnContinue.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                consultantCreate();
-            }
-        });
+        btnContinue.setOnClickListener(v -> consultantCreate());
 
         locSpinner = findViewById(R.id.cons_location);
         catSpinner = findViewById(R.id.cons_category);
@@ -99,8 +93,8 @@ public class ConsultantCreate extends AppCompatActivity {
                             CreateConsultant createConsultant = new CreateConsultant(consultantName, consCategory, consSpecs, consLocation, userID, email, phone, nUrl);
                             databaseReference.child(userID).setValue(createConsultant);
                             progressDialog.dismiss();
-                            ConsultantCreate.this.finish();
-                            Toast.makeText(ConsultantCreate.this, "Welcome", Toast.LENGTH_SHORT).show();
+                            ContractorCreate.this.finish();
+                            Toast.makeText(ContractorCreate.this, "Welcome", Toast.LENGTH_SHORT).show();
 
                         }
 

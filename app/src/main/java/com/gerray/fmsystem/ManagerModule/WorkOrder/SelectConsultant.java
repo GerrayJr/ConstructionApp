@@ -1,6 +1,5 @@
 package com.gerray.fmsystem.ManagerModule.WorkOrder;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,29 +8,21 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.gerray.fmsystem.CommunicationModule.ChatActivity;
-import com.gerray.fmsystem.CommunicationModule.ChatClass;
 import com.gerray.fmsystem.ContractorModule.CreateConsultant;
 import com.gerray.fmsystem.ManagerModule.Consultants.ConsultantViewHolder;
 import com.gerray.fmsystem.ManagerModule.FacilityManager;
 import com.gerray.fmsystem.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
-import java.util.Calendar;
-import java.util.Date;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -41,7 +32,7 @@ public class SelectConsultant extends AppCompatActivity {
     FirebaseRecyclerOptions<CreateConsultant> options;
     FirebaseRecyclerAdapter<CreateConsultant, ConsultantViewHolder> plumbAdapter, doorAdapter, dryAdapter, paintAdapter, exteriorAdapter, electricAdapter, restAdapter, lightAdapter, floorAdapter;
     RecyclerView lightRecycler, doorRecycler, plumbRecycler, exteriorRecycler, electricRecycler, floorRecycler, restRecycler, paintRecycler, dryRecycler;
-    DatabaseReference dbRef, databaseReference, reference;
+    DatabaseReference dbRef;
     FirebaseUser firebaseUser;
 
     public void onStart() {
@@ -126,12 +117,7 @@ public class SelectConsultant extends AppCompatActivity {
                     holder.tvName.setText(model.getConsultantName());
                     holder.tvCategory.setText(model.getCategory());
                     holder.tvloc.setText(model.getConsultantLocation());
-                    holder.itemView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            selectContractor(model.getUserID());
-                        }
-                    });
+                    holder.itemView.setOnClickListener(v -> selectContractor(model.getUserID()));
                 } else {
                     plumbRecycler.setVisibility(View.GONE);
                 }
@@ -151,12 +137,7 @@ public class SelectConsultant extends AppCompatActivity {
                     holder.tvName.setText(model.getConsultantName());
                     holder.tvCategory.setText(model.getCategory());
                     holder.tvloc.setText(model.getConsultantLocation());
-                    holder.itemView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            selectContractor(model.getUserID());
-                        }
-                    });
+                    holder.itemView.setOnClickListener(v -> selectContractor(model.getUserID()));
                 } else {
                     restRecycler.setVisibility(View.GONE);
                 }
@@ -176,12 +157,7 @@ public class SelectConsultant extends AppCompatActivity {
                     holder.tvName.setText(model.getConsultantName());
                     holder.tvCategory.setText(model.getCategory());
                     holder.tvloc.setText(model.getConsultantLocation());
-                    holder.itemView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            selectContractor(model.getUserID());
-                        }
-                    });
+                    holder.itemView.setOnClickListener(v -> selectContractor(model.getUserID()));
                 } else {
                     exteriorRecycler.setVisibility(View.GONE);
                 }
@@ -201,12 +177,7 @@ public class SelectConsultant extends AppCompatActivity {
                     holder.tvName.setText(model.getConsultantName());
                     holder.tvCategory.setText(model.getCategory());
                     holder.tvloc.setText(model.getConsultantLocation());
-                    holder.itemView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            selectContractor(model.getUserID());
-                        }
-                    });
+                    holder.itemView.setOnClickListener(v -> selectContractor(model.getUserID()));
                 } else {
                     electricRecycler.setVisibility(View.GONE);
                 }
@@ -226,12 +197,7 @@ public class SelectConsultant extends AppCompatActivity {
                     holder.tvName.setText(model.getConsultantName());
                     holder.tvCategory.setText(model.getCategory());
                     holder.tvloc.setText(model.getConsultantLocation());
-                    holder.itemView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            selectContractor(model.getUserID());
-                        }
-                    });
+                    holder.itemView.setOnClickListener(v -> selectContractor(model.getUserID()));
                 } else {
                     doorRecycler.setVisibility(View.GONE);
                 }
@@ -251,12 +217,7 @@ public class SelectConsultant extends AppCompatActivity {
                     holder.tvName.setText(model.getConsultantName());
                     holder.tvCategory.setText(model.getCategory());
                     holder.tvloc.setText(model.getConsultantLocation());
-                    holder.itemView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            selectContractor(model.getUserID());
-                        }
-                    });
+                    holder.itemView.setOnClickListener(v -> selectContractor(model.getUserID()));
                 } else {
                     lightRecycler.setVisibility(View.GONE);
                 }
@@ -276,12 +237,7 @@ public class SelectConsultant extends AppCompatActivity {
                     holder.tvName.setText(model.getConsultantName());
                     holder.tvCategory.setText(model.getCategory());
                     holder.tvloc.setText(model.getConsultantLocation());
-                    holder.itemView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            selectContractor(model.getUserID());
-                        }
-                    });
+                    holder.itemView.setOnClickListener(v -> selectContractor(model.getUserID()));
                 } else {
                     dryRecycler.setVisibility(View.GONE);
                 }
@@ -301,12 +257,7 @@ public class SelectConsultant extends AppCompatActivity {
                     holder.tvName.setText(model.getConsultantName());
                     holder.tvCategory.setText(model.getCategory());
                     holder.tvloc.setText(model.getConsultantLocation());
-                    holder.itemView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            selectContractor(model.getUserID());
-                        }
-                    });
+                    holder.itemView.setOnClickListener(v -> selectContractor(model.getUserID()));
                 } else {
                     paintRecycler.setVisibility(View.GONE);
                 }
@@ -326,12 +277,7 @@ public class SelectConsultant extends AppCompatActivity {
                     holder.tvName.setText(model.getConsultantName());
                     holder.tvCategory.setText(model.getCategory());
                     holder.tvloc.setText(model.getConsultantLocation());
-                    holder.itemView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            selectContractor(model.getUserID());
-                        }
-                    });
+                    holder.itemView.setOnClickListener(v -> selectContractor(model.getUserID()));
                 } else {
                     floorRecycler.setVisibility(View.GONE);
                 }
@@ -400,17 +346,16 @@ public class SelectConsultant extends AppCompatActivity {
         String workDate = intent.getExtras().getString("workDate");
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         final String status = "Requested";
-        final Integer cost = null;
+        assert firebaseUser != null;
         final String userID = firebaseUser.getUid();
         final String workID = UUID.randomUUID().toString();
 
-        DetailsClass detailsClass = new DetailsClass(workID, userID, lessee, reqDate, workDate, description, status, consultantID, cost, imageUrl);
+        DetailsClass detailsClass = new DetailsClass(workID, userID, lessee, reqDate, workDate, description, status, consultantID, null, imageUrl);
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("Work Orders");
         databaseReference.child(workID).setValue(detailsClass);
 
         startActivity(new Intent(SelectConsultant.this, FacilityManager.class));
 
 
-        ;
     }
 }

@@ -1,6 +1,5 @@
 package com.gerray.fmsystem.Authentication;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
@@ -13,10 +12,9 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.gerray.fmsystem.R;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.firebase.auth.AuthResult;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -61,9 +59,10 @@ public class CreateActivity extends AppCompatActivity implements View.OnClickLis
             registerUser();
 //            startActivity(new Intent(CreateActivity.this, LoginActivity.class));
         } else if (v == btnLog) {
-            startActivity(new Intent(this,LoginActivity.class));
+            startActivity(new Intent(this, LoginActivity.class));
         }
     }
+
     private void registerUser() {
         final String email = sgEmail.getText().toString().trim();
         final String password = sgPassword.getText().toString().trim();
@@ -85,22 +84,19 @@ public class CreateActivity extends AppCompatActivity implements View.OnClickLis
         progressDialog.setMessage("Registering User....");
         progressDialog.show();
         auth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        progressDialog.dismiss();
-                        if (task.isSuccessful()) {
-                            //Successful registration
-                            Toast.makeText(CreateActivity.this, "Successfully Registered", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(CreateActivity.this, LoginActivity.class));
+                .addOnCompleteListener(this, task -> {
+                    progressDialog.dismiss();
+                    if (task.isSuccessful()) {
+                        //Successful registration
+                        Toast.makeText(CreateActivity.this, "Successfully Registered", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(CreateActivity.this, LoginActivity.class));
 
-                            InfoUser infoUser = new InfoUser(firstName,secondName,email,phone,category);
-                            FirebaseUser user = auth.getCurrentUser();
-                            databaseReference.child(user.getUid()).setValue(infoUser);
-                        } else {
-                            //Registration Failed
-                            Toast.makeText(CreateActivity.this, "Registration Failed", Toast.LENGTH_SHORT).show();
-                        }
+                        InfoUser infoUser = new InfoUser(firstName, secondName, email, phone, category);
+                        FirebaseUser user = auth.getCurrentUser();
+                        databaseReference.child(user.getUid()).setValue(infoUser);
+                    } else {
+                        //Registration Failed
+                        Toast.makeText(CreateActivity.this, "Registration Failed", Toast.LENGTH_SHORT).show();
                     }
                 });
     }

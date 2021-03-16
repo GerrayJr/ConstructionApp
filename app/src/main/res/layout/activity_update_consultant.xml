@@ -7,7 +7,7 @@
     android:fadeScrollbars="false"
     android:padding="5dp"
     android:scrollbars="vertical"
-    tools:context=".ContractorModule.UpdateConsultant">
+    tools:context=".ContractorModule.UpdateContractor">
 
     <LinearLayout
         android:layout_width="match_parent"

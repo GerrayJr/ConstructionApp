@@ -2,21 +2,17 @@ package com.gerray.fmsystem.LesseeModule;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Toast;
-
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.gerray.fmsystem.CommunicationModule.ChatClass;
-import com.gerray.fmsystem.CommunicationModule.ChatViewHolder;
 import com.gerray.fmsystem.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
@@ -27,9 +23,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Objects;
+
 public class LesseeRequestFragment extends Fragment {
 
-    private DatabaseReference databaseReference, reference;
+    private DatabaseReference reference;
     FirebaseRecyclerAdapter<LesseeRequestClass, LesseeRequestHolder> firebaseRecyclerAdapter;
     FirebaseRecyclerOptions<LesseeRequestClass> options;
     FirebaseUser firebaseUser;
@@ -68,16 +66,13 @@ public class LesseeRequestFragment extends Fragment {
 
 
         FloatingActionButton addRequest = view.findViewById(R.id.fab_request);
-        addRequest.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), RequestPopUp.class);
-                startActivity(intent);
-            }
+        addRequest.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), RequestPopUp.class);
+            startActivity(intent);
         });
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("Requests");
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("Requests");
         reference = FirebaseDatabase.getInstance().getReference().child("FacilityOccupants");
 
         options = new FirebaseRecyclerOptions.Builder<LesseeRequestClass>().setQuery(databaseReference, LesseeRequestClass.class).build();
@@ -89,16 +84,13 @@ public class LesseeRequestFragment extends Fragment {
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                             for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
-                                String user = dataSnapshot1.child("userID").getValue().toString();
+                                String user = Objects.requireNonNull(dataSnapshot1.child("userID").getValue()).toString();
                                 if (user.equals(model.getUserID())) {
                                     holder.tvRoom.setText(dataSnapshot1.getKey());
                                     holder.tvDescription.setText(model.getDescription());
                                     holder.tvDate.setText(model.getRequestDate());
-                                    holder.itemView.setOnClickListener(new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View v) {
+                                    holder.itemView.setOnClickListener(v -> {
 
-                                        }
                                     });
                                 }
 

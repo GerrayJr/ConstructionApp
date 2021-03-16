@@ -1,6 +1,5 @@
 package com.gerray.fmsystem.Authentication;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
@@ -11,12 +10,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.gerray.fmsystem.ManagerModule.FacilityManager;
 import com.gerray.fmsystem.R;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
@@ -79,20 +74,17 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         dialog.show();
 
         auth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        dialog.dismiss();
-                        if (task.isSuccessful()) {
-                            finish();
-                            Toast.makeText(LoginActivity.this, "Success", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(LoginActivity.this, UserSelector.class));
+                .addOnCompleteListener(this, task -> {
+                    dialog.dismiss();
+                    if (task.isSuccessful()) {
+                        finish();
+                        Toast.makeText(LoginActivity.this, "Success", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(LoginActivity.this, UserSelector.class));
 
-                        } else {
-                            Toast.makeText(LoginActivity.this, "Login Failed", Toast.LENGTH_SHORT).show();
-                        }
-
+                    } else {
+                        Toast.makeText(LoginActivity.this, "Login Failed", Toast.LENGTH_SHORT).show();
                     }
+
                 });
     }
 }
