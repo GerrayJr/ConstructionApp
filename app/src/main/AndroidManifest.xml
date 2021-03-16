@@ -17,7 +17,8 @@
         tools:replace="android:icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Transactions.MpesaAcitivity"></activity>
+        <activity android:name=".Transactions.MpesaAcitivity"/>
+        <activity android:name=".LesseeModule.LesseeWorkDetails"/>
         <activity android:name=".LesseeModule.PaymentDetails" />
         <activity android:name=".LesseeModule.LesseePay" />
         <activity

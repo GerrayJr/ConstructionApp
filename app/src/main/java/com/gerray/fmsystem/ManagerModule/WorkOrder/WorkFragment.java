@@ -76,30 +76,34 @@ public class WorkFragment extends Fragment {
         firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<DetailsClass, WorkViewHolder>(options) {
             @Override
             protected void onBindViewHolder(@NonNull final WorkViewHolder holder, int position, @NonNull final DetailsClass model) {
-                if (model.getfManagerID().equals(firebaseUser.getUid())) {
-                    holder.tvStatus.setText(model.getStatus());
-                    holder.tvWork.setText(model.getWorkDescription());
-                    holder.tvWorkDate.setText(model.getWorkDate());
-                    reference = FirebaseDatabase.getInstance().getReference().child("Consultants").child(model.getConsultantID());
-                    reference.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            holder.tvConsultant.setText(snapshot.child("consultantName").getValue().toString());
-                        }
+                if (model.getfManagerID() != null) {
+                    if (model.getfManagerID().equals(firebaseUser.getUid())) {
+                        holder.tvStatus.setText(model.getStatus());
+                        holder.tvWork.setText(model.getWorkDescription());
+                        holder.tvWorkDate.setText(model.getWorkDate());
+                        reference = FirebaseDatabase.getInstance().getReference().child("Consultants").child(model.getConsultantID());
+                        reference.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                holder.tvConsultant.setText(snapshot.child("consultantName").getValue().toString());
+                            }
 
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
 
-                        }
-                    });
-                    holder.itemView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent intent = new Intent(getActivity(), WorkPopUp.class);
-                            intent.putExtra("workID", model.getWorkID());
-                            startActivity(intent);
-                        }
-                    });
+                            }
+                        });
+                        holder.itemView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent = new Intent(getActivity(), WorkPopUp.class);
+                                intent.putExtra("workID", model.getWorkID());
+                                startActivity(intent);
+                            }
+                        });
+                    }
+                }else {
+                    holder.itemView.setVisibility(View.GONE);
                 }
 
 

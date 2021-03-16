@@ -1,7 +1,4 @@
-package com.gerray.fmsystem.ManagerModule.WorkOrder;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
+package com.gerray.fmsystem.LesseeModule;
 
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
@@ -15,22 +12,20 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.gerray.fmsystem.ManagerModule.Assets.AssetPopUp;
-import com.gerray.fmsystem.ManagerModule.Assets.FacilityAssets;
-import com.gerray.fmsystem.ManagerModule.FacilityManager;
-import com.gerray.fmsystem.ManagerModule.Profile.FacProfile;
-import com.gerray.fmsystem.ManagerModule.Profile.ProfilePopUp;
+import com.gerray.fmsystem.ManagerModule.WorkOrder.DetailsClass;
+import com.gerray.fmsystem.ManagerModule.WorkOrder.SelectConsultant;
 import com.gerray.fmsystem.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
@@ -39,19 +34,18 @@ import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
 import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
 
-public class WorkDetails extends AppCompatActivity implements View.OnClickListener {
-    Button imageSelect, postWork;
+public class LesseeWorkDetails extends AppCompatActivity implements View.OnClickListener {
+    Button conSelect, imageSelect, postWork;
     TextInputEditText requester, requestDate, workDate, workDescription;
     ImageView workImage;
 
     private static final int PICK_IMAGE_REQUEST = 1;
     private Uri mImageUri;
+    String contractorID;
 
-    DatabaseReference databaseReference;
     StorageReference mStorageRef;
     StorageTask mUploadTask;
     FirebaseAuth auth;
@@ -67,32 +61,25 @@ public class WorkDetails extends AppCompatActivity implements View.OnClickListen
         imageSelect.setOnClickListener(this);
         postWork = findViewById(R.id.btn_postWork);
         postWork.setOnClickListener(this);
-
         Intent intent = getIntent();
-        final String lessee = intent.getExtras().getString("lessee");
-        final String reqDate = intent.getExtras().getString("date");
-        final String description = intent.getExtras().getString("description");
-        final String imageUrl = intent.getExtras().getString("imageUrl");
+        contractorID = intent.getExtras().getString("contractorID");
 
-//        Bundle i = new Bundle();
-//        i.putString("lessee", lessee);
-//        i.putString("reqDate", reqDate);
 
         workImage = findViewById(R.id.work_imageView);
-        Picasso.with(WorkDetails.this).load(imageUrl).into(workImage);
 
         DateFormat dateFormat = DateFormat.getDateInstance();
         Date date = new Date();
         final String setDate = dateFormat.format(date);
 
         requester = findViewById(R.id.work_reqLessee);
-        requester.setText(lessee);
+
         requestDate = findViewById(R.id.work_reqDate);
-        requestDate.setText(reqDate);
+        requestDate.setVisibility(View.GONE);
+
         workDate = findViewById(R.id.work_date);
         workDate.setText(setDate);
         workDescription = findViewById(R.id.work_description);
-        workDescription.setText(description);
+
 
         auth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = auth.getCurrentUser();
@@ -142,9 +129,14 @@ public class WorkDetails extends AppCompatActivity implements View.OnClickListen
         progressDialog.setMessage("Let us Begin");
         progressDialog.show();
         final String requestLessee = requester.getText().toString().trim();
-        final String reqDate = requestDate.getText().toString().trim();
+        final String reqDate = null;
         final String date = workDate.getText().toString().trim();
         final String description = workDescription.getText().toString().trim();
+        final String status = "Requested";
+        final Integer cost = null;
+        final String fmanager = null;
+        final String userID = auth.getUid();
+        final String workID = UUID.randomUUID().toString();
 
 
         if (TextUtils.isEmpty(requestLessee)) {
@@ -170,25 +162,22 @@ public class WorkDetails extends AppCompatActivity implements View.OnClickListen
                                     Uri downloadUri = uri;
                                     final String downUri = downloadUri.toString().trim();
 
-                                    Intent select = new Intent(WorkDetails.this, SelectConsultant.class);
-                                    select.putExtra("lessee", requestLessee);
-                                    select.putExtra("date", reqDate);
-                                    select.putExtra("imageUrl", downUri);
-                                    select.putExtra("description", description);
-                                    select.putExtra("uri", downUri);
-                                    select.putExtra("workDate", date);
-                                    startActivity(select);
+                                    LesseeDetailsClass lesseeDetailsClass = new LesseeDetailsClass(workID,userID,requestLessee,reqDate,date,description,status,contractorID,cost,downUri);
+                                    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("Work Orders");
+                                    databaseReference.child(workID).setValue(lesseeDetailsClass);
+
                                 }
                             });
 
 
                             progressDialog.dismiss();
+                            Toast.makeText(LesseeWorkDetails.this, "Work Sent", Toast.LENGTH_SHORT).show();
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(WorkDetails.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LesseeWorkDetails.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     })
                     .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {

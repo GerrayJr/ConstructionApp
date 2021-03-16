@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.gerray.fmsystem.LesseeModule.LesseeDetailsClass;
 import com.gerray.fmsystem.ManagerModule.WorkOrder.DetailsClass;
 import com.gerray.fmsystem.ManagerModule.WorkOrder.WorkViewHolder;
 import com.gerray.fmsystem.R;
@@ -29,8 +30,10 @@ import java.util.Objects;
 
 public class ConsultantWork extends Fragment {
 
-    private DatabaseReference reference;
+    private DatabaseReference reference, dbRef;
     FirebaseRecyclerAdapter<DetailsClass, WorkViewHolder> firebaseRecyclerAdapter;
+    FirebaseRecyclerAdapter<LesseeDetailsClass, WorkViewHolder> adapter;
+    FirebaseRecyclerOptions<LesseeDetailsClass> firebaseRecyclerOptions;
     FirebaseRecyclerOptions<DetailsClass> options;
     FirebaseUser firebaseUser;
 
@@ -49,12 +52,18 @@ public class ConsultantWork extends Fragment {
         if (firebaseRecyclerAdapter != null) {
             firebaseRecyclerAdapter.stopListening();
         }
+        if (adapter != null) {
+            adapter.stopListening();
+        }
     }
 
     public void onStart() {
         super.onStart();
         firebaseRecyclerAdapter.startListening();
         firebaseRecyclerAdapter.notifyDataSetChanged();
+
+        adapter.startListening();
+        adapter.notifyDataSetChanged();
         // Check if user is signed in (non-null) and update UI accordingly.
 //        FirebaseUser currentUser = auth.getCurrentUser();
 
@@ -77,25 +86,30 @@ public class ConsultantWork extends Fragment {
                     holder.tvStatus.setText(model.getStatus());
                     holder.tvWork.setText(model.getWorkDescription());
                     holder.tvWorkDate.setText(model.getWorkDate());
-                    reference = FirebaseDatabase.getInstance().getReference().child("Facilities").child(model.getfManagerID());
-                    reference.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            holder.tvConsultant.setText(Objects.requireNonNull(snapshot.child("name").getValue()).toString());
-                        }
+                    String fManagerID = model.getfManagerID();
+                    if (fManagerID != null) {
+                        reference = FirebaseDatabase.getInstance().getReference().child("Facilities").child(model.getfManagerID());
+                        reference.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                holder.tvConsultant.setText(Objects.requireNonNull(snapshot.child("name").getValue()).toString());
+                            }
 
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
 
-                        }
-                    });
+                            }
+                        });
+                    } else {
+
+                    }
                 }
 
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent(getActivity(),EditWorkDetails.class);
-                        intent.putExtra("workID",model.getWorkID());
+                        Intent intent = new Intent(getActivity(), EditWorkDetails.class);
+                        intent.putExtra("workID", model.getWorkID());
                         startActivity(intent);
                     }
                 });
@@ -110,11 +124,54 @@ public class ConsultantWork extends Fragment {
             }
         };
 
+        firebaseRecyclerOptions = new FirebaseRecyclerOptions.Builder<LesseeDetailsClass>().setQuery(databaseReference, LesseeDetailsClass.class).build();
+        adapter = new FirebaseRecyclerAdapter<LesseeDetailsClass, WorkViewHolder>(firebaseRecyclerOptions) {
+            @Override
+            protected void onBindViewHolder(@NonNull WorkViewHolder holder1, int position, @NonNull LesseeDetailsClass model) {
+                if (model.getConsultantID().equals(firebaseUser.getUid())) {
+                    holder1.tvStatus.setText(model.getStatus());
+                    holder1.tvWork.setText(model.getWorkDescription());
+                    holder1.tvWorkDate.setText(model.getWorkDate());
+                    String lesseeID = model.getLesseeID();
+                    if (lesseeID != null) {
+                        dbRef = FirebaseDatabase.getInstance().getReference().child("Lessees").child(model.getLesseeID());
+                        dbRef.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                holder1.tvConsultant.setText(Objects.requireNonNull(snapshot.child("contactName").getValue()).toString());
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+                    }
+                    holder1.itemView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(getActivity(), EditWorkDetails.class);
+                            intent.putExtra("workID", model.getWorkID());
+                            startActivity(intent);
+                        }
+                    });
+                }
+            }
+
+            @NonNull
+            @Override
+            public WorkViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                return new WorkViewHolder(LayoutInflater.from(getActivity()).inflate(R.layout.cons_work_card, parent, false));
+            }
+        };
+
+
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view_consWork);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(firebaseRecyclerAdapter);
         firebaseRecyclerAdapter.startListening();
 
 
-        return view;    }
+        return view;
+    }
 }

@@ -61,28 +61,44 @@ public class EditWorkDetails extends AppCompatActivity {
                 edDescription.setText(snapshot.child("workDescription").getValue().toString());
                 edStatus.setText(snapshot.child("status").getValue().toString());
                 edDate.setText(snapshot.child("workDate").getValue().toString());
-                if (snapshot.child("cost").exists())
-                {
+                if (snapshot.child("cost").exists()) {
                     edCost.setText(snapshot.child("cost").getValue().toString());
-                }else {
+                } else {
                     edCost.setText("Not Set");
                 }
                 String imageUrl = snapshot.child("imageUrl").getValue().toString();
                 Picasso.with(EditWorkDetails.this).load(imageUrl).into(imageView);
 
-                dbref = FirebaseDatabase.getInstance().getReference().child("Facilities").child(snapshot.child("fManagerID").getValue().toString());
-                dbref.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot1) {
-                        edFacility.setText(Objects.requireNonNull(snapshot1.child("name").getValue()).toString());
-                    }
+                if (snapshot.child("fManagerID").exists()) {
+                    dbref = FirebaseDatabase.getInstance().getReference().child("Facilities").child(snapshot.child("fManagerID").getValue().toString());
+                    dbref.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot1) {
+                            edFacility.setText(Objects.requireNonNull(snapshot1.child("facilityManager").getValue()).toString());
+                        }
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
 
-                    }
+                        }
 
-                });
+                    });
+                } else {
+                    dbref = FirebaseDatabase.getInstance().getReference().child("Lessees").child(snapshot.child("lesseeID").getValue().toString());
+                    dbref.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot1) {
+                            edFacility.setText(Objects.requireNonNull(snapshot1.child("contactName").getValue()).toString());
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+
+                    });
+                }
+
             }
 
             @Override
@@ -91,8 +107,9 @@ public class EditWorkDetails extends AppCompatActivity {
             }
         });
     }
+
     public void editWork(String workID) {
         UpdateDialog updateDialog = new UpdateDialog(workID);
-        updateDialog.show(getSupportFragmentManager(),"Update Tag");
+        updateDialog.show(getSupportFragmentManager(), "Update Tag");
     }
 }

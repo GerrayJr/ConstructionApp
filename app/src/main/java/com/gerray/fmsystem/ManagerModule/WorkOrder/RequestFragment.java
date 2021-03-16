@@ -10,9 +10,11 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
@@ -22,6 +24,8 @@ import com.gerray.fmsystem.LesseeModule.RequestPopUp;
 import com.gerray.fmsystem.ManagerModule.Lessee.ConfirmAdd;
 import com.gerray.fmsystem.ManagerModule.Lessee.SearchLessee;
 import com.gerray.fmsystem.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -109,8 +113,40 @@ public class RequestFragment extends Fragment {
                                                                 intent.putExtra("lessee", lessee);
                                                                 intent.putExtra("date", date);
                                                                 intent.putExtra("imageUrl", model.getImageUrl());
-                                                                intent.putExtra("description",description);
+                                                                intent.putExtra("description", description);
                                                                 startActivity(intent);
+                                                                databaseReference.addValueEventListener(new ValueEventListener() {
+                                                                    @Override
+                                                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                                        for (DataSnapshot dSnapshot : snapshot.getChildren()) {
+                                                                            for (DataSnapshot dSnapshot1 : dSnapshot.getChildren()) {
+                                                                                String requestID = dSnapshot.child("requestID").getValue().toString();
+                                                                                if (requestID.equals(model.getRequestID())) {
+                                                                                    String key = dSnapshot.getKey();
+                                                                                    DatabaseReference dbref = FirebaseDatabase.getInstance().getReference();
+                                                                                    dbref.child("Requests").child(key).removeValue()
+                                                                                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                                                @Override
+                                                                                                public void onComplete(@NonNull Task<Void> task) {
+                                                                                                    if (task.isSuccessful()) {
+
+                                                                                                    } else {
+                                                                                                        Log.d("Remove Request", "Request couldn't be deleted");
+                                                                                                    }
+                                                                                                }
+                                                                                            });
+
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    }
+
+                                                                    @Override
+                                                                    public void onCancelled(@NonNull DatabaseError error) {
+
+                                                                    }
+                                                                });
+
                                                             }
                                                         })
                                                         .setNegativeButton("Dismiss", new DialogInterface.OnClickListener() {

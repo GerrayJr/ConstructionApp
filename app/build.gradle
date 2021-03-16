@@ -24,6 +24,10 @@ android {
         it.buildConfigField 'String', 'CONSUMER_KEY',DARAJA_CONSUMER_KEY
         it.buildConfigField 'String', 'CONSUMER_SECRET', DARAJA_CONSUMER_SECRET
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {

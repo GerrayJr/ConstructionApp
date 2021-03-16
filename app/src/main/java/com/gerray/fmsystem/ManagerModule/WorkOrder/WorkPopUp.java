@@ -6,12 +6,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.gerray.fmsystem.ContractorModule.EditWorkDetails;
 import com.gerray.fmsystem.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -22,11 +28,11 @@ import com.squareup.picasso.Picasso;
 import java.util.Objects;
 
 public class WorkPopUp extends AppCompatActivity {
-    private TextView edWork, edDescription, edStatus, edCost, edConsultant, edDate;
+    private TextView edWork, edStatus, edCost, edConsultant, edDate;
     private ImageView imageView;
     private Button btnDelete;
 
-    private DatabaseReference reference, dbref;
+    private DatabaseReference reference, dbref, ref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,26 +49,23 @@ public class WorkPopUp extends AppCompatActivity {
         Intent intent = getIntent();
         final String workID = Objects.requireNonNull(intent.getExtras()).getString("workID");
 
-        edWork = findViewById(R.id.ed_work);
-        edDescription = findViewById(R.id.ed_description);
-        edStatus = findViewById(R.id.ed_status);
-        edCost = findViewById(R.id.ed_cost);
-        edConsultant = findViewById(R.id.ed_consultant);
-        edDate = findViewById(R.id.ed_date);
+        edWork = findViewById(R.id.ed_pop_work);
+        edStatus = findViewById(R.id.ed_pop_status);
+        edCost = findViewById(R.id.ed_pop_cost);
+        edConsultant = findViewById(R.id.ed_pop_consultant);
+        edDate = findViewById(R.id.ed_pop_date);
 
-        imageView = findViewById(R.id.editWork_image);
+        imageView = findViewById(R.id.asset_imageView);
         reference = FirebaseDatabase.getInstance().getReference().child("Work Orders").child(workID);
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull final DataSnapshot snapshot) {
                 edWork.setText(snapshot.child("workDescription").getValue().toString());
-                edDescription.setText(snapshot.child("workDescription").getValue().toString());
                 edStatus.setText(snapshot.child("status").getValue().toString());
                 edDate.setText(snapshot.child("workDate").getValue().toString());
-                if (snapshot.child("cost").exists())
-                {
+                if (snapshot.child("cost").exists()) {
                     edCost.setText(snapshot.child("cost").getValue().toString());
-                }else {
+                } else {
                     edCost.setText("Not Set");
                 }
                 String imageUrl = snapshot.child("imageUrl").getValue().toString();
@@ -86,6 +89,28 @@ public class WorkPopUp extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
+            }
+        });
+
+        btnDelete = findViewById(R.id.delete_work);
+        btnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseAuth auth = FirebaseAuth.getInstance();
+                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+                databaseReference.child("Work Orders").child(workID).removeValue()
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()) {
+                                    Toast.makeText(WorkPopUp.this, "Work Removed", Toast.LENGTH_SHORT).show();
+
+
+                                } else {
+                                    Log.d("Delete Work", "Work couldn't be deleted");
+                                }
+                            }
+                        });
             }
         });
     }

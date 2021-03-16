@@ -126,7 +126,7 @@ public class LesseeConsultant extends AppCompatActivity {
                     holder.itemView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            contactContractor(model.getEmailAddress(),model.getUserID(),model.getConsultantName(), model.getSpecialization());
+                            contactContractor(model.getEmailAddress(), model.getUserID(), model.getConsultantName(), model.getSpecialization());
                         }
                     });
                 } else {
@@ -151,7 +151,7 @@ public class LesseeConsultant extends AppCompatActivity {
                     holder.itemView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            contactContractor(model.getEmailAddress(),model.getUserID(),model.getConsultantName(), model.getSpecialization());
+                            contactContractor(model.getEmailAddress(), model.getUserID(), model.getConsultantName(), model.getSpecialization());
                         }
                     });
                 } else {
@@ -176,7 +176,7 @@ public class LesseeConsultant extends AppCompatActivity {
                     holder.itemView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            contactContractor(model.getEmailAddress(),model.getUserID(),model.getConsultantName(), model.getSpecialization());
+                            contactContractor(model.getEmailAddress(), model.getUserID(), model.getConsultantName(), model.getSpecialization());
                         }
                     });
                 } else {
@@ -201,7 +201,7 @@ public class LesseeConsultant extends AppCompatActivity {
                     holder.itemView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            contactContractor(model.getEmailAddress(),model.getUserID(),model.getConsultantName(), model.getSpecialization());
+                            contactContractor(model.getEmailAddress(), model.getUserID(), model.getConsultantName(), model.getSpecialization());
                         }
                     });
                 } else {
@@ -226,7 +226,7 @@ public class LesseeConsultant extends AppCompatActivity {
                     holder.itemView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            contactContractor(model.getEmailAddress(),model.getUserID(),model.getConsultantName(), model.getSpecialization());
+                            contactContractor(model.getEmailAddress(), model.getUserID(), model.getConsultantName(), model.getSpecialization());
                         }
                     });
                 } else {
@@ -251,7 +251,7 @@ public class LesseeConsultant extends AppCompatActivity {
                     holder.itemView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            contactContractor(model.getEmailAddress(),model.getUserID(),model.getConsultantName(), model.getSpecialization());
+                            contactContractor(model.getEmailAddress(), model.getUserID(), model.getConsultantName(), model.getSpecialization());
                         }
                     });
                 } else {
@@ -276,7 +276,7 @@ public class LesseeConsultant extends AppCompatActivity {
                     holder.itemView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            contactContractor(model.getEmailAddress(),model.getUserID(),model.getConsultantName(), model.getSpecialization());
+                            contactContractor(model.getEmailAddress(), model.getUserID(), model.getConsultantName(), model.getSpecialization());
                         }
                     });
                 } else {
@@ -301,7 +301,7 @@ public class LesseeConsultant extends AppCompatActivity {
                     holder.itemView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            contactContractor(model.getEmailAddress(),model.getUserID(),model.getConsultantName(), model.getSpecialization());
+                            contactContractor(model.getEmailAddress(), model.getUserID(), model.getConsultantName(), model.getSpecialization());
                         }
                     });
                 } else {
@@ -326,7 +326,7 @@ public class LesseeConsultant extends AppCompatActivity {
                     holder.itemView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            contactContractor(model.getEmailAddress(),model.getUserID(),model.getConsultantName(), model.getSpecialization());
+                            contactContractor(model.getEmailAddress(), model.getUserID(), model.getConsultantName(), model.getSpecialization());
                         }
                     });
                 } else {
@@ -391,13 +391,13 @@ public class LesseeConsultant extends AppCompatActivity {
 
     public void contactContractor(final String emailAddress, final String contractorID, final String contractorName, final String receiverActivity) {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(LesseeConsultant.this);
-        alertDialog.setMessage("Do You Want to Add Lessee to The Facility?")
+        alertDialog.setMessage("Contact " + contractorName)
                 .setCancelable(false)
-                .setPositiveButton("Email", new DialogInterface.OnClickListener() {
+                .setPositiveButton("Give Work", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        contactUs(emailAddress);
-                        return;
+                        startActivity(new Intent(LesseeConsultant.this,LesseeWorkDetails.class)
+                        .putExtra("contractorID", contractorID));
                     }
                 })
                 .setNegativeButton("Chat", new DialogInterface.OnClickListener() {
@@ -441,14 +441,14 @@ public class LesseeConsultant extends AppCompatActivity {
         alert.show();
     }
 
-    public void contactUs(String emailAddress) {
-        Intent i = new Intent(Intent.ACTION_SEND);
-        i.setType("message/rfc822");
-        i.putExtra(Intent.EXTRA_EMAIL, new String[]{emailAddress});
-        try {
-            startActivity(Intent.createChooser(i, "Send mail..."));
-        } catch (android.content.ActivityNotFoundException ex) {
-            Toast.makeText(LesseeConsultant.this, "There are no Email Clients installed.", Toast.LENGTH_SHORT).show();
-        }
-    }
+//    public void contactUs(String emailAddress) {
+//        Intent i = new Intent(Intent.ACTION_SEND);
+//        i.setType("message/rfc822");
+//        i.putExtra(Intent.EXTRA_EMAIL, new String[]{emailAddress});
+//        try {
+//            startActivity(Intent.createChooser(i, "Send mail..."));
+//        } catch (android.content.ActivityNotFoundException ex) {
+//            Toast.makeText(LesseeConsultant.this, "There are no Email Clients installed.", Toast.LENGTH_SHORT).show();
+//        }
+//    }
 }

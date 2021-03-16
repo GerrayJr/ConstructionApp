@@ -222,14 +222,16 @@ public class FacilityLocation extends AppCompatActivity {
         adapter = new FirebaseRecyclerAdapter<LocationClass, LocationViewHolder>(options) {
             @Override
             protected void onBindViewHolder(@NonNull LocationViewHolder holder, int position, @NonNull LocationClass model) {
-                String userID = model.getUserID();
                 String latitude = String.valueOf(model.getLatitude());
                 String longitude = String.valueOf(model.getLongitude());
-                if (userID.equals(locateAuth.getUid())) {
+
+                if (locateAuth.getUid().equals(model.getUserID()))
+                {
+
                     holder.tvLat.setText(latitude);
                     holder.tvLong.setText(longitude);
-                } else {
-                    recyclerView.setVisibility(View.GONE);
+                }else {
+                    holder.itemView.setVisibility(View.INVISIBLE);
                 }
             }
 

@@ -38,7 +38,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/ed_work"
+                android:id="@+id/ed_pop_work"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
@@ -61,10 +61,10 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/ed_consultant"
+                android:id="@+id/ed_pop_consultant"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/ed_work"
+                android:layout_below="@id/ed_pop_work"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="15dp"
                 android:layout_toEndOf="@id/tv_consultant"
@@ -84,10 +84,10 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/ed_date"
+                android:id="@+id/ed_pop_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/ed_consultant"
+                android:layout_below="@id/ed_pop_consultant"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="15dp"
                 android:layout_toEndOf="@id/tv_date"
@@ -107,10 +107,10 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/ed_status"
+                android:id="@+id/ed_pop_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/ed_date"
+                android:layout_below="@id/ed_pop_date"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="15dp"
                 android:layout_toEndOf="@id/tv_status"
@@ -130,10 +130,10 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/ed_cost"
+                android:id="@+id/ed_pop_cost"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/ed_status"
+                android:layout_below="@id/ed_pop_status"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="15dp"
                 android:layout_toEndOf="@id/tv_cost"
