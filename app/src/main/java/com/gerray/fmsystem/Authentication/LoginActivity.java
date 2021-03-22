@@ -79,7 +79,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     if (task.isSuccessful()) {
                         finish();
                         Toast.makeText(LoginActivity.this, "Success", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(LoginActivity.this, UserSelector.class));
+                        startActivity(new Intent(LoginActivity.this, PermissionActivity.class));
 
                     } else {
                         Toast.makeText(LoginActivity.this, "Login Failed", Toast.LENGTH_SHORT).show();

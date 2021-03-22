@@ -38,7 +38,8 @@
             android:layout_height="match_parent"
             android:layout_above="@id/bottom_nav"
             android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"/>
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="@dimen/abc_action_bar_default_height_material" />
 
     </RelativeLayout>
 

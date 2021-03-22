@@ -84,6 +84,9 @@ public class ChatFragment extends Fragment {
                         startActivity(intent);
                     });
 
+                } else {
+                    holder.itemView.setVisibility(View.GONE);
+                    holder.itemView.setLayoutParams(new RecyclerView.LayoutParams(0, 0));
                 }
                 if (firebaseUser.getUid().equals(model.receiverID)) {
                     holder.contactName.setText(model.getReceiverContact());
@@ -98,6 +101,9 @@ public class ChatFragment extends Fragment {
                         startActivity(intent);
                     });
 
+                } else {
+                    holder.itemView.setVisibility(View.GONE);
+                    holder.itemView.setLayoutParams(new RecyclerView.LayoutParams(0, 0));
                 }
             }
 
@@ -106,11 +112,15 @@ public class ChatFragment extends Fragment {
             public ChatViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
                 return new ChatViewHolder(LayoutInflater.from(getActivity()).inflate(R.layout.chat_card, parent, false));
             }
-        };
+        }
+
+        ;
 
 
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view_chat);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setLayoutManager(new
+
+                LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(firebaseRecyclerAdapter);
         firebaseRecyclerAdapter.startListening();
         // Inflate the layout for this fragment

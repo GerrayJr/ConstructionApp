@@ -197,11 +197,13 @@ public class FacilityLocation extends AppCompatActivity {
 
                 if (locateAuth.getUid().equals(model.getUserID()))
                 {
-
+                    holder.itemView.setVisibility(View.VISIBLE);
+                    holder.itemView.setLayoutParams(new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                     holder.tvLat.setText(latitude);
                     holder.tvLong.setText(longitude);
                 }else {
-                    holder.itemView.setVisibility(View.INVISIBLE);
+                    holder.itemView.setVisibility(View.GONE);
+                    holder.itemView.setLayoutParams(new RecyclerView.LayoutParams(0, 0));
                 }
             }
 

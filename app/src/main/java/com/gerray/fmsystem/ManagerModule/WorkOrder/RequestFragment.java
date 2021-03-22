@@ -86,6 +86,8 @@ public class RequestFragment extends Fragment {
                                 for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
                                     String user = Objects.requireNonNull(dataSnapshot1.child("userID").getValue()).toString();
                                     if (user.equals(lesseeID)) {
+                                        holder.itemView.setVisibility(View.VISIBLE);
+//                                        holder.itemView.setLayoutParams(new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                                         final String lesseeName = Objects.requireNonNull(dataSnapshot1.child("lesseeName").getValue()).toString();
                                         holder.tvRoom.setText(dataSnapshot1.getKey());
                                         holder.tvLessee.setText(lesseeName);
@@ -118,7 +120,7 @@ public class RequestFragment extends Fragment {
                                                                             dbRef.child("Requests").child(key).removeValue()
                                                                                     .addOnCompleteListener(task -> {
                                                                                         if (task.isSuccessful()) {
-                                                                                            Log.d("Remove Request","Successfully Removed");
+                                                                                            Log.d("Remove Request", "Successfully Removed");
                                                                                         } else {
                                                                                             Log.d("Remove Request", "Request couldn't be deleted");
                                                                                         }
@@ -146,6 +148,9 @@ public class RequestFragment extends Fragment {
                                     }
                                 }
 
+                            } else {
+                                holder.itemView.setVisibility(View.GONE);
+                                holder.itemView.setLayoutParams(new RecyclerView.LayoutParams(0, 0));
                             }
 
                         }

@@ -17,6 +17,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:icon">
+        <activity android:name=".Authentication.PermissionActivity"></activity>
         <activity android:name=".LesseeModule.LesseeProfileActivity" />
         <activity android:name=".Transactions.MpesaAcitivity" />
         <activity android:name=".LesseeModule.LesseeWorkDetails" />
