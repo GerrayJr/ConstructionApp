@@ -75,6 +75,22 @@
         <item>Company</item>
     </string-array>
 
+    <string-array name="lessee_activities">
+        <item>Convenience store</item>
+        <item>Speciality store</item>
+        <item>Supermarket</item>
+        <item>Discount store</item>
+        <item>Warehouse/Direct Retailer</item>
+        <item>Health and wellness</item>
+        <item>Bookstores</item>
+        <item>Design and home goods</item>
+        <item>Children’s products</item>
+        <item>Cosmetics and skincare</item>
+        <item>Jewelry stores</item>
+        <item> Mobile clothing boutique</item>
+        <item>Financial/Banking Offices</item>
+    </string-array>
+
     <string name="cons_specs">Specialization</string>
     <string-array name="consultant_specialization">
         <item>Drywall repair and installation</item>

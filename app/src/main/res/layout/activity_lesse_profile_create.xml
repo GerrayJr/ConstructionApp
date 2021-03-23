@@ -47,7 +47,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="start"
             android:layout_marginStart="20dp"
-            android:entries="@array/activity_array"
+            android:entries="@array/lessee_activities"
             android:padding="10dp"
             android:prompt="@string/Type_prompt"
             android:spinnerMode="dropdown"

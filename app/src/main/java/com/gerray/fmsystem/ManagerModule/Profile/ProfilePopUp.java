@@ -82,7 +82,7 @@ public class ProfilePopUp extends AppCompatActivity {
         databaseReference = FirebaseDatabase.getInstance().getReference().child("Facilities").child(currentUser.getUid());
         mStorageRef = FirebaseStorage.getInstance().getReference().child("Facilities").child(currentUser.getUid());
         progressDialog = new ProgressDialog(this);
-        progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 
         if (auth.getCurrentUser() != null) {
             databaseReference.child("Profile")

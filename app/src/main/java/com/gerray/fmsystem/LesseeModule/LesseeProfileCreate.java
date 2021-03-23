@@ -27,7 +27,7 @@ import java.util.UUID;
 public class LesseeProfileCreate extends AppCompatActivity {
     private TextInputEditText bznName;
     private Spinner activitySpinner;
-    DatabaseReference databaseReference;
+    DatabaseReference databaseReference, reference;
     FirebaseAuth auth;
     ProgressDialog progressDialog;
 
@@ -93,6 +93,8 @@ public class LesseeProfileCreate extends AppCompatActivity {
                             LesCreate lesCreate = new LesCreate(contactName, name, activity, lesseeID, userID, null);
                             assert userID != null;
                             databaseReference.child(userID).setValue(lesCreate);
+                            reference = databaseReference.child("Profile");
+                            reference.setValue(lesCreate);
                             progressDialog.dismiss();
                             LesseeProfileCreate.this.finish();
                             Toast.makeText(LesseeProfileCreate.this, "Welcome", Toast.LENGTH_SHORT).show();
