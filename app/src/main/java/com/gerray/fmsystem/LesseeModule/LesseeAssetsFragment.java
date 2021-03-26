@@ -95,7 +95,8 @@ public class LesseeAssetsFragment extends Fragment {
                     alertDialog.setMessage(model.getAssetName())
                             .setCancelable(false)
                             .setPositiveButton("Maintenance", (dialog, which) -> startActivity(new Intent(getActivity(), LesseeWorkDetails.class)
-                                    .putExtra("description", "Asset Maintenance/Repair")))
+                                    .putExtra("description", "Asset Maintenance/Repair")
+                                    .putExtra("imageUrl", model.getmImageUrl())))
                             .setNegativeButton("Remove Asset", (dialog, which) -> {
                                 DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
                                 databaseReference.child("Lessees").child(currentUser.getUid()).child("Assets").child(model.getAssetID()).removeValue()

@@ -32,7 +32,7 @@
             android:textSize="15sp" />
 
         <TextView
-            android:id="@+id/tv_room"
+            android:id="@+id/tv_facilityInd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_description"
@@ -49,7 +49,7 @@
             android:layout_below="@+id/tv_work"
             android:layout_marginStart="5dp"
             android:layout_marginTop="11dp"
-            android:layout_toEndOf="@+id/tv_room"
+            android:layout_toEndOf="@+id/tv_facilityInd"
             android:text=""
             android:textSize="14sp" />
 
@@ -57,9 +57,9 @@
             android:id="@+id/tv_lessee"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_room"
+            android:layout_below="@+id/tv_description"
             android:layout_marginStart="60dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="40dp"
             android:layout_toEndOf="@+id/tv_workDate"
             android:text="Status:"
             android:textSize="12sp"
@@ -70,8 +70,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_consultant"
-            android:layout_marginTop="11dp"
+            android:layout_marginTop="10dp"
             android:layout_toEndOf="@+id/tv_lessee"
+            android:layout_marginStart="5dp"
             android:text=""
             android:textSize="12sp" />
 
@@ -79,9 +80,9 @@
             android:id="@+id/tv_requestDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_room"
+            android:layout_below="@+id/tv_description"
             android:layout_marginStart="15dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="40dp"
             android:text="Date Issued:"
             android:textSize="12sp"
             android:textStyle="bold" />
@@ -91,7 +92,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_consultant"
-            android:layout_marginTop="11dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="5dp"
             android:layout_toEndOf="@+id/tv_requestDate"
             android:text=""
             android:textSize="12sp" />

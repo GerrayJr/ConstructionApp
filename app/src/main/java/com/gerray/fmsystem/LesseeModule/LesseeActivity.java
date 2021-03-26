@@ -4,6 +4,9 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -16,6 +19,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.gerray.fmsystem.Authentication.LoginActivity;
+import com.gerray.fmsystem.ManagerModule.FacilityManager;
 import com.gerray.fmsystem.R;
 import com.gerray.fmsystem.Transactions.TransactionActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -27,6 +31,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
+
+import java.util.Objects;
 
 public class LesseeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private FirebaseAuth auth;
@@ -35,11 +42,11 @@ public class LesseeActivity extends AppCompatActivity implements NavigationView.
     FirebaseUser firebaseUser;
 
     private DrawerLayout drawerLayout;
+    Toolbar toolbar;
 
     private LesseeAssetsFragment lesseeAssetsFragment;
     private LesseeChatFragment lesseeChatFragment;
     private LesseeRequestFragment lesseeRequestFragment;
-
 
 
     @SuppressLint("NonConstantResourceId")
@@ -49,6 +56,13 @@ public class LesseeActivity extends AppCompatActivity implements NavigationView.
         setContentView(R.layout.activity_lessee);
 
         auth = FirebaseAuth.getInstance();
+        toolbar = findViewById(R.id.toolbar);
+
+        NavigationView navigationView = findViewById(R.id.nav_view_lessee);
+        View hView = navigationView.inflateHeaderView(R.layout.nav_header_lessee);
+
+        TextView textView = hView.findViewById(R.id.nav_lessee_tv);
+        ImageView imageView = hView.findViewById(R.id.nav_lessee_image);
 
         firebaseDatabase = FirebaseDatabase.getInstance();
         firebaseDatabaseReference = firebaseDatabase.getReference();
@@ -60,11 +74,19 @@ public class LesseeActivity extends AppCompatActivity implements NavigationView.
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             if (snapshot.child(firebaseUser.getUid()).exists()) {
-                                reference.child("Lessee").child(firebaseUser.getUid())
+                                reference.child("Lessees").child(firebaseUser.getUid()).child("Profile")
                                         .addValueEventListener(new ValueEventListener() {
                                             @Override
                                             public void onDataChange(@NonNull DataSnapshot snapshot) {
-
+                                                if (snapshot.child("lesseeName").exists()) {
+                                                    String lesseeName = Objects.requireNonNull(snapshot.child("lesseeName").getValue()).toString();
+                                                    toolbar.setTitle(lesseeName);
+                                                    textView.setText(lesseeName);
+                                                }
+                                                if (snapshot.child("uri").exists()) {
+                                                    String imageUrl = Objects.requireNonNull(snapshot.child("uri").getValue()).toString().trim();
+                                                    Picasso.with(LesseeActivity.this).load(imageUrl).into(imageView);
+                                                }
                                             }
 
                                             @Override
@@ -123,7 +145,7 @@ public class LesseeActivity extends AppCompatActivity implements NavigationView.
         });
         mNav.setSelectedItemId(R.id.nav_lesseeChat);
 
-        NavigationView navigationView = findViewById(R.id.nav_view_lessee);
+
         navigationView.setNavigationItemSelectedListener(item -> {
             switch (item.getItemId()) {
 
@@ -141,7 +163,7 @@ public class LesseeActivity extends AppCompatActivity implements NavigationView.
                     startActivity(new Intent(LesseeActivity.this, LesseeConsultant.class));
                     break;
                 case R.id.drawer_lessee_profile:
-                    startActivity(new Intent(LesseeActivity.this,LesseeProfileActivity.class));
+                    startActivity(new Intent(LesseeActivity.this, LesseeProfileActivity.class));
                     break;
                 case R.id.drawer_lessee_share:
                     shareApp();

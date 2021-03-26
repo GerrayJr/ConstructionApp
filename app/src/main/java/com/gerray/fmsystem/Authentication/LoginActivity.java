@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -16,7 +17,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
     private TextInputEditText logEmail, logPass;
-    private Button btnLogin, btnCreate, btnForgot;
+    private Button btnLogin, btnCreate;
     private ProgressDialog dialog;
     private FirebaseAuth auth;
 
@@ -34,9 +35,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         btnCreate = findViewById(R.id.btn_create);
         btnCreate.setOnClickListener(this);
 
-        btnForgot = findViewById(R.id.btn_forgot);
-        btnForgot.setOnClickListener(this);
-
         auth = FirebaseAuth.getInstance();
         dialog = new ProgressDialog(this);
 
@@ -45,19 +43,17 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     public void onClick(View v) {
         if (v == btnLogin) {
+
             loginUser();
 //            startActivity(new Intent(LoginActivity.this, FacilityManager.class));
         } else if (v == btnCreate) {
             startActivity(new Intent(this, CreateActivity.class));
 
-        } else if (v == btnForgot) {
-            //To be created
-            Toast.makeText(this, "Forgot Password", Toast.LENGTH_SHORT).show();
         }
-
     }
 
     private void loginUser() {
+        hideSoftKeyboard();
         String email = logEmail.getText().toString().trim();
         String password = logPass.getText().toString().trim();
 
@@ -86,5 +82,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     }
 
                 });
+    }
+    private void hideSoftKeyboard(){
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
     }
 }

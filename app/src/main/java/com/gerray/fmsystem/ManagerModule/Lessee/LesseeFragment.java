@@ -92,7 +92,11 @@ public class LesseeFragment extends Fragment {
                     alertDialog.setMessage(model.getLesseeName())
                             .setCancelable(false)
                             .setPositiveButton("View Profile", (dialog, which) -> {
-
+//                                startActivity(new Intent(getContext(), ViewLessee.class)
+//                                        .putExtra("lesseeID", model.getLesseeID()));
+                                Intent intent = new Intent(getActivity(),ViewLessee.class);
+                                intent.putExtra("lesseeID",model.getUserID());
+                                startActivity(intent);
                             })
 
                             .setNegativeButton("Remove Lessee", (dialog, which) -> {

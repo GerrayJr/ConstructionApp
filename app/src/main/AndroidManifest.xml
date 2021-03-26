@@ -17,6 +17,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:icon">
+        <activity android:name=".ManagerModule.Lessee.ViewLessee"
+            android:theme="@style/Theme.AppCompat.DayNight.Dialog"/>
         <activity
             android:name=".LesseeModule.LesseeProfileUpdate"
             android:theme="@style/Theme.AppCompat.DayNight.Dialog" />

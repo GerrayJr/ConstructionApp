@@ -5,12 +5,16 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.preference.PreferenceGroupAdapter;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.MergeAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
+import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
@@ -36,6 +40,8 @@ public class ContractorWork extends Fragment {
     FirebaseRecyclerOptions<LesseeDetailsClass> firebaseRecyclerOptions;
     FirebaseRecyclerOptions<DetailsClass> options;
     FirebaseUser firebaseUser;
+    FirebaseAuth auth;
+    MergeAdapter mergeAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -55,6 +61,7 @@ public class ContractorWork extends Fragment {
         if (adapter != null) {
             adapter.stopListening();
         }
+        mergeAdapter = new MergeAdapter(adapter, firebaseRecyclerAdapter);
     }
 
     public void onStart() {
@@ -66,7 +73,21 @@ public class ContractorWork extends Fragment {
         adapter.notifyDataSetChanged();
         // Check if user is signed in (non-null) and update UI accordingly.
 //        FirebaseUser currentUser = auth.getCurrentUser();
+        mergeAdapter = new MergeAdapter(adapter, firebaseRecyclerAdapter);
 
+    }
+
+    public void onResume() {
+        super.onResume();
+        firebaseRecyclerAdapter.startListening();
+        firebaseRecyclerAdapter.notifyDataSetChanged();
+
+        adapter.startListening();
+        adapter.notifyDataSetChanged();
+
+        mergeAdapter = new MergeAdapter(adapter, firebaseRecyclerAdapter);
+        // Check if user is signed in (non-null) and update UI accordingly.
+//        FirebaseUser currentUser = auth.getCurrentUser()
     }
 
     @Override
@@ -76,13 +97,18 @@ public class ContractorWork extends Fragment {
         View view = inflater.inflate(R.layout.fragment_consultant_work, container, false);
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        auth = FirebaseAuth.getInstance();
+        String userID = auth.getUid();
+        assert userID != null;
+//        Toast.makeText(getActivity(), userID, Toast.LENGTH_SHORT).show();
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("Work Orders");
 
         options = new FirebaseRecyclerOptions.Builder<DetailsClass>().setQuery(databaseReference, DetailsClass.class).build();
         firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<DetailsClass, WorkViewHolder>(options) {
             @Override
             protected void onBindViewHolder(@NonNull final WorkViewHolder holder, int position, @NonNull final DetailsClass model) {
-                if (model.getConsultantID().equals(firebaseUser.getUid())) {
+                if (userID.equals(model.consultantID)) {
                     holder.tvStatus.setText(model.getStatus());
                     holder.tvWork.setText(model.getWorkDescription());
                     holder.tvWorkDate.setText(model.getWorkDate());
@@ -100,12 +126,16 @@ public class ContractorWork extends Fragment {
 
                             }
                         });
+                    } else {
+                        holder.itemView.setVisibility(View.GONE);
+                        holder.itemView.setLayoutParams(new RecyclerView.LayoutParams(0, 0));
                     }
                 }
 
                 holder.itemView.setOnClickListener(v -> {
                     Intent intent = new Intent(getActivity(), EditWorkDetails.class);
-                    intent.putExtra("workID", model.getWorkID());
+                    intent.putExtra("workID", model.workID);
+                    intent.putExtra("userID", model.fManagerID);
                     startActivity(intent);
                 });
 
@@ -123,11 +153,12 @@ public class ContractorWork extends Fragment {
         adapter = new FirebaseRecyclerAdapter<LesseeDetailsClass, WorkViewHolder>(firebaseRecyclerOptions) {
             @Override
             protected void onBindViewHolder(@NonNull WorkViewHolder holder1, int position, @NonNull LesseeDetailsClass model) {
-                if (model.getConsultantID().equals(firebaseUser.getUid())) {
+                if ((userID.equals(model.consultantID))) {
                     holder1.tvStatus.setText(model.getStatus());
                     holder1.tvWork.setText(model.getWorkDescription());
                     holder1.tvWorkDate.setText(model.getWorkDate());
-                    String lesseeID = model.getLesseeID();
+                    holder1.textView.setText("Requester:");
+                    String lesseeID = model.lesseeID;
                     if (lesseeID != null) {
                         dbRef = FirebaseDatabase.getInstance().getReference().child("Lessees").child(model.getLesseeID());
                         dbRef.addValueEventListener(new ValueEventListener() {
@@ -141,13 +172,17 @@ public class ContractorWork extends Fragment {
 
                             }
                         });
+                    } else {
+                        holder1.itemView.setVisibility(View.GONE);
+                        holder1.itemView.setLayoutParams(new RecyclerView.LayoutParams(0, 0));
                     }
-                    holder1.itemView.setOnClickListener(v -> {
-                        Intent intent = new Intent(getActivity(), EditWorkDetails.class);
-                        intent.putExtra("workID", model.getWorkID());
-                        startActivity(intent);
-                    });
                 }
+                holder1.itemView.setOnClickListener(v -> {
+                    Intent intent = new Intent(getActivity(), EditWorkDetails.class);
+                    intent.putExtra("workID", model.workID);
+                    intent.putExtra("userID", model.lesseeID);
+                    startActivity(intent);
+                });
             }
 
             @NonNull
@@ -160,10 +195,11 @@ public class ContractorWork extends Fragment {
 
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view_consWork);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.setAdapter(firebaseRecyclerAdapter);
+
+        mergeAdapter = new MergeAdapter(adapter, firebaseRecyclerAdapter);
+        recyclerView.setAdapter(mergeAdapter);
         firebaseRecyclerAdapter.startListening();
-
-
+        adapter.startListening();
         return view;
     }
 }

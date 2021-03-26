@@ -25,7 +25,7 @@ public class InfoWindow implements GoogleMap.InfoWindowAdapter {
         String title = marker.getTitle();
         String type = marker.getSnippet();
         TextView tvTitle = view.findViewById(R.id.title);
-        TextView tvType = view.findViewById(R.id.type);
+//        TextView tvType = view.findViewById(R.id.type);
 
         if(!title.equals(""))
         {
@@ -34,7 +34,7 @@ public class InfoWindow implements GoogleMap.InfoWindowAdapter {
 
         if (!type.equals(""))
         {
-            tvType.setText(type);
+//            tvType.setText(type);
         }
     }
 

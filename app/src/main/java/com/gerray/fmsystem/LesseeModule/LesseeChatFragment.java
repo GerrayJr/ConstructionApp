@@ -47,11 +47,7 @@ public class LesseeChatFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_lessee_chat, container, false);
-        FloatingActionButton selectChat = v.findViewById(R.id.fab_text);
-        selectChat.setOnClickListener(v1 -> {
-            Intent intent = new Intent(getActivity(), ChatSelectFM.class);
-            startActivityForResult(intent, 1);
-        });
+
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("ChatRooms");
 
@@ -71,8 +67,7 @@ public class LesseeChatFragment extends Fragment {
                         startActivity(intent);
                     });
 
-                }
-                if (firebaseUser.getUid().equals(model.receiverID)) {
+                } else if (firebaseUser.getUid().equals(model.receiverID)) {
                     holder.lesseeName.setText(model.getSenderName());
                     holder.time.setText(String.valueOf(model.getTime()));
                     holder.itemView.setOnClickListener(v13 -> {
@@ -84,6 +79,9 @@ public class LesseeChatFragment extends Fragment {
                         startActivity(intent);
                     });
 
+                } else {
+                    holder.itemView.setVisibility(View.GONE);
+                    holder.itemView.setLayoutParams(new RecyclerView.LayoutParams(0, 0));
                 }
             }
 

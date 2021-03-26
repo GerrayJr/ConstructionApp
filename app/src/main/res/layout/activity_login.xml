@@ -78,14 +78,6 @@
             android:textColor="#000"
             android:textStyle="italic" />
 
-        <Button
-            android:id="@+id/btn_forgot"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_margin="10dp"
-            android:elevation="0dp"
-            android:text="@string/forgot_password" />
 
     </LinearLayout>
 

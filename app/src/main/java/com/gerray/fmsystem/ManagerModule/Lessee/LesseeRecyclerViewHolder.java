@@ -17,6 +17,6 @@ public class LesseeRecyclerViewHolder extends RecyclerView.ViewHolder {
         contactName = itemView.findViewById(R.id.tv_contactName);
         lesseeName = itemView.findViewById(R.id.tv_lesseeName);
         activity = itemView.findViewById(R.id.tv_lesseeActivity);
-        room = itemView.findViewById(R.id.tv_room);
+        room = itemView.findViewById(R.id.tv_facilityInd);
     }
 }

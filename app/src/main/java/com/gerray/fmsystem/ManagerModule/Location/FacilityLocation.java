@@ -116,9 +116,9 @@ public class FacilityLocation extends AppCompatActivity {
                                             }
 
                                             LocationClass locationClass = new LocationClass(facilityName, facilityType, facilityEmail, locLatitude, locLongitude, firebaseUser.getUid());
-//                                                    databaseReference.child(firebaseUser.getUid()).setValue(locationClass);
-                                            DatabaseReference dbLoc = databaseReference.push();
-                                            dbLoc.setValue(locationClass);
+                                            databaseReference.child(firebaseUser.getUid()).setValue(locationClass);
+//                                            DatabaseReference dbLoc = databaseReference.push();
+//                                            dbLoc.setValue(locationClass);
 
                                             progressDialog.dismiss();
                                             Toast.makeText(FacilityLocation.this, "Saved", Toast.LENGTH_SHORT).show();
@@ -247,9 +247,9 @@ public class FacilityLocation extends AppCompatActivity {
                                     }
 
                                     LocationClass locationClass = new LocationClass(facilityName, facilityType, facilityEmail, latitude, longitude, firebaseUser.getUid());
-//                                    databaseReference.child(firebaseUser.getUid()).setValue(locationClass);
-                                    DatabaseReference dbLoc = databaseReference.push();
-                                    dbLoc.setValue(locationClass);
+                                    databaseReference.child(firebaseUser.getUid()).setValue(locationClass);
+//                                    DatabaseReference dbLoc = databaseReference.push();
+//                                    dbLoc.setValue(locationClass);
 
                                     progressDialog.dismiss();
                                     Toast.makeText(FacilityLocation.this, "Saved", Toast.LENGTH_SHORT).show();

@@ -1,11 +1,5 @@
 package com.gerray.fmsystem.LesseeModule;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -21,6 +15,12 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.gerray.fmsystem.R;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -256,62 +256,64 @@ public class FindFacility extends AppCompatActivity implements OnMapReadyCallbac
             firebaseDatabaseReference.addChildEventListener(new ChildEventListener() {
                 @Override
                 public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                    LatLng facilityLoc = new LatLng(
-                            snapshot.child("latitude").getValue(Double.class),
-                            snapshot.child("longitude").getValue(Double.class)
-                    );
-                    String facilityType = Objects.requireNonNull(snapshot.child("facilityType").getValue()).toString();
-                    String facilityName = snapshot.child("facilityName").getValue(String.class);
-                    String facilityUserID = snapshot.child("userID").getValue(String.class);
-                    if (facilityType.equals("Industrial")) {
-                        mMap.addMarker(new MarkerOptions()
-                                .position(facilityLoc)
-                                .title(facilityName)
-                                .snippet(facilityUserID)
-                                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
-                    }
-                    if (facilityType.equals("Retail spaces")) {
-                        mMap.addMarker(new MarkerOptions()
-                                .position(facilityLoc)
-                                .title(facilityName)
-                                .snippet(facilityUserID)
-                                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
-                    }
-                    if (facilityType.equals("Schools and institutional")) {
-                        mMap.addMarker(new MarkerOptions()
-                                .position(facilityLoc)
-                                .title(facilityName)
-                                .snippet(facilityUserID)
-                                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
-                    }
-                    if (facilityType.equals("Laboratory facilities")) {
-                        mMap.addMarker(new MarkerOptions()
-                                .position(facilityLoc)
-                                .title(facilityName)
-                                .snippet(facilityUserID)
-                                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA)));
-                    }
-                    if (facilityType.equals("Convention centers")) {
-                        mMap.addMarker(new MarkerOptions()
-                                .position(facilityLoc)
-                                .title(facilityName)
-                                .snippet(facilityUserID)
-                                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)));
-                    }
-                    if (facilityType.equals("Public facilities")) {
-                        mMap.addMarker(new MarkerOptions()
-                                .position(facilityLoc)
-                                .title(facilityName)
-                                .snippet(facilityUserID)
-                                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
-                    }
-                    if (facilityType.equals("Hotels and multi story residential buildings")) {
-                        mMap.addMarker(new MarkerOptions()
-                                .position(facilityLoc)
-                                .title(facilityName)
-                                .snippet(facilityUserID)
-                                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET)));
-                    }
+
+                        LatLng facilityLoc = new LatLng(
+                                snapshot.child("latitude").getValue(Double.class),
+                                snapshot.child("longitude").getValue(Double.class)
+                        );
+                        String facilityType = Objects.requireNonNull(snapshot.child("facilityType").getValue()).toString();
+                        String facilityName = snapshot.child("facilityName").getValue(String.class);
+                        String facilityUserID = snapshot.child("userID").getValue(String.class);
+                        if (facilityType.equals("Industrial")) {
+                            mMap.addMarker(new MarkerOptions()
+                                    .position(facilityLoc)
+                                    .title(facilityName)
+                                    .snippet(facilityUserID)
+                                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+                        }
+                        if (facilityType.equals("Retail spaces")) {
+                            mMap.addMarker(new MarkerOptions()
+                                    .position(facilityLoc)
+                                    .title(facilityName)
+                                    .snippet(facilityUserID)
+                                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
+                        }
+                        if (facilityType.equals("Schools and institutional")) {
+                            mMap.addMarker(new MarkerOptions()
+                                    .position(facilityLoc)
+                                    .title(facilityName)
+                                    .snippet(facilityUserID)
+                                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+                        }
+                        if (facilityType.equals("Laboratory facilities")) {
+                            mMap.addMarker(new MarkerOptions()
+                                    .position(facilityLoc)
+                                    .title(facilityName)
+                                    .snippet(facilityUserID)
+                                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA)));
+                        }
+                        if (facilityType.equals("Convention centers")) {
+                            mMap.addMarker(new MarkerOptions()
+                                    .position(facilityLoc)
+                                    .title(facilityName)
+                                    .snippet(facilityUserID)
+                                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)));
+                        }
+                        if (facilityType.equals("Public facilities")) {
+                            mMap.addMarker(new MarkerOptions()
+                                    .position(facilityLoc)
+                                    .title(facilityName)
+                                    .snippet(facilityUserID)
+                                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+                        }
+                        if (facilityType.equals("Hotels and multi story residential buildings")) {
+                            mMap.addMarker(new MarkerOptions()
+                                    .position(facilityLoc)
+                                    .title(facilityName)
+                                    .snippet(facilityUserID)
+                                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET)));
+                        }
+
                 }
 
                 @Override
@@ -348,7 +350,7 @@ public class FindFacility extends AppCompatActivity implements OnMapReadyCallbac
             String fcName = marker1.getTitle();
             String fcID = marker1.getSnippet();
 
-            Intent viewInfo = new Intent(FindFacility.this,FacilityInformation.class);
+            Intent viewInfo = new Intent(FindFacility.this, FacilityInformation.class);
             viewInfo.putExtra("title", fcName);
             viewInfo.putExtra("userID", fcID);
             startActivity(viewInfo);

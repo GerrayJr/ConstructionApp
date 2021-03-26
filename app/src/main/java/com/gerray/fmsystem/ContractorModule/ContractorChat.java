@@ -64,6 +64,20 @@ public class ContractorChat extends Fragment {
                         startActivity(intent);
                     });
 
+                } else if (firebaseUser.getUid().equals(model.senderID)) {
+                    holder.contactName.setText(model.getReceiverContact());
+                    holder.time.setText(String.valueOf(model.getTime()));
+                    holder.itemView.setOnClickListener(v -> {
+                        Intent intent = new Intent(getActivity(), ChatActivity.class);
+                        intent.putExtra("receiverName", model.getReceiverContact());
+                        intent.putExtra("receiverID", model.getReceiverID());
+                        intent.putExtra("senderName", model.getSenderName());
+                        intent.putExtra("chatID", model.getChatID());
+                        startActivity(intent);
+                    });
+                } else {
+                    holder.itemView.setVisibility(View.GONE);
+                    holder.itemView.setLayoutParams(new RecyclerView.LayoutParams(0, 0));
                 }
 
             }
@@ -73,10 +87,14 @@ public class ContractorChat extends Fragment {
             public ChatViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
                 return new ChatViewHolder(LayoutInflater.from(getActivity()).inflate(R.layout.chat_card, parent, false));
             }
-        };
+        }
+
+        ;
 
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view_chat);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setLayoutManager(new
+
+                LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(firebaseRecyclerAdapter);
         firebaseRecyclerAdapter.startListening();
         // Inflate the layout for this fragment

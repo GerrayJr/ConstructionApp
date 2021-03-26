@@ -14,7 +14,7 @@ public class LesseeRequestHolder extends RecyclerView.ViewHolder {
     public LesseeRequestHolder(@NonNull View itemView) {
         super(itemView);
         tvDate = itemView.findViewById(R.id.tv_requestDate);
-        tvRoom = itemView.findViewById(R.id.tv_room);
+        tvRoom = itemView.findViewById(R.id.tv_facilityInd);
         tvLessee = itemView.findViewById(R.id.tv_lessee);
         tvDescription = itemView.findViewById(R.id.tv_description);
     }

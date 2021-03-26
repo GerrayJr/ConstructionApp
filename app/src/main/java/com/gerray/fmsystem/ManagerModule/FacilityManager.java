@@ -4,6 +4,9 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -35,6 +38,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.util.Objects;
 
@@ -50,7 +54,7 @@ public class FacilityManager extends AppCompatActivity implements NavigationView
 
     private FirebaseAuth auth;
     FirebaseDatabase firebaseDatabase;
-    DatabaseReference firebaseDatabaseReference, reference;
+    DatabaseReference firebaseDatabaseReference, reference, dbRef;
     FirebaseUser firebaseUser;
 
     @SuppressLint("NonConstantResourceId")
@@ -62,9 +66,17 @@ public class FacilityManager extends AppCompatActivity implements NavigationView
         setContentView(R.layout.activity_facility_manager);
         auth = FirebaseAuth.getInstance();
 
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        View hView = navigationView.inflateHeaderView(R.layout.nav_header);
+
+        TextView textView = hView.findViewById(R.id.nav_fm_tv);
+        ImageView imageView = hView.findViewById(R.id.nav_fm_image);
+
+
         firebaseDatabase = FirebaseDatabase.getInstance();
         firebaseDatabaseReference = firebaseDatabase.getReference();
         reference = firebaseDatabase.getReference();
+        dbRef = firebaseDatabase.getReference();
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         if (firebaseUser != null) {
             firebaseDatabaseReference.child("Facilities")
@@ -86,6 +98,7 @@ public class FacilityManager extends AppCompatActivity implements NavigationView
                                                 if (snapshot.child("name").exists()) {
                                                     facilityName = Objects.requireNonNull(snapshot.child("name").getValue()).toString();
                                                     toolbar.setTitle(facilityName);
+                                                    textView.setText(facilityName);
                                                 }
 
                                                 Toast.makeText(FacilityManager.this, facilityName + " " + managerName, Toast.LENGTH_SHORT).show();
@@ -113,6 +126,22 @@ public class FacilityManager extends AppCompatActivity implements NavigationView
 
                         }
                     });
+            dbRef.child("Facilities").child(firebaseUser.getUid()).child("Profile");
+            dbRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.child("facilityImageUrl").exists()) {
+                        String imageUrl = Objects.requireNonNull(snapshot.child("facilityImageUrl").getValue()).toString().trim();
+                        Picasso.with(FacilityManager.this).load(imageUrl).into(imageView);
+                    }
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
 
         }
 
@@ -133,7 +162,6 @@ public class FacilityManager extends AppCompatActivity implements NavigationView
         requestFragment = new RequestFragment();
 
         setFragment(workFragment);
-        NavigationView navigationView = findViewById(R.id.nav_view);
 
         navigationView.setNavigationItemSelectedListener(item -> {
             switch (item.getItemId()) {

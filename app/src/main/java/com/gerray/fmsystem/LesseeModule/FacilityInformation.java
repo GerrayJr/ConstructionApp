@@ -9,7 +9,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.gerray.fmsystem.CommunicationModule.ChatActivity;
+import com.gerray.fmsystem.CommunicationModule.ChatClass;
+import com.gerray.fmsystem.ManagerModule.Consultants.FacilityConsultant;
 import com.gerray.fmsystem.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -17,15 +22,19 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Objects;
+import java.util.UUID;
 
 public class FacilityInformation extends AppCompatActivity {
 
     FirebaseDatabase firebaseDatabase;
-    DatabaseReference firebaseDatabaseReference, reference;
+    DatabaseReference firebaseDatabaseReference, reference, dbREf, reference1;
 
     private TextView facilityName, facilityAuth, facilityManager, facilityPostal, facilityEmail, facilityActivity, facilityOccupancy;
     private ImageView facilityImageView;
+    FirebaseAuth user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,22 +83,56 @@ public class FacilityInformation extends AppCompatActivity {
                         facilityPostal.setText(postal);
                         String imageUrl = Objects.requireNonNull(snapshot.child("facilityImageUrl").getValue()).toString().trim();
                         Picasso.with(FacilityInformation.this).load(imageUrl).into(facilityImageView);
+
+                        reference = firebaseDatabase.getReference().child("Facilities").child(userID);
+                        reference.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                if (snapshot.child("facilityManager").exists()) {
+                                    String facManager = Objects.requireNonNull(snapshot.child("facilityManager").getValue()).toString().trim();
+                                    facilityManager.setText(facManager);
+
+                                    final String chatID = String.valueOf(UUID.randomUUID());
+                                    final Date currentTime = Calendar.getInstance().getTime();
+                                    user = FirebaseAuth.getInstance();
+                                    FirebaseUser firebaseUser = user.getCurrentUser();
+                                    assert firebaseUser != null;
+
+                                    final String senderID = firebaseUser.getUid();
+                                    dbREf = firebaseDatabase.getReference().child("Lessees").child(senderID);
+                                    dbREf.addValueEventListener(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                            String senderName = snapshot.child("contactName").getValue().toString();
+                                            String unknown = "Unknown Lessee";
+                                            btnContact.setOnClickListener(v -> {
+                                                ChatClass chatClass = new ChatClass(chatID, senderID, userID, currentTime, fName, facManager, unknown);
+                                                reference1 = FirebaseDatabase.getInstance().getReference().child("ChatRooms");
+                                                reference1.child(chatID).setValue(chatClass);
+                                                Intent intent = new Intent(FacilityInformation.this, ChatActivity.class);
+                                                intent.putExtra("receiverName", facManager);
+                                                intent.putExtra("senderName", senderName);
+                                                intent.putExtra("chatID", chatID);
+                                                startActivity(intent);
+                                            });
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError error) {
+
+                                        }
+                                    });
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+
+
                     }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-        reference = firebaseDatabase.getReference().child("Facilities").child(userID);
-        reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.child("facilityManager").exists()) {
-                    String facManager = Objects.requireNonNull(snapshot.child("facilityManager").getValue()).toString().trim();
-                    facilityManager.setText(facManager);
                 }
             }
 

@@ -12,12 +12,18 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.gerray.fmsystem.R;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
@@ -53,13 +59,10 @@ public class WorkDetails extends AppCompatActivity implements View.OnClickListen
 
         Intent intent = getIntent();
         final String lessee = Objects.requireNonNull(intent.getExtras()).getString("lessee");
-        final String reqDate = intent.getExtras().getString("date");
         final String description = intent.getExtras().getString("description");
-        final String imageUrl = intent.getExtras().getString("imageUrl");
 
 
         workImage = findViewById(R.id.work_imageView);
-        Picasso.with(WorkDetails.this).load(imageUrl).into(workImage);
 
         DateFormat dateFormat = DateFormat.getDateInstance();
         Date date = new Date();
@@ -68,7 +71,7 @@ public class WorkDetails extends AppCompatActivity implements View.OnClickListen
         requester = findViewById(R.id.work_reqLessee);
         requester.setText(lessee);
         requestDate = findViewById(R.id.work_reqDate);
-        requestDate.setText(reqDate);
+        requestDate.setVisibility(View.GONE);
         workDate = findViewById(R.id.work_date);
         workDate.setText(setDate);
         workDescription = findViewById(R.id.work_description);
@@ -77,6 +80,23 @@ public class WorkDetails extends AppCompatActivity implements View.OnClickListen
         auth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = auth.getCurrentUser();
         assert currentUser != null;
+
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Facilities").child(currentUser.getUid());
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.child("facilityManager").exists()){
+                    String contactName = snapshot.child("facilityManager").getValue().toString();
+                    requester.setText(contactName);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
         mStorageRef = FirebaseStorage.getInstance().getReference().child("Facilities").child(currentUser.getUid());
         progressDialog = new ProgressDialog(this);
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);

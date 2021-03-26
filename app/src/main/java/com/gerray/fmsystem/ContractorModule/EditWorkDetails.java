@@ -6,11 +6,15 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.gerray.fmsystem.CommunicationModule.ChatActivity;
+import com.gerray.fmsystem.CommunicationModule.ChatClass;
 import com.gerray.fmsystem.R;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -18,13 +22,17 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Objects;
+import java.util.UUID;
 
 public class EditWorkDetails extends AppCompatActivity {
-    private TextView edWork, edDescription, edStatus, edCost, edFacility, edDate;
+    private TextView edWork, edDescription, edStatus, edCost, edFacility, edDate, tvFacility;
     private ImageView imageView;
 
-    private DatabaseReference dbRef;
+    private DatabaseReference dbRef, reference1, ref, ref1;
+    FirebaseAuth user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,19 +40,27 @@ public class EditWorkDetails extends AppCompatActivity {
         setContentView(R.layout.activity_edit_work_details);
 
         Intent intent = getIntent();
-        final String workID = Objects.requireNonNull(intent.getExtras()).getString("workID");
-
+        String workID = Objects.requireNonNull(intent.getExtras()).getString("workID");
+        String receiverID = Objects.requireNonNull(intent.getExtras()).getString("userID");
+        Toast.makeText(this, receiverID, Toast.LENGTH_SHORT).show();
         edWork = findViewById(R.id.ed_work);
         edDescription = findViewById(R.id.ed_description);
         edStatus = findViewById(R.id.ed_status);
         edCost = findViewById(R.id.ed_cost);
         edFacility = findViewById(R.id.ed_facility);
         edDate = findViewById(R.id.ed_date);
+        tvFacility = findViewById(R.id.tv_facility);
 
         imageView = findViewById(R.id.editWork_image);
 
         Button btnUpdate = findViewById(R.id.btn_update_work);
         btnUpdate.setOnClickListener(v -> editWork(workID));
+        user = FirebaseAuth.getInstance();
+
+        String chatID = String.valueOf(UUID.randomUUID());
+        Date currentTime = Calendar.getInstance().getTime();
+        String senderID = user.getUid();
+
 
         assert workID != null;
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Work Orders").child(workID);
@@ -83,6 +99,7 @@ public class EditWorkDetails extends AppCompatActivity {
                     dbRef.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot1) {
+                            tvFacility.setText("Requester:");
                             edFacility.setText(Objects.requireNonNull(snapshot1.child("contactName").getValue()).toString());
                         }
 
@@ -94,6 +111,7 @@ public class EditWorkDetails extends AppCompatActivity {
                     });
                 }
 
+
             }
 
             @Override
@@ -101,10 +119,66 @@ public class EditWorkDetails extends AppCompatActivity {
 
             }
         });
+
+        Button btnChat = findViewById(R.id.btn_chat);
+        btnChat.setOnClickListener(v -> {
+
+            ref = FirebaseDatabase.getInstance().getReference().child("Consultants").child(senderID);
+            ref.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    String contractorName = null;
+                    if (snapshot.child("consultantName").exists()) {
+                        contractorName = Objects.requireNonNull(snapshot.child("consultantName").getValue()).toString();
+                    }
+
+                    ref1 = FirebaseDatabase.getInstance().getReference().child("Users").child(receiverID);
+                    String finalContractorName = contractorName;
+                    ref1.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            String receiverContact, fName = null, sName = null;
+                            if (snapshot.child("firstName").exists()) {
+                                fName = snapshot.child("firstName").getValue().toString();
+                            }
+                            if (snapshot.child("secondName").exists()) {
+                                sName = snapshot.child("secondName").getValue().toString();
+                            }
+                            receiverContact = fName + " " + sName;
+
+                            ChatClass chatClass = new ChatClass(chatID, senderID, receiverID, currentTime, null, receiverContact, finalContractorName);
+                            reference1 = FirebaseDatabase.getInstance().getReference().child("ChatRooms");
+                            reference1.child(chatID).setValue(chatClass);
+                            Intent intent = new Intent(EditWorkDetails.this, ChatActivity.class);
+                            intent.putExtra("receiverName", receiverContact);
+                            intent.putExtra("senderName", finalContractorName);
+                            intent.putExtra("chatID", chatID);
+                            startActivity(intent);
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+
+        });
+
+
     }
 
     public void editWork(String workID) {
         UpdateDialog updateDialog = new UpdateDialog(workID);
         updateDialog.show(getSupportFragmentManager(), "Update Tag");
     }
+
 }

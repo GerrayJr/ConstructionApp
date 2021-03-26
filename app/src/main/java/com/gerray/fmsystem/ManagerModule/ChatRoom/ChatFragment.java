@@ -81,22 +81,18 @@ public class ChatFragment extends Fragment {
                         intent.putExtra("receiverName", model.getReceiverName());
                         intent.putExtra("receiverID", model.getReceiverID());
                         intent.putExtra("chatID", model.getChatID());
+                        intent.putExtra("senderName", model.getSenderName());
                         startActivity(intent);
                     });
-
-                } else {
-                    holder.itemView.setVisibility(View.GONE);
-                    holder.itemView.setLayoutParams(new RecyclerView.LayoutParams(0, 0));
-                }
-                if (firebaseUser.getUid().equals(model.receiverID)) {
-                    holder.contactName.setText(model.getReceiverContact());
-                    holder.lesseeName.setText(model.getReceiverName());
+                } else if (firebaseUser.getUid().equals(model.receiverID)) {
+                    holder.contactName.setText(model.getSenderName());
+//                    holder.lesseeName.setText(model.getReceiverName());
                     holder.time.setText(String.valueOf(model.getTime()));
                     holder.itemView.setOnClickListener(v -> {
                         Intent intent = new Intent(getActivity(), ChatActivity.class);
-                        intent.putExtra("receiverName", model.getReceiverContact());
+                        intent.putExtra("receiverName", model.getSenderName());
                         intent.putExtra("receiverID", model.getReceiverID());
-                        intent.putExtra("senderName", model.getSenderName());
+                        intent.putExtra("senderName", model.getReceiverName());
                         intent.putExtra("chatID", model.getChatID());
                         startActivity(intent);
                     });

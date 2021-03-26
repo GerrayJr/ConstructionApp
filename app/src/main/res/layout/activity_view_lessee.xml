@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="350dp"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:fadeScrollbars="false"
+    android:scrollbars="vertical"
+    tools:context=".ManagerModule.Lessee.ViewLessee">
+
+    <LinearLayout
+        android:id="@+id/linearLayout4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/view_imageView"
+            android:layout_width="match_parent"
+            android:layout_height="160dp"
+            android:layout_gravity="center"
+            android:layout_margin="20dp"
+            android:gravity="center" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical"
+            android:padding="15dp">
+
+            <TextView
+                android:id="@+id/pTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@+id/tv_name"
+                android:gravity="center"
+                android:text="Profile Details"
+                android:textSize="23dp"
+                android:textStyle="bold" />
+
+
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/pTitle"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="20dp"
+                android:text="Lessee Name: "
+                android:textSize="17sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/viewProf_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/pTitle"
+                android:layout_alignEnd="@+id/tv_name"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="-120dp"
+                android:text=""
+                android:textSize="17sp"
+                android:textStyle="normal|italic" />
+
+            <TextView
+                android:id="@+id/tv_activity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/viewProf_name"
+                android:layout_alignStart="@+id/tv_name"
+                android:layout_marginTop="15dp"
+                android:text="Activity Type: "
+                android:textSize="17sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/viewProf_activity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/viewProf_name"
+                android:layout_alignStart="@+id/viewProf_name"
+                android:layout_marginTop="15dp"
+                android:text=""
+                android:textSize="17sp"
+                android:textStyle="normal|italic" />
+
+            <TextView
+                android:id="@+id/tv_contact"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/viewProf_activity"
+                android:layout_alignStart="@+id/tv_name"
+                android:layout_marginTop="15dp"
+                android:text="Contact Name: "
+                android:textSize="17sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/viewProf_contact"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/viewProf_activity"
+                android:layout_alignStart="@+id/viewProf_name"
+                android:layout_marginTop="15dp"
+                android:text=""
+                android:textSize="17sp"
+                android:textStyle="normal|italic" />
+
+            <TextView
+                android:id="@+id/tv_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/viewProf_contact"
+                android:layout_alignStart="@+id/tv_name"
+                android:layout_marginTop="15dp"
+                android:text="Phone Number: "
+                android:textSize="17sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/viewProf_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/viewProf_contact"
+                android:layout_alignStart="@+id/viewProf_name"
+                android:layout_marginTop="15dp"
+                android:text=""
+                android:textSize="17sp"
+                android:textStyle="normal|italic" />
+
+            <TextView
+                android:id="@+id/tv_email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/viewProf_phone"
+                android:layout_alignStart="@+id/tv_name"
+                android:layout_marginTop="15dp"
+                android:text="Email Address: "
+                android:textSize="17sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/viewProf_email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/viewProf_phone"
+                android:layout_alignStart="@+id/viewProf_name"
+                android:layout_marginTop="15dp"
+                android:text=""
+                android:textSize="17sp"
+                android:textStyle="normal|italic" />
+        </RelativeLayout>
+
+
+    </LinearLayout>
+</ScrollView>

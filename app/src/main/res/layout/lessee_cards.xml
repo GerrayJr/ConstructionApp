@@ -15,7 +15,7 @@
         android:padding="10dp">
 
         <TextView
-            android:id="@+id/tv_room"
+            android:id="@+id/tv_facilityInd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="17dp"
@@ -27,7 +27,7 @@
             android:id="@+id/tv_contactName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_room"
+            android:layout_below="@+id/tv_facilityInd"
             android:layout_marginStart="17dp"
             android:layout_marginTop="10dp"
             android:text="name"
