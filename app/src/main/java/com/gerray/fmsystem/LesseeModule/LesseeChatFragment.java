@@ -56,7 +56,7 @@ public class LesseeChatFragment extends Fragment {
             @Override
             protected void onBindViewHolder(@NonNull ChatViewHolder holder, int position, @NonNull final ChatClass model) {
                 if (firebaseUser.getUid().equals(model.senderID)) {
-                    holder.contactName.setText(model.getReceiverContact());
+                    holder.contactName.setText(model.getTitle());
                     holder.lesseeName.setText(model.getReceiverName());
                     holder.time.setText(String.valueOf(model.getTime()));
                     holder.itemView.setOnClickListener(v12 -> {
@@ -68,6 +68,7 @@ public class LesseeChatFragment extends Fragment {
                     });
 
                 } else if (firebaseUser.getUid().equals(model.receiverID)) {
+                    holder.contactName.setText(model.getTitle());
                     holder.lesseeName.setText(model.getSenderName());
                     holder.time.setText(String.valueOf(model.getTime()));
                     holder.itemView.setOnClickListener(v13 -> {

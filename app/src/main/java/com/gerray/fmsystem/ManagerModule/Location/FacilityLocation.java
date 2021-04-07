@@ -130,7 +130,6 @@ public class FacilityLocation extends AppCompatActivity {
                                         }
                                     });
                         }
-                        Toast.makeText(FacilityLocation.this, "Latitude: " + locLatitude + " Longitude: " + locLongitude, Toast.LENGTH_SHORT).show();
                     }
                 });
             } else {

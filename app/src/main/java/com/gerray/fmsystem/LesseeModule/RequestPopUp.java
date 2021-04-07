@@ -141,7 +141,13 @@ public class RequestPopUp extends AppCompatActivity {
                         progressDialog.setProgress((int) progress);
                     });
         } else {
-            Toast.makeText(this, "No file selected", Toast.LENGTH_SHORT).show();
+            LesseeRequestClass requestClass = new LesseeRequestClass(requestID, auth.getUid(), description, requestDate, null);
+            DatabaseReference dbLoc = databaseReference.push();
+            dbLoc.setValue(requestClass);
+
+            progressDialog.dismiss();
+            Toast.makeText(RequestPopUp.this, "Sent", Toast.LENGTH_SHORT).show();
+            RequestPopUp.this.finish();
         }
     }
 

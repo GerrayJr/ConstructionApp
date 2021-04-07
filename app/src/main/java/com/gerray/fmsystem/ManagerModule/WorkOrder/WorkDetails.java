@@ -139,7 +139,7 @@ public class WorkDetails extends AppCompatActivity implements View.OnClickListen
     }
 
     private void postWorkDetails() {
-        progressDialog.setMessage("Let us Begin");
+        progressDialog.setMessage("Please wait");
         progressDialog.show();
         final String requestLessee = Objects.requireNonNull(requester.getText()).toString().trim();
         final String reqDate = Objects.requireNonNull(requestDate.getText()).toString().trim();
@@ -165,7 +165,7 @@ public class WorkDetails extends AppCompatActivity implements View.OnClickListen
                         fileReference.getDownloadUrl().addOnSuccessListener(uri -> {
                             final String downUri = uri.toString().trim();
 
-                            Intent select = new Intent(WorkDetails.this, SelectConsultant.class);
+                            Intent select = new Intent(WorkDetails.this, SelectContractor.class);
                             select.putExtra("lessee", requestLessee);
                             select.putExtra("date", reqDate);
                             select.putExtra("imageUrl", downUri);

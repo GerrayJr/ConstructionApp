@@ -84,7 +84,8 @@ public class LesseeRequestFragment extends Fragment {
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                             for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
-                                String user = Objects.requireNonNull(dataSnapshot1.child("userID").getValue()).toString();
+//                                String user = Objects.requireNonNull(dataSnapshot1.child("userID").getValue()).toString();
+                                String user = firebaseUser.getUid();
                                 if (user.equals(model.getUserID())) {
                                     holder.tvRoom.setText(dataSnapshot1.getKey());
                                     holder.tvDescription.setText(model.getDescription());
@@ -92,6 +93,12 @@ public class LesseeRequestFragment extends Fragment {
                                     holder.itemView.setOnClickListener(v -> {
 
                                     });
+                                } else {
+                                    holder.itemView.setVisibility(View.GONE);
+                                    ViewGroup.LayoutParams params = holder.itemView.getLayoutParams();
+                                    params.height = 0;
+                                    params.width = 0;
+                                    holder.itemView.setLayoutParams(params);
                                 }
 
                             }

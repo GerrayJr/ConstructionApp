@@ -16,7 +16,7 @@
     <string-array name="category_arrays">
         <item>Facility Manager</item>
         <item>Lessee</item>
-        <item>Consultant</item>
+        <item>Contractor</item>
     </string-array>
 
     <string name="Type_prompt">Choose a Facility Type</string>

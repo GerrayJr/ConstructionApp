@@ -5,13 +5,13 @@ public class InfoUser {
     public String secondName;
     public String email;
     public String category;
-    public int phone;
+    public String phone;
 
     public InfoUser() {
 
     }
 
-    public InfoUser(String firstName, String secondName, String email, int phone, String category) {
+    public InfoUser(String firstName, String secondName, String email, String phone, String category) {
         this.firstName = firstName;
         this.secondName = secondName;
         this.email = email;
@@ -52,11 +52,11 @@ public class InfoUser {
         this.category = category;
     }
 
-    public int getPhone() {
+    public String getPhone() {
         return phone;
     }
 
-    public void setPhone(int phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
 }

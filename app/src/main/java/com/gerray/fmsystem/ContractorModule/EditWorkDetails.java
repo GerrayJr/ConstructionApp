@@ -1,18 +1,23 @@
 package com.gerray.fmsystem.ContractorModule;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.gerray.fmsystem.CommunicationModule.ChatActivity;
 import com.gerray.fmsystem.CommunicationModule.ChatClass;
+import com.gerray.fmsystem.ManagerModule.ChatRoom.ChatSelectFM;
 import com.gerray.fmsystem.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -122,38 +127,60 @@ public class EditWorkDetails extends AppCompatActivity {
 
         Button btnChat = findViewById(R.id.btn_chat);
         btnChat.setOnClickListener(v -> {
-
-            ref = FirebaseDatabase.getInstance().getReference().child("Consultants").child(senderID);
-            ref.addValueEventListener(new ValueEventListener() {
+            AlertDialog.Builder alertDialog = new AlertDialog.Builder(EditWorkDetails.this);
+            alertDialog.setTitle("Title");
+            alertDialog.setMessage("Enter Chat Title");
+            alertDialog.setIcon(R.drawable.ic_communicate);
+            final EditText input = new EditText(EditWorkDetails.this);
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.MATCH_PARENT);
+            input.setLayoutParams(lp);
+            alertDialog.setView(input);
+            alertDialog.setPositiveButton("Next", new DialogInterface.OnClickListener() {
                 @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    String contractorName = null;
-                    if (snapshot.child("consultantName").exists()) {
-                        contractorName = Objects.requireNonNull(snapshot.child("consultantName").getValue()).toString();
-                    }
-
-                    ref1 = FirebaseDatabase.getInstance().getReference().child("Users").child(receiverID);
-                    String finalContractorName = contractorName;
-                    ref1.addValueEventListener(new ValueEventListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    ref = FirebaseDatabase.getInstance().getReference().child("Consultants").child(senderID);
+                    ref.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            String receiverContact, fName = null, sName = null;
-                            if (snapshot.child("firstName").exists()) {
-                                fName = snapshot.child("firstName").getValue().toString();
+                            String contractorName = null;
+                            if (snapshot.child("consultantName").exists()) {
+                                contractorName = Objects.requireNonNull(snapshot.child("consultantName").getValue()).toString();
                             }
-                            if (snapshot.child("secondName").exists()) {
-                                sName = snapshot.child("secondName").getValue().toString();
-                            }
-                            receiverContact = fName + " " + sName;
 
-                            ChatClass chatClass = new ChatClass(chatID, senderID, receiverID, currentTime, null, receiverContact, finalContractorName);
-                            reference1 = FirebaseDatabase.getInstance().getReference().child("ChatRooms");
-                            reference1.child(chatID).setValue(chatClass);
-                            Intent intent = new Intent(EditWorkDetails.this, ChatActivity.class);
-                            intent.putExtra("receiverName", receiverContact);
-                            intent.putExtra("senderName", finalContractorName);
-                            intent.putExtra("chatID", chatID);
-                            startActivity(intent);
+                            ref1 = FirebaseDatabase.getInstance().getReference().child("Users").child(receiverID);
+                            String title = input.getText().toString().trim();
+                            String finalContractorName = contractorName;
+                            ref1.addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    String receiverContact, fName = null, sName = null;
+                                    if (snapshot.child("firstName").exists()) {
+                                        fName = snapshot.child("firstName").getValue().toString();
+                                    }
+                                    if (snapshot.child("secondName").exists()) {
+                                        sName = snapshot.child("secondName").getValue().toString();
+                                    }
+                                    receiverContact = fName + " " + sName;
+
+                                    ChatClass chatClass = new ChatClass(title, chatID, senderID, receiverID, currentTime, null, receiverContact, finalContractorName);
+                                    reference1 = FirebaseDatabase.getInstance().getReference().child("ChatRooms");
+                                    reference1.child(chatID).setValue(chatClass);
+                                    Intent intent = new Intent(EditWorkDetails.this, ChatActivity.class);
+                                    intent.putExtra("receiverName", receiverContact);
+                                    intent.putExtra("senderName", finalContractorName);
+                                    intent.putExtra("chatID", chatID);
+                                    startActivity(intent);
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                }
+                            });
+
+
                         }
 
                         @Override
@@ -161,16 +188,15 @@ public class EditWorkDetails extends AppCompatActivity {
 
                         }
                     });
-
-
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-
                 }
             });
-
+            alertDialog.setNegativeButton("Back", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                }
+            });
+            alertDialog.show();
         });
 
 

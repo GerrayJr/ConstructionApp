@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.gerray.fmsystem.LesseeModule.LesCreate;
+import com.gerray.fmsystem.ManagerModule.FacilityManager;
 import com.gerray.fmsystem.R;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
@@ -92,9 +93,6 @@ public class ConfirmAdd extends AppCompatActivity {
                             LesCreate lesCreate = new LesCreate(contactName, lesseeName, activityType, lesseeID, userID, roomNo);
                             databaseReference.setValue(lesCreate);
 
-                            progressDialog.dismiss();
-                            Toast.makeText(ConfirmAdd.this, "Lessee Added", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(ConfirmAdd.this, SearchLessee.class));
                         }
 
                         @Override
@@ -131,6 +129,10 @@ public class ConfirmAdd extends AppCompatActivity {
             }
 
         });
+
+        progressDialog.dismiss();
+        Toast.makeText(ConfirmAdd.this, "Lessee Added", Toast.LENGTH_SHORT).show();
+        startActivity(new Intent(ConfirmAdd.this, FacilityManager.class));
 
     }
 }

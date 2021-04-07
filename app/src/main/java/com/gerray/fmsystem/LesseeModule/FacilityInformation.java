@@ -1,16 +1,21 @@
 package com.gerray.fmsystem.LesseeModule;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.gerray.fmsystem.CommunicationModule.ChatActivity;
 import com.gerray.fmsystem.CommunicationModule.ChatClass;
+import com.gerray.fmsystem.ManagerModule.ChatRoom.ChatSelectFM;
 import com.gerray.fmsystem.ManagerModule.Consultants.FacilityConsultant;
 import com.gerray.fmsystem.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -50,10 +55,6 @@ public class FacilityInformation extends AppCompatActivity {
         facilityOccupancy = findViewById(R.id.fInfo_occupancy);
 
         Button btnContact = findViewById(R.id.btn_contact);
-        btnContact.setOnClickListener(v -> {
-
-        });
-
         Button btnExit = findViewById(R.id.btn_exit_fInfo);
         btnExit.setOnClickListener(v -> startActivity(new Intent(FacilityInformation.this, FindFacility.class)));
 
@@ -106,14 +107,37 @@ public class FacilityInformation extends AppCompatActivity {
                                             String senderName = snapshot.child("contactName").getValue().toString();
                                             String unknown = "Unknown Lessee";
                                             btnContact.setOnClickListener(v -> {
-                                                ChatClass chatClass = new ChatClass(chatID, senderID, userID, currentTime, fName, facManager, unknown);
-                                                reference1 = FirebaseDatabase.getInstance().getReference().child("ChatRooms");
-                                                reference1.child(chatID).setValue(chatClass);
-                                                Intent intent = new Intent(FacilityInformation.this, ChatActivity.class);
-                                                intent.putExtra("receiverName", facManager);
-                                                intent.putExtra("senderName", senderName);
-                                                intent.putExtra("chatID", chatID);
-                                                startActivity(intent);
+                                                AlertDialog.Builder alertDialog = new AlertDialog.Builder(FacilityInformation.this);
+                                                alertDialog.setTitle("Title");
+                                                alertDialog.setMessage("Enter Chat Title");
+                                                alertDialog.setIcon(R.drawable.ic_communicate);
+                                                final EditText input = new EditText(FacilityInformation.this);
+                                                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                                                        LinearLayout.LayoutParams.MATCH_PARENT,
+                                                        LinearLayout.LayoutParams.MATCH_PARENT);
+                                                input.setLayoutParams(lp);
+                                                alertDialog.setView(input);
+                                                alertDialog.setPositiveButton("Next", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        String title = input.getText().toString().trim();
+                                                        ChatClass chatClass = new ChatClass(title, chatID, senderID, userID, currentTime, fName, facManager, unknown);
+                                                        reference1 = FirebaseDatabase.getInstance().getReference().child("ChatRooms");
+                                                        reference1.child(chatID).setValue(chatClass);
+                                                        Intent intent = new Intent(FacilityInformation.this, ChatActivity.class);
+                                                        intent.putExtra("receiverName", facManager);
+                                                        intent.putExtra("senderName", senderName);
+                                                        intent.putExtra("chatID", chatID);
+                                                        startActivity(intent);
+                                                    }
+                                                });
+                                                alertDialog.setNegativeButton("Back", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        dialog.cancel();
+                                                    }
+                                                });
+                                                alertDialog.show();
                                             });
                                         }
 

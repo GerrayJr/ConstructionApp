@@ -17,6 +17,24 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:icon">
+
+        <service
+            android:name=".Messaging.MessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/ic_baseline_notifications_active_24" />
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/colorAccent" />
+
+
         <activity android:name=".ManagerModule.Lessee.ViewLessee"
             android:theme="@style/Theme.AppCompat.DayNight.Dialog"/>
         <activity
@@ -24,7 +42,6 @@
             android:theme="@style/Theme.AppCompat.DayNight.Dialog" />
         <activity android:name=".Authentication.PermissionActivity" />
         <activity android:name=".LesseeModule.LesseeProfileActivity" />
-        <activity android:name=".Transactions.MpesaAcitivity" />
         <activity android:name=".LesseeModule.LesseeWorkDetails" />
         <activity android:name=".Transactions.TransactionActivity" />
         <activity
@@ -42,13 +59,15 @@
         <activity android:name=".CommunicationModule.ChatActivity" />
         <activity
             android:name=".ManagerModule.ChatRoom.ChatSelectFM"
-            android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar" />
+            android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar"
+            android:label="Select Lessee"/>
         <activity
             android:name=".ManagerModule.Lessee.ConfirmAdd"
             android:theme="@style/Theme.AppCompat.DayNight.Dialog" />
         <activity
-            android:name=".ManagerModule.WorkOrder.SelectConsultant"
-            android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar" />
+            android:name=".ManagerModule.WorkOrder.SelectContractor"
+            android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar"
+            android:label="Consultants"/>
         <activity
             android:name=".ManagerModule.Lessee.SearchLessee"
             android:label="Search Lessees"
@@ -56,7 +75,9 @@
         <activity
             android:name=".ContractorModule.UpdateContractor"
             android:theme="@style/Theme.AppCompat.DayNight.Dialog" />
-        <activity android:name=".LesseeModule.LesseeConsultant" />
+        <activity android:name=".LesseeModule.LesseeConsultant"
+            android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar"
+            android:label="Consultants"/>
         <activity android:name=".LesseeModule.FacilityInformation" />
         <activity android:name=".LesseeModule.FindFacility" />
         <activity
@@ -75,7 +96,8 @@
 
         <activity
             android:name=".ManagerModule.Consultants.FacilityConsultant"
-            android:theme="@style/AppTheme" />
+            android:label="Consultants"
+            android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar" />
         <activity
             android:name=".ContractorModule.ContractorCreate"
             android:theme="@style/Theme.AppCompat.DayNight.Dialog" />

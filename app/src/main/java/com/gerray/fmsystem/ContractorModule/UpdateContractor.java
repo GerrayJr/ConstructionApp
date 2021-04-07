@@ -76,9 +76,9 @@ public class UpdateContractor extends AppCompatActivity {
 
         auth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = auth.getCurrentUser();
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("Consultants");
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("Contractor");
         assert currentUser != null;
-        mStorageRef = FirebaseStorage.getInstance().getReference().child("Consultants").child(currentUser.getUid());
+        mStorageRef = FirebaseStorage.getInstance().getReference().child("Contractor").child(currentUser.getUid());
         progressDialog = new ProgressDialog(this);
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 
@@ -145,7 +145,7 @@ public class UpdateContractor extends AppCompatActivity {
     }
 
     private void updateConsultant() {
-        progressDialog.setMessage("Let us Begin");
+        progressDialog.setMessage("Updating");
         progressDialog.show();
 
         firebaseDatabase = FirebaseDatabase.getInstance();
@@ -159,7 +159,7 @@ public class UpdateContractor extends AppCompatActivity {
         final String consSpecs = specSpin.getSelectedItem().toString().trim();
         final String email = edEmail.getText().toString().trim();
         final String userID = auth.getUid();
-        final int phone = Integer.parseInt(edPhone.getText().toString().trim());
+        final String phone = edPhone.getText().toString();
 
         if (mImageUri != null) {
             final StorageReference fileReference = mStorageRef.child(System.currentTimeMillis()
@@ -170,9 +170,9 @@ public class UpdateContractor extends AppCompatActivity {
                         fileReference.getDownloadUrl().addOnSuccessListener(uri -> {
                             final String downUri = uri.toString().trim();
 
-                            CreateConsultant createConsultant = new CreateConsultant(consultantName, consCategory, consSpecs, consLocation, userID, email, phone, downUri);
+                            CreateContractor createContractor = new CreateContractor(consultantName, consCategory, consSpecs, consLocation, userID, email, phone, downUri);
                             assert userID != null;
-                            databaseReference.child(userID).setValue(createConsultant);
+                            databaseReference.child(userID).setValue(createContractor);
                             progressDialog.dismiss();
                             UpdateContractor.this.finish();
                         });

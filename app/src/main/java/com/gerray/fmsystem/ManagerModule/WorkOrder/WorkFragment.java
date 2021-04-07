@@ -76,7 +76,7 @@ public class WorkFragment extends Fragment {
                         holder.tvStatus.setText(model.getStatus());
                         holder.tvWork.setText(model.getWorkDescription());
                         holder.tvWorkDate.setText(model.getWorkDate());
-                        reference = FirebaseDatabase.getInstance().getReference().child("Consultants").child(model.getConsultantID());
+                        reference = FirebaseDatabase.getInstance().getReference().child("Contractor").child(model.getConsultantID());
                         reference.addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -93,10 +93,10 @@ public class WorkFragment extends Fragment {
                             intent.putExtra("workID", model.getWorkID());
                             startActivity(intent);
                         });
+                    } else {
+                        holder.itemView.setVisibility(View.GONE);
+                        holder.itemView.setLayoutParams(new RecyclerView.LayoutParams(0, 0));
                     }
-                }else {
-                    holder.itemView.setVisibility(View.GONE);
-                    holder.itemView.setLayoutParams(new RecyclerView.LayoutParams(0, 0));
                 }
 
 

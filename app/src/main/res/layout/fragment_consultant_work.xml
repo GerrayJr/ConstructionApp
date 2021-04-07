@@ -5,10 +5,45 @@
     android:layout_height="match_parent"
     tools:context=".ContractorModule.ContractorWork">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view_consWork"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="30dp" />
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/tv001"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:text="Work: Facility"
+            android:textSize="17sp"
+            android:textStyle="bold" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_consWork"
+            android:layout_width="match_parent"
+            android:layout_below="@+id/tv001"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp" />
+
+        <TextView
+            android:id="@+id/tv002"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:layout_below="@+id/recycler_view_consWork"
+            android:text="Work: Lessee"
+            android:textSize="17sp"
+            android:textStyle="bold" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_consWorkLessee"
+            android:layout_width="match_parent"
+            android:layout_below="@+id/tv002"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp" />
+    </RelativeLayout>
+
 
 </FrameLayout>

@@ -43,9 +43,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     public void onClick(View v) {
         if (v == btnLogin) {
-
             loginUser();
-//            startActivity(new Intent(LoginActivity.this, FacilityManager.class));
+            
         } else if (v == btnCreate) {
             startActivity(new Intent(this, CreateActivity.class));
 
@@ -74,7 +73,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     dialog.dismiss();
                     if (task.isSuccessful()) {
                         finish();
-                        Toast.makeText(LoginActivity.this, "Success", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(LoginActivity.this, PermissionActivity.class));
 
                     } else {
@@ -83,7 +81,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                 });
     }
-    private void hideSoftKeyboard(){
+
+    private void hideSoftKeyboard() {
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
     }
 }

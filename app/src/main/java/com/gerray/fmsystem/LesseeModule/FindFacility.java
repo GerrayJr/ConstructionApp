@@ -256,7 +256,6 @@ public class FindFacility extends AppCompatActivity implements OnMapReadyCallbac
             firebaseDatabaseReference.addChildEventListener(new ChildEventListener() {
                 @Override
                 public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
                         LatLng facilityLoc = new LatLng(
                                 snapshot.child("latitude").getValue(Double.class),
                                 snapshot.child("longitude").getValue(Double.class)
@@ -313,6 +312,13 @@ public class FindFacility extends AppCompatActivity implements OnMapReadyCallbac
                                     .snippet(facilityUserID)
                                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET)));
                         }
+                    if (facilityType.equals("Office buildings")) {
+                        mMap.addMarker(new MarkerOptions()
+                                .position(facilityLoc)
+                                .title(facilityName)
+                                .snippet(facilityUserID)
+                                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ROSE)));
+                    }
 
                 }
 

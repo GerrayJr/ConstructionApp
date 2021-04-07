@@ -1,12 +1,16 @@
 package com.gerray.fmsystem.ManagerModule.ChatRoom;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -73,39 +77,55 @@ public class ChatSelectFM extends AppCompatActivity {
                 holder.contactName.setText(model.getContactName());
                 holder.lesseeName.setText(model.getLesseeName());
                 holder.itemView.setOnClickListener(v -> {
-                    Toast.makeText(ChatSelectFM.this, "Clicked", Toast.LENGTH_SHORT).show();
-                    final String senderID = auth.getUid();
-                    final String receiverID = model.getUserID();
-                    final Date currentTime = Calendar.getInstance().getTime();
-                    final String receiverName = model.getLesseeName();
-                    final String receiverContact = model.getContactName();
-                    final String chatID = String.valueOf(UUID.randomUUID());
+                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(ChatSelectFM.this);
+                    alertDialog.setTitle("Title");
+                    alertDialog.setMessage("Enter Chat Title");
+                    alertDialog.setIcon(R.drawable.ic_communicate);
+                    final EditText input = new EditText(ChatSelectFM.this);
+                    LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                            LinearLayout.LayoutParams.MATCH_PARENT,
+                            LinearLayout.LayoutParams.MATCH_PARENT);
+                    input.setLayoutParams(lp);
+                    alertDialog.setView(input);
+                    alertDialog.setPositiveButton("Next", (dialog, which) -> {
+                        final String title = input.getText().toString().trim();
+                        final String senderID = auth.getUid();
+                        final String receiverID = model.getUserID();
+                        final Date currentTime = Calendar.getInstance().getTime();
+                        final String receiverName = model.getLesseeName();
+                        final String receiverContact = model.getContactName();
+                        final String chatID = String.valueOf(UUID.randomUUID());
 
-                    databaseReference = FirebaseDatabase.getInstance().getReference().child("Facilities").child(currentUser.getUid());
-                    databaseReference.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            String managerName = null;
-                            if (snapshot.child("facilityManager").exists()) {
-                                managerName = Objects.requireNonNull(snapshot.child("facilityManager").getValue()).toString();
+                        databaseReference = FirebaseDatabase.getInstance().getReference().child("Facilities").child(currentUser.getUid());
+                        databaseReference.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                String managerName = null;
+                                if (snapshot.child("facilityManager").exists()) {
+                                    managerName = Objects.requireNonNull(snapshot.child("facilityManager").getValue()).toString();
+                                }
+                                ChatClass chatClass = new ChatClass(title, chatID, senderID, receiverID, currentTime, receiverName, receiverContact, managerName);
+                                reference = FirebaseDatabase.getInstance().getReference().child("ChatRooms");
+                                reference.child(chatID).setValue(chatClass);
+
+                                Intent intent = new Intent(ChatSelectFM.this, ChatActivity.class);
+                                intent.putExtra("receiverName", model.getContactName());
+                                intent.putExtra("senderName", managerName);
+                                intent.putExtra("chatID", chatID);
+                                startActivity(intent);
+
                             }
-                            ChatClass chatClass = new ChatClass(chatID, senderID, receiverID, currentTime, receiverName, receiverContact, managerName);
-                            reference = FirebaseDatabase.getInstance().getReference().child("ChatRooms");
-                            reference.child(chatID).setValue(chatClass);
 
-                            Intent intent = new Intent(ChatSelectFM.this, ChatActivity.class);
-                            intent.putExtra("receiverName", model.getContactName());
-                            intent.putExtra("senderName", managerName);
-                            intent.putExtra("chatID", chatID);
-                            startActivity(intent);
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
 
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-
-                        }
+                            }
+                        });
                     });
+                    alertDialog.setNegativeButton("Back", (dialog, which) -> {
+                        dialog.cancel();
+                    });
+                    alertDialog.show();
 
                 });
             }

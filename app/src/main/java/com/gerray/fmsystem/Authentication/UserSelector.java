@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import com.gerray.fmsystem.ContractorModule.ContractorActivity;
 import com.gerray.fmsystem.LesseeModule.LesseeActivity;
@@ -29,6 +31,9 @@ public class UserSelector extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_selector);
 
+        ProgressBar pgsBar = findViewById(R.id.pBar);
+        pgsBar.setVisibility(View.VISIBLE);
+
         //Initializing Firebase Variables
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         firebaseDatabase = FirebaseDatabase.getInstance();
@@ -50,7 +55,7 @@ public class UserSelector extends AppCompatActivity {
                                         startActivity(new Intent(UserSelector.this,
                                                 LesseeActivity.class));
                                         break;
-                                    case "Consultant":
+                                    case "Contractor":
                                         startActivity(new Intent(UserSelector.this,
                                                 ContractorActivity.class));
                                         break;

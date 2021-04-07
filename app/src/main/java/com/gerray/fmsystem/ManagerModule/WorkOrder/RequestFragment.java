@@ -76,7 +76,6 @@ public class RequestFragment extends Fragment {
         firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<LesseeRequestClass, LesseeRequestHolder>(options) {
             @Override
             protected void onBindViewHolder(@NonNull final LesseeRequestHolder holder, int position, @NonNull final LesseeRequestClass model) {
-                final String lesseeID = model.getUserID();
                 reference = FirebaseDatabase.getInstance().getReference().child("FacilityOccupants");
                 reference.addValueEventListener(new ValueEventListener() {
                     @Override
@@ -84,28 +83,30 @@ public class RequestFragment extends Fragment {
                         for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                             if (Objects.equals(dataSnapshot.getKey(), firebaseUser.getUid())) {
                                 for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
-                                    String user = Objects.requireNonNull(dataSnapshot1.child("userID").getValue()).toString();
-                                    if (user.equals(lesseeID)) {
-                                        holder.itemView.setVisibility(View.VISIBLE);
+                                    if (dataSnapshot1.child("userID").exists()) {
+                                        String managerID = dataSnapshot1.getKey();
+                                        String user = firebaseUser.getUid();
+                                        if (user.equals(managerID)) {
+//                                        holder.itemView.setVisibility(View.VISIBLE);
 //                                        holder.itemView.setLayoutParams(new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                                        final String lesseeName = Objects.requireNonNull(dataSnapshot1.child("lesseeName").getValue()).toString();
-                                        holder.tvRoom.setText(dataSnapshot1.getKey());
-                                        holder.tvLessee.setText(lesseeName);
-                                        holder.tvDescription.setText(model.getDescription());
-                                        holder.tvDate.setText(model.getRequestDate());
-                                        holder.itemView.setOnClickListener(v -> {
-                                            AlertDialog.Builder alertDialog = new AlertDialog.Builder(requireContext());
-                                            alertDialog.setMessage("Respond to this request.")
-                                                    .setCancelable(false)
-                                                    .setPositiveButton("Yes", (dialog, which) -> {
-                                                        String date = model.getRequestDate();
-                                                        String description = model.getDescription();
-                                                        Intent intent = new Intent(getActivity(), WorkDetails.class);
-                                                        intent.putExtra("lessee", lesseeName);
-                                                        intent.putExtra("date", date);
-                                                        intent.putExtra("imageUrl", model.getImageUrl());
-                                                        intent.putExtra("description", description);
-                                                        startActivity(intent);
+                                            final String lesseeName = Objects.requireNonNull(dataSnapshot1.child("lesseeName").getValue()).toString();
+                                            holder.tvRoom.setText(dataSnapshot1.getKey());
+                                            holder.tvLessee.setText(lesseeName);
+                                            holder.tvDescription.setText(model.getDescription());
+                                            holder.tvDate.setText(model.getRequestDate());
+                                            holder.itemView.setOnClickListener(v -> {
+                                                AlertDialog.Builder alertDialog = new AlertDialog.Builder(requireContext());
+                                                alertDialog.setMessage("Respond to this request.")
+                                                        .setCancelable(false)
+                                                        .setPositiveButton("Yes", (dialog, which) -> {
+                                                            String date = model.getRequestDate();
+                                                            String description = model.getDescription();
+                                                            Intent intent = new Intent(getActivity(), WorkDetails.class);
+                                                            intent.putExtra("lessee", lesseeName);
+                                                            intent.putExtra("date", date);
+                                                            intent.putExtra("imageUrl", model.getImageUrl());
+                                                            intent.putExtra("description", description);
+                                                            startActivity(intent);
                                                         databaseReference.addValueEventListener(new ValueEventListener() {
                                                             @SuppressLint("LogNotTimber")
                                                             @Override
@@ -137,20 +138,25 @@ public class RequestFragment extends Fragment {
                                                             }
                                                         });
 
-                                                    })
-                                                    .setNegativeButton("Dismiss", (dialog, which) -> {
+                                                        })
+                                                        .setNegativeButton("Dismiss", (dialog, which) -> {
 //                                                                startActivity(new Intent(SearchLessee.this, SearchLessee.class));
-                                                    });
-                                            AlertDialog alert = alertDialog.create();
-                                            alert.setTitle(model.getDescription());
-                                            alert.show();
-                                        });
+                                                        });
+                                                AlertDialog alert = alertDialog.create();
+                                                alert.setTitle(model.getDescription());
+                                                alert.show();
+                                            });
+                                        } else {
+                                            holder.itemView.setVisibility(View.GONE);
+//                                            holder.itemView.setLayoutParams(new RecyclerView.LayoutParams(0, 0));
+                                            ViewGroup.LayoutParams params = holder.itemView.getLayoutParams();
+                                            params.height = 0;
+                                            params.width = 0;
+                                            holder.itemView.setLayoutParams(params);
+                                        }
                                     }
                                 }
 
-                            } else {
-                                holder.itemView.setVisibility(View.GONE);
-                                holder.itemView.setLayoutParams(new RecyclerView.LayoutParams(0, 0));
                             }
 
                         }

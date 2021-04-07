@@ -101,7 +101,6 @@ public class FacilityManager extends AppCompatActivity implements NavigationView
                                                     textView.setText(facilityName);
                                                 }
 
-                                                Toast.makeText(FacilityManager.this, facilityName + " " + managerName, Toast.LENGTH_SHORT).show();
                                                 Bundle bundle = new Bundle();
                                                 bundle.putString("facilityID", facilityID);
                                                 LesseeFragment lesseeFragment = new LesseeFragment();

@@ -69,7 +69,7 @@ public class WorkPopUp extends AppCompatActivity {
                 String imageUrl = Objects.requireNonNull(snapshot.child("imageUrl").getValue()).toString();
                 Picasso.with(WorkPopUp.this).load(imageUrl).into(imageView);
 
-                dbRef = FirebaseDatabase.getInstance().getReference().child("Consultants").child(Objects.requireNonNull(snapshot.child("consultantID").getValue()).toString());
+                dbRef = FirebaseDatabase.getInstance().getReference().child("Contractor").child(Objects.requireNonNull(snapshot.child("consultantID").getValue()).toString());
                 dbRef.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot1) {

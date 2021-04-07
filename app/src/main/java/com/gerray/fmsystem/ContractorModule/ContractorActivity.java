@@ -59,7 +59,7 @@ public class ContractorActivity extends AppCompatActivity implements NavigationV
         reference = firebaseDatabase.getReference();
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         if (firebaseUser != null) {
-            firebaseDatabaseReference.child("Consultants")
+            firebaseDatabaseReference.child("Contractor")
                     .addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {

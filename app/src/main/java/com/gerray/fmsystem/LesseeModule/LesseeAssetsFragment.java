@@ -110,7 +110,7 @@ public class LesseeAssetsFragment extends Fragment {
                             });
 
                     AlertDialog alert = alertDialog.create();
-                    alert.setTitle("Facility Assets");
+                    alert.setTitle("Assets");
                     alert.show();
 //
                 });

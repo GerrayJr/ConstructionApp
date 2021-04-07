@@ -68,7 +68,7 @@ public class CreateActivity extends AppCompatActivity implements View.OnClickLis
         final String password = sgPassword.getText().toString().trim();
         final String firstName = sgFirst.getText().toString().trim();
         final String secondName = sgSecond.getText().toString().trim();
-        final int phone = Integer.parseInt(sgPhone.getText().toString().trim());
+        final String phone = sgPhone.getText().toString().trim();
         final String category = categorySpinner.getSelectedItem().toString().trim();
 
 

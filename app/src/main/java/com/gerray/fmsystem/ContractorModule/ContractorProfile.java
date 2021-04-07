@@ -60,7 +60,7 @@ public class ContractorProfile extends Fragment {
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
         if (firebaseUser != null) {
-            firebaseDatabaseReference.child("Consultants").child(firebaseUser.getUid())
+            firebaseDatabaseReference.child("Contractor").child(firebaseUser.getUid())
                     .addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {

@@ -5,13 +5,13 @@ public class ProfileUpdate {
     public String lesseeName;
     public String activityType;
     public String emailAddress;
-    public int phoneNumber;
+    public String  phoneNumber;
     public String uri;
 
     public ProfileUpdate() {
     }
 
-    public ProfileUpdate(String contactName, String lesseeName, String activityType, String emailAddress, int phoneNumber, String uri) {
+    public ProfileUpdate(String contactName, String lesseeName, String activityType, String emailAddress, String phoneNumber, String uri) {
         this.contactName = contactName;
         this.lesseeName = lesseeName;
         this.activityType = activityType;
@@ -52,11 +52,11 @@ public class ProfileUpdate {
         this.emailAddress = emailAddress;
     }
 
-    public int getPhoneNumber() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(int phoneNumber) {
+    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 

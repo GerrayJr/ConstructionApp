@@ -1,19 +1,19 @@
 package com.gerray.fmsystem.ContractorModule;
 
-public class CreateConsultant {
+public class CreateContractor {
     public String consultantName;
     public String category;
     public String specialization;
     public String consultantLocation;
     public String userID;
     public String emailAddress;
-    public int phoneNumber;
+    public String phoneNumber;
     public String consultantImageUrl;
 
-    public CreateConsultant() {
+    public CreateContractor() {
     }
 
-    public CreateConsultant(String consultantName, String category, String specialization, String consultantLocation,  String userID, String emailAddress, int phoneNumber, String consultantImageUrl) {
+    public CreateContractor(String consultantName, String category, String specialization, String consultantLocation, String userID, String emailAddress, String phoneNumber, String consultantImageUrl) {
         this.consultantName = consultantName;
         this.category = category;
         this.specialization = specialization;
@@ -72,11 +72,11 @@ public class CreateConsultant {
         this.emailAddress = emailAddress;
     }
 
-    public int getPhoneNumber() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(int phoneNumber) {
+    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 

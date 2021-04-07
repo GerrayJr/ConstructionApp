@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.gerray.fmsystem.ContractorModule.CreateConsultant;
+import com.gerray.fmsystem.ContractorModule.CreateContractor;
 import com.gerray.fmsystem.ManagerModule.Consultants.ConsultantViewHolder;
 import com.gerray.fmsystem.ManagerModule.FacilityManager;
 import com.gerray.fmsystem.R;
@@ -26,11 +26,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.Objects;
 import java.util.UUID;
 
-public class SelectConsultant extends AppCompatActivity {
+public class SelectContractor extends AppCompatActivity {
 
 
-    FirebaseRecyclerOptions<CreateConsultant> options;
-    FirebaseRecyclerAdapter<CreateConsultant, ConsultantViewHolder> plumbAdapter, doorAdapter, dryAdapter, paintAdapter, exteriorAdapter, electricAdapter, restAdapter, lightAdapter, floorAdapter;
+    FirebaseRecyclerOptions<CreateContractor> options;
+    FirebaseRecyclerAdapter<CreateContractor, ConsultantViewHolder> plumbAdapter, doorAdapter, dryAdapter, paintAdapter, exteriorAdapter, electricAdapter, restAdapter, lightAdapter, floorAdapter;
     RecyclerView lightRecycler, doorRecycler, plumbRecycler, exteriorRecycler, electricRecycler, floorRecycler, restRecycler, paintRecycler, dryRecycler;
     DatabaseReference dbRef;
     FirebaseUser firebaseUser;
@@ -64,7 +64,7 @@ public class SelectConsultant extends AppCompatActivity {
         lightAdapter.startListening();
         lightAdapter.notifyDataSetChanged();
 
-        Toast.makeText(this, "Select Consultant", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Select Contractor", Toast.LENGTH_SHORT).show();
 
     }
 
@@ -106,32 +106,30 @@ public class SelectConsultant extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_facility_consultant);
 
-        dbRef = FirebaseDatabase.getInstance().getReference().child("Consultants");
+        dbRef = FirebaseDatabase.getInstance().getReference().child("Contractor");
         dbRef.keepSynced(true);
-        options = new FirebaseRecyclerOptions.Builder<CreateConsultant>().setQuery(dbRef, CreateConsultant.class).build();
-        plumbAdapter = new FirebaseRecyclerAdapter<CreateConsultant, ConsultantViewHolder>(options) {
+        options = new FirebaseRecyclerOptions.Builder<CreateContractor>().setQuery(dbRef, CreateContractor.class).build();
+        plumbAdapter = new FirebaseRecyclerAdapter<CreateContractor, ConsultantViewHolder>(options) {
             @Override
-            protected void onBindViewHolder(@NonNull ConsultantViewHolder holder, int position, @NonNull final CreateConsultant model) {
+            protected void onBindViewHolder(@NonNull ConsultantViewHolder holder, int position, @NonNull final CreateContractor model) {
                 String specialization = model.getSpecialization();
                 if (specialization.equals("Plumbing installation and Repair")) {
                     holder.tvName.setText(model.getConsultantName());
                     holder.tvCategory.setText(model.getCategory());
                     holder.tvloc.setText(model.getConsultantLocation());
                     holder.itemView.setOnClickListener(v -> selectContractor(model.getUserID()));
-                } else {
-                    plumbRecycler.setVisibility(View.GONE);
                 }
             }
 
             @NonNull
             @Override
             public ConsultantViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                return new ConsultantViewHolder(LayoutInflater.from(SelectConsultant.this).inflate(R.layout.consultants_cards, parent, false));
+                return new ConsultantViewHolder(LayoutInflater.from(SelectContractor.this).inflate(R.layout.consultants_cards, parent, false));
             }
         };
-        restAdapter = new FirebaseRecyclerAdapter<CreateConsultant, ConsultantViewHolder>(options) {
+        restAdapter = new FirebaseRecyclerAdapter<CreateContractor, ConsultantViewHolder>(options) {
             @Override
-            protected void onBindViewHolder(@NonNull ConsultantViewHolder holder, int position, @NonNull final CreateConsultant model) {
+            protected void onBindViewHolder(@NonNull ConsultantViewHolder holder, int position, @NonNull final CreateContractor model) {
                 String specialization = model.getSpecialization();
                 if (specialization.equals("Restroom Maintenance and repairs")) {
                     holder.tvName.setText(model.getConsultantName());
@@ -139,19 +137,20 @@ public class SelectConsultant extends AppCompatActivity {
                     holder.tvloc.setText(model.getConsultantLocation());
                     holder.itemView.setOnClickListener(v -> selectContractor(model.getUserID()));
                 } else {
-                    restRecycler.setVisibility(View.GONE);
+                    holder.itemView.setVisibility(View.GONE);
+                    holder.itemView.setLayoutParams(new RecyclerView.LayoutParams(0, 0));
                 }
             }
 
             @NonNull
             @Override
             public ConsultantViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                return new ConsultantViewHolder(LayoutInflater.from(SelectConsultant.this).inflate(R.layout.consultants_cards, parent, false));
+                return new ConsultantViewHolder(LayoutInflater.from(SelectContractor.this).inflate(R.layout.consultants_cards, parent, false));
             }
         };
-        exteriorAdapter = new FirebaseRecyclerAdapter<CreateConsultant, ConsultantViewHolder>(options) {
+        exteriorAdapter = new FirebaseRecyclerAdapter<CreateContractor, ConsultantViewHolder>(options) {
             @Override
-            protected void onBindViewHolder(@NonNull ConsultantViewHolder holder, int position, @NonNull final CreateConsultant model) {
+            protected void onBindViewHolder(@NonNull ConsultantViewHolder holder, int position, @NonNull final CreateContractor model) {
                 String specialization = model.getSpecialization();
                 if (specialization.equals("Exterior Maintenance")) {
                     holder.tvName.setText(model.getConsultantName());
@@ -159,19 +158,20 @@ public class SelectConsultant extends AppCompatActivity {
                     holder.tvloc.setText(model.getConsultantLocation());
                     holder.itemView.setOnClickListener(v -> selectContractor(model.getUserID()));
                 } else {
-                    exteriorRecycler.setVisibility(View.GONE);
+                    holder.itemView.setVisibility(View.GONE);
+                    holder.itemView.setLayoutParams(new RecyclerView.LayoutParams(0, 0));
                 }
             }
 
             @NonNull
             @Override
             public ConsultantViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                return new ConsultantViewHolder(LayoutInflater.from(SelectConsultant.this).inflate(R.layout.consultants_cards, parent, false));
+                return new ConsultantViewHolder(LayoutInflater.from(SelectContractor.this).inflate(R.layout.consultants_cards, parent, false));
             }
         };
-        electricAdapter = new FirebaseRecyclerAdapter<CreateConsultant, ConsultantViewHolder>(options) {
+        electricAdapter = new FirebaseRecyclerAdapter<CreateContractor, ConsultantViewHolder>(options) {
             @Override
-            protected void onBindViewHolder(@NonNull ConsultantViewHolder holder, int position, @NonNull final CreateConsultant model) {
+            protected void onBindViewHolder(@NonNull ConsultantViewHolder holder, int position, @NonNull final CreateContractor model) {
                 String specialization = model.getSpecialization();
                 if (specialization.equals("Electrical Maintenance")) {
                     holder.tvName.setText(model.getConsultantName());
@@ -179,19 +179,20 @@ public class SelectConsultant extends AppCompatActivity {
                     holder.tvloc.setText(model.getConsultantLocation());
                     holder.itemView.setOnClickListener(v -> selectContractor(model.getUserID()));
                 } else {
-                    electricRecycler.setVisibility(View.GONE);
+                    holder.itemView.setVisibility(View.GONE);
+                    holder.itemView.setLayoutParams(new RecyclerView.LayoutParams(0, 0));
                 }
             }
 
             @NonNull
             @Override
             public ConsultantViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                return new ConsultantViewHolder(LayoutInflater.from(SelectConsultant.this).inflate(R.layout.consultants_cards, parent, false));
+                return new ConsultantViewHolder(LayoutInflater.from(SelectContractor.this).inflate(R.layout.consultants_cards, parent, false));
             }
         };
-        doorAdapter = new FirebaseRecyclerAdapter<CreateConsultant, ConsultantViewHolder>(options) {
+        doorAdapter = new FirebaseRecyclerAdapter<CreateContractor, ConsultantViewHolder>(options) {
             @Override
-            protected void onBindViewHolder(@NonNull ConsultantViewHolder holder, int position, @NonNull final CreateConsultant model) {
+            protected void onBindViewHolder(@NonNull ConsultantViewHolder holder, int position, @NonNull final CreateContractor model) {
                 String specialization = model.getSpecialization();
                 if (specialization.equals("Door installation and Repairs")) {
                     holder.tvName.setText(model.getConsultantName());
@@ -199,19 +200,20 @@ public class SelectConsultant extends AppCompatActivity {
                     holder.tvloc.setText(model.getConsultantLocation());
                     holder.itemView.setOnClickListener(v -> selectContractor(model.getUserID()));
                 } else {
-                    doorRecycler.setVisibility(View.GONE);
+                    holder.itemView.setVisibility(View.GONE);
+                    holder.itemView.setLayoutParams(new RecyclerView.LayoutParams(0, 0));
                 }
             }
 
             @NonNull
             @Override
             public ConsultantViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                return new ConsultantViewHolder(LayoutInflater.from(SelectConsultant.this).inflate(R.layout.consultants_cards, parent, false));
+                return new ConsultantViewHolder(LayoutInflater.from(SelectContractor.this).inflate(R.layout.consultants_cards, parent, false));
             }
         };
-        lightAdapter = new FirebaseRecyclerAdapter<CreateConsultant, ConsultantViewHolder>(options) {
+        lightAdapter = new FirebaseRecyclerAdapter<CreateContractor, ConsultantViewHolder>(options) {
             @Override
-            protected void onBindViewHolder(@NonNull ConsultantViewHolder holder, int position, @NonNull final CreateConsultant model) {
+            protected void onBindViewHolder(@NonNull ConsultantViewHolder holder, int position, @NonNull final CreateContractor model) {
                 String specialization = model.getSpecialization();
                 if (specialization.equals("Light Fixture Installation and Repair")) {
                     holder.tvName.setText(model.getConsultantName());
@@ -219,19 +221,20 @@ public class SelectConsultant extends AppCompatActivity {
                     holder.tvloc.setText(model.getConsultantLocation());
                     holder.itemView.setOnClickListener(v -> selectContractor(model.getUserID()));
                 } else {
-                    lightRecycler.setVisibility(View.GONE);
+                    holder.itemView.setVisibility(View.GONE);
+                    holder.itemView.setLayoutParams(new RecyclerView.LayoutParams(0, 0));
                 }
             }
 
             @NonNull
             @Override
             public ConsultantViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                return new ConsultantViewHolder(LayoutInflater.from(SelectConsultant.this).inflate(R.layout.consultants_cards, parent, false));
+                return new ConsultantViewHolder(LayoutInflater.from(SelectContractor.this).inflate(R.layout.consultants_cards, parent, false));
             }
         };
-        dryAdapter = new FirebaseRecyclerAdapter<CreateConsultant, ConsultantViewHolder>(options) {
+        dryAdapter = new FirebaseRecyclerAdapter<CreateContractor, ConsultantViewHolder>(options) {
             @Override
-            protected void onBindViewHolder(@NonNull ConsultantViewHolder holder, int position, @NonNull final CreateConsultant model) {
+            protected void onBindViewHolder(@NonNull ConsultantViewHolder holder, int position, @NonNull final CreateContractor model) {
                 String specialization = model.getSpecialization();
                 if (specialization.equals("Drywall repair and installation")) {
                     holder.tvName.setText(model.getConsultantName());
@@ -239,19 +242,20 @@ public class SelectConsultant extends AppCompatActivity {
                     holder.tvloc.setText(model.getConsultantLocation());
                     holder.itemView.setOnClickListener(v -> selectContractor(model.getUserID()));
                 } else {
-                    dryRecycler.setVisibility(View.GONE);
+                    holder.itemView.setVisibility(View.GONE);
+                    holder.itemView.setLayoutParams(new RecyclerView.LayoutParams(0, 0));
                 }
             }
 
             @NonNull
             @Override
             public ConsultantViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                return new ConsultantViewHolder(LayoutInflater.from(SelectConsultant.this).inflate(R.layout.consultants_cards, parent, false));
+                return new ConsultantViewHolder(LayoutInflater.from(SelectContractor.this).inflate(R.layout.consultants_cards, parent, false));
             }
         };
-        paintAdapter = new FirebaseRecyclerAdapter<CreateConsultant, ConsultantViewHolder>(options) {
+        paintAdapter = new FirebaseRecyclerAdapter<CreateContractor, ConsultantViewHolder>(options) {
             @Override
-            protected void onBindViewHolder(@NonNull ConsultantViewHolder holder, int position, @NonNull final CreateConsultant model) {
+            protected void onBindViewHolder(@NonNull ConsultantViewHolder holder, int position, @NonNull final CreateContractor model) {
                 String specialization = model.getSpecialization();
                 if (specialization.equals("Painting and staining")) {
                     holder.tvName.setText(model.getConsultantName());
@@ -259,19 +263,20 @@ public class SelectConsultant extends AppCompatActivity {
                     holder.tvloc.setText(model.getConsultantLocation());
                     holder.itemView.setOnClickListener(v -> selectContractor(model.getUserID()));
                 } else {
-                    paintRecycler.setVisibility(View.GONE);
+                    holder.itemView.setVisibility(View.GONE);
+                    holder.itemView.setLayoutParams(new RecyclerView.LayoutParams(0, 0));
                 }
             }
 
             @NonNull
             @Override
             public ConsultantViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                return new ConsultantViewHolder(LayoutInflater.from(SelectConsultant.this).inflate(R.layout.consultants_cards, parent, false));
+                return new ConsultantViewHolder(LayoutInflater.from(SelectContractor.this).inflate(R.layout.consultants_cards, parent, false));
             }
         };
-        floorAdapter = new FirebaseRecyclerAdapter<CreateConsultant, ConsultantViewHolder>(options) {
+        floorAdapter = new FirebaseRecyclerAdapter<CreateContractor, ConsultantViewHolder>(options) {
             @Override
-            protected void onBindViewHolder(@NonNull ConsultantViewHolder holder, int position, @NonNull final CreateConsultant model) {
+            protected void onBindViewHolder(@NonNull ConsultantViewHolder holder, int position, @NonNull final CreateContractor model) {
                 String specialization = model.getSpecialization();
                 if (specialization.equals("Floor repair and installation")) {
                     holder.tvName.setText(model.getConsultantName());
@@ -279,14 +284,15 @@ public class SelectConsultant extends AppCompatActivity {
                     holder.tvloc.setText(model.getConsultantLocation());
                     holder.itemView.setOnClickListener(v -> selectContractor(model.getUserID()));
                 } else {
-                    floorRecycler.setVisibility(View.GONE);
+                    holder.itemView.setVisibility(View.GONE);
+                    holder.itemView.setLayoutParams(new RecyclerView.LayoutParams(0, 0));
                 }
             }
 
             @NonNull
             @Override
             public ConsultantViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                return new ConsultantViewHolder(LayoutInflater.from(SelectConsultant.this).inflate(R.layout.consultants_cards, parent, false));
+                return new ConsultantViewHolder(LayoutInflater.from(SelectContractor.this).inflate(R.layout.consultants_cards, parent, false));
             }
         };
 
@@ -354,7 +360,7 @@ public class SelectConsultant extends AppCompatActivity {
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("Work Orders");
         databaseReference.child(workID).setValue(detailsClass);
 
-        startActivity(new Intent(SelectConsultant.this, FacilityManager.class));
+        startActivity(new Intent(SelectContractor.this, FacilityManager.class));
 
 
     }

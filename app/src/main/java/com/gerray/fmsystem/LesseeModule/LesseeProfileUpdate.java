@@ -159,7 +159,7 @@ public class LesseeProfileUpdate extends AppCompatActivity {
             final String contactName = Objects.requireNonNull(edContact.getText().toString().trim());
             final String lesseeName = Objects.requireNonNull(edLesseeName.getText()).toString().trim();
             final String email = Objects.requireNonNull(edEmail.getText()).toString().trim();
-            final int phone = Integer.parseInt(Objects.requireNonNull(edPhone.getText()).toString().trim());
+            final String phone = Objects.requireNonNull(edPhone.getText()).toString().trim();
             final String activity = spinner.getSelectedItem().toString().trim();
 
             if (TextUtils.isEmpty(lesseeName)) {
@@ -202,7 +202,7 @@ public class LesseeProfileUpdate extends AppCompatActivity {
                             progressDialog.setProgress((int) progress);
                         });
             } else {
-                Toast.makeText(LesseeProfileUpdate.this, "No file selected", Toast.LENGTH_SHORT).show();
+                Toast.makeText(LesseeProfileUpdate.this, "Select a Photo", Toast.LENGTH_SHORT).show();
             }
         }
     }

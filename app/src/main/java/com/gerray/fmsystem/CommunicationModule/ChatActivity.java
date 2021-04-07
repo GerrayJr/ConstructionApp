@@ -100,7 +100,7 @@ public class ChatActivity extends AppCompatActivity {
             }
         };
 
-        listOfMessage = (RecyclerView) findViewById(R.id.messagesRecyclerView);
+        listOfMessage = findViewById(R.id.messagesRecyclerView);
         listOfMessage.setLayoutManager(new LinearLayoutManager(this));
         listOfMessage.setAdapter(adapter);
         adapter.startListening();

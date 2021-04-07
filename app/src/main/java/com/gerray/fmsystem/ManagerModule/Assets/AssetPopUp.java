@@ -76,7 +76,7 @@ public class AssetPopUp extends AppCompatActivity {
         databaseReference = FirebaseDatabase.getInstance().getReference().child("Facilities").child(currentUser.getUid()).child("Assets");
         mStorageRef = FirebaseStorage.getInstance().getReference().child("Facilities").child(currentUser.getUid()).child("Assets");
         progressDialog = new ProgressDialog(this);
-        progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
     }
 
     private void openFileChooser() {
@@ -105,7 +105,7 @@ public class AssetPopUp extends AppCompatActivity {
     }
 
     private void addAsset() {
-        progressDialog.setMessage("Let us Begin");
+        progressDialog.setMessage("Saving Asset");
         progressDialog.show();
         final String name = Objects.requireNonNull(assetName.getText()).toString().trim();
         final String model = Objects.requireNonNull(assetModel.getText()).toString().trim();

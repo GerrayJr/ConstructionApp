@@ -49,7 +49,7 @@ public class ContractorCreate extends AppCompatActivity {
         catSpinner = findViewById(R.id.cons_category);
         specSpinner = findViewById(R.id.cons_specialization);
         auth = FirebaseAuth.getInstance();
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("Consultants");
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("Contractor");
         progressDialog = new ProgressDialog(this);
     }
 
@@ -68,7 +68,7 @@ public class ContractorCreate extends AppCompatActivity {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             String firstName = null, secondName = null, email = null;
-                            int phone = 123456;
+                            String phone = null;
                             if (snapshot.child("firstName").exists()) {
                                 firstName = snapshot.child("firstName").getValue().toString().trim();
                             }
@@ -79,7 +79,7 @@ public class ContractorCreate extends AppCompatActivity {
                                 email = snapshot.child("email").getValue().toString().trim();
                             }
                             if (snapshot.child("phone").exists()) {
-                                phone = Integer.parseInt(snapshot.child("phone").getValue().toString().trim());
+                                phone = snapshot.child("phone").getValue().toString().trim();
                             }
 
                             final String consultantName = firstName + " " + secondName;
@@ -90,8 +90,8 @@ public class ContractorCreate extends AppCompatActivity {
 
                             String nUrl = "null";
 
-                            CreateConsultant createConsultant = new CreateConsultant(consultantName, consCategory, consSpecs, consLocation, userID, email, phone, nUrl);
-                            databaseReference.child(userID).setValue(createConsultant);
+                            CreateContractor createContractor = new CreateContractor(consultantName, consCategory, consSpecs, consLocation, userID, email, phone, nUrl);
+                            databaseReference.child(userID).setValue(createContractor);
                             progressDialog.dismiss();
                             ContractorCreate.this.finish();
                             Toast.makeText(ContractorCreate.this, "Welcome", Toast.LENGTH_SHORT).show();

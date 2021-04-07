@@ -41,7 +41,6 @@ public class ContractorWork extends Fragment {
     FirebaseRecyclerOptions<DetailsClass> options;
     FirebaseUser firebaseUser;
     FirebaseAuth auth;
-    MergeAdapter mergeAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -61,7 +60,6 @@ public class ContractorWork extends Fragment {
         if (adapter != null) {
             adapter.stopListening();
         }
-        mergeAdapter = new MergeAdapter(adapter, firebaseRecyclerAdapter);
     }
 
     public void onStart() {
@@ -73,7 +71,6 @@ public class ContractorWork extends Fragment {
         adapter.notifyDataSetChanged();
         // Check if user is signed in (non-null) and update UI accordingly.
 //        FirebaseUser currentUser = auth.getCurrentUser();
-        mergeAdapter = new MergeAdapter(adapter, firebaseRecyclerAdapter);
 
     }
 
@@ -85,7 +82,7 @@ public class ContractorWork extends Fragment {
         adapter.startListening();
         adapter.notifyDataSetChanged();
 
-        mergeAdapter = new MergeAdapter(adapter, firebaseRecyclerAdapter);
+
         // Check if user is signed in (non-null) and update UI accordingly.
 //        FirebaseUser currentUser = auth.getCurrentUser()
     }
@@ -112,7 +109,7 @@ public class ContractorWork extends Fragment {
                     holder.tvStatus.setText(model.getStatus());
                     holder.tvWork.setText(model.getWorkDescription());
                     holder.tvWorkDate.setText(model.getWorkDate());
-                    String fManagerID = model.getfManagerID();
+                    String fManagerID = model.fManagerID;
                     if (fManagerID != null) {
                         reference = FirebaseDatabase.getInstance().getReference().child("Facilities").child(model.getfManagerID());
                         reference.addValueEventListener(new ValueEventListener() {
@@ -130,6 +127,9 @@ public class ContractorWork extends Fragment {
                         holder.itemView.setVisibility(View.GONE);
                         holder.itemView.setLayoutParams(new RecyclerView.LayoutParams(0, 0));
                     }
+                } else {
+                    holder.itemView.setVisibility(View.GONE);
+                    holder.itemView.setLayoutParams(new RecyclerView.LayoutParams(0, 0));
                 }
 
                 holder.itemView.setOnClickListener(v -> {
@@ -176,6 +176,9 @@ public class ContractorWork extends Fragment {
                         holder1.itemView.setVisibility(View.GONE);
                         holder1.itemView.setLayoutParams(new RecyclerView.LayoutParams(0, 0));
                     }
+                } else {
+                    holder1.itemView.setVisibility(View.GONE);
+                    holder1.itemView.setLayoutParams(new RecyclerView.LayoutParams(0, 0));
                 }
                 holder1.itemView.setOnClickListener(v -> {
                     Intent intent = new Intent(getActivity(), EditWorkDetails.class);
@@ -195,10 +198,12 @@ public class ContractorWork extends Fragment {
 
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view_consWork);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
-        mergeAdapter = new MergeAdapter(adapter, firebaseRecyclerAdapter);
-        recyclerView.setAdapter(mergeAdapter);
+        recyclerView.setAdapter(firebaseRecyclerAdapter);
         firebaseRecyclerAdapter.startListening();
+
+        RecyclerView recyclerView1 = view.findViewById(R.id.recycler_view_consWorkLessee);
+        recyclerView1.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView1.setAdapter(adapter);
         adapter.startListening();
         return view;
     }
