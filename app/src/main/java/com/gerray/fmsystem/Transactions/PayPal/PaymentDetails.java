@@ -1,4 +1,4 @@
-package com.gerray.fmsystem.Transactions;
+package com.gerray.fmsystem.Transactions.PayPal;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.gerray.fmsystem.R;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Objects;
@@ -29,9 +30,9 @@ public class PaymentDetails extends AppCompatActivity {
         Intent intent = getIntent();
 
         try {
-            JSONObject jsonObject = new JSONObject(Objects.requireNonNull(intent.getStringExtra("PaymentDetails")));
-            showDetails(jsonObject.getJSONObject("response"), intent.getStringExtra("PaymentAmount"));
-        } catch (Exception e) {
+            JSONObject jsonObject = new JSONObject(intent.getStringExtra("PaymentDetails"));
+            showDetails(jsonObject.getJSONObject("response"),intent.getStringExtra("PaymentAmount"));
+        } catch (JSONException e) {
             e.printStackTrace();
         }
     }

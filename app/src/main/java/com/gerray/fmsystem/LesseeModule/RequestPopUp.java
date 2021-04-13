@@ -128,6 +128,7 @@ public class RequestPopUp extends AppCompatActivity {
                             LesseeRequestClass requestClass = new LesseeRequestClass(requestID, auth.getUid(), description, requestDate, downUri);
                             DatabaseReference dbLoc = databaseReference.push();
                             dbLoc.setValue(requestClass);
+
                         });
 
 

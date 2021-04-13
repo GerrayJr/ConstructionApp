@@ -1,4 +1,4 @@
-package com.gerray.fmsystem.Transactions.Interceptor;
+package com.gerray.fmsystem.Transactions.Mpesa.okhttp;
 
 import androidx.annotation.NonNull;
 
@@ -9,17 +9,17 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 public class AuthInterceptor implements Interceptor {
-    private final String mAuthToken;
+
+    private String authToken;
 
     public AuthInterceptor(String authToken) {
-        mAuthToken = authToken;
+        this.authToken = authToken;
     }
 
-    @NonNull
     @Override
     public Response intercept(@NonNull Chain chain) throws IOException {
-        Request request  = chain.request().newBuilder()
-                .addHeader("Authorization", "Bearer " + mAuthToken)
+        Request request = chain.request().newBuilder()
+                .addHeader("Authorization", "Bearer " + authToken)
                 .build();
         return chain.proceed(request);
     }

@@ -76,25 +76,109 @@ public class RequestFragment extends Fragment {
         firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<LesseeRequestClass, LesseeRequestHolder>(options) {
             @Override
             protected void onBindViewHolder(@NonNull final LesseeRequestHolder holder, int position, @NonNull final LesseeRequestClass model) {
-                reference = FirebaseDatabase.getInstance().getReference().child("FacilityOccupants");
+//                reference = FirebaseDatabase.getInstance().getReference().child("FacilityOccupants");
+//                reference.addValueEventListener(new ValueEventListener() {
+//                    @Override
+//                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+////                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+////                            if (Objects.equals(dataSnapshot.getKey(), firebaseUser.getUid())) {
+////                                for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
+////                                    if (dataSnapshot1.child("userID").exists()) {
+////                                        String managerID = dataSnapshot1.getKey();
+////                                        String user = firebaseUser.getUid();
+////                                        if (user.equals(managerID)) {
+////                                            final String lesseeName = Objects.requireNonNull(dataSnapshot1.child("lesseeName").getValue()).toString();
+////
+////                                            holder.itemView.setOnClickListener(v -> {
+////                                                AlertDialog.Builder alertDialog = new AlertDialog.Builder(requireContext());
+////                                                alertDialog.setMessage("Respond to this request.")
+////                                                        .setCancelable(false)
+////                                                        .setPositiveButton("Yes", (dialog, which) -> {
+////                                                            String date = model.getRequestDate();
+////                                                            String description = model.getDescription();
+////                                                            Intent intent = new Intent(getActivity(), WorkDetails.class);
+////                                                            intent.putExtra("lessee", lesseeName);
+////                                                            intent.putExtra("date", date);
+////                                                            intent.putExtra("imageUrl", model.getImageUrl());
+////                                                            intent.putExtra("description", description);
+////                                                            startActivity(intent);
+////                                                            databaseReference.addValueEventListener(new ValueEventListener() {
+////                                                                @SuppressLint("LogNotTimber")
+////                                                                @Override
+////                                                                public void onDataChange(@NonNull DataSnapshot snapshot1) {
+////                                                                    for (DataSnapshot dSnapshot : snapshot1.getChildren()) {
+////                                                                        for (DataSnapshot ignored : dSnapshot.getChildren()) {
+////                                                                            String requestID = Objects.requireNonNull(dSnapshot.child("requestID").getValue()).toString();
+////                                                                            if (requestID.equals(model.getRequestID())) {
+////                                                                                String key = dSnapshot.getKey();
+////                                                                                DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
+////                                                                                assert key != null;
+////                                                                                dbRef.child("Requests").child(key).removeValue()
+////                                                                                        .addOnCompleteListener(task -> {
+////                                                                                            if (task.isSuccessful()) {
+////                                                                                                Log.d("Remove Request", "Successfully Removed");
+////                                                                                            } else {
+////                                                                                                Log.d("Remove Request", "Request couldn't be deleted");
+////                                                                                            }
+////                                                                                        });
+////
+////                                                                            }
+////                                                                        }
+////                                                                    }
+////                                                                }
+////
+////                                                                @Override
+////                                                                public void onCancelled(@NonNull DatabaseError error) {
+////
+////                                                                }
+////                                                            });
+////
+////                                                        })
+////                                                        .setNegativeButton("Dismiss", (dialog, which) -> {
+//////                                                                startActivity(new Intent(SearchLessee.this, SearchLessee.class));
+////                                                        });
+////                                                AlertDialog alert = alertDialog.create();
+////                                                alert.setTitle(model.getDescription());
+////                                                alert.show();
+////                                            });
+////                                        }else {
+////                                            holder.itemView.setVisibility(View.GONE);
+////                                            ViewGroup.LayoutParams params = holder.itemView.getLayoutParams();
+////                                            params.height = 0;
+////                                            params.width = 0;
+////                                            holder.itemView.setLayoutParams(params);
+////                                        }
+////                                    }
+////                                }
+////
+////                            }
+////
+////                        }
+//
+//                    }
+//
+//                    @Override
+//                    public void onCancelled(@NonNull DatabaseError error) {
+//
+//                    }
+//                });
+                String lesseeID = model.getUserID();
+                reference = FirebaseDatabase.getInstance().getReference().child("FacilityOccupants").child(firebaseUser.getUid());
                 reference.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                            if (Objects.equals(dataSnapshot.getKey(), firebaseUser.getUid())) {
-                                for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
-                                    if (dataSnapshot1.child("userID").exists()) {
-                                        String managerID = dataSnapshot1.getKey();
-                                        String user = firebaseUser.getUid();
-                                        if (user.equals(managerID)) {
-//                                        holder.itemView.setVisibility(View.VISIBLE);
-//                                        holder.itemView.setLayoutParams(new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                                            final String lesseeName = Objects.requireNonNull(dataSnapshot1.child("lesseeName").getValue()).toString();
-                                            holder.tvRoom.setText(dataSnapshot1.getKey());
-                                            holder.tvLessee.setText(lesseeName);
-                                            holder.tvDescription.setText(model.getDescription());
-                                            holder.tvDate.setText(model.getRequestDate());
-                                            holder.itemView.setOnClickListener(v -> {
+                        for (DataSnapshot dataSnapshot : snapshot.getChildren()){
+                                String userID = Objects.requireNonNull(dataSnapshot.child("userID").getValue()).toString();
+                                if (userID.equals(lesseeID)){
+                                    String roomNo = dataSnapshot.getKey();
+                                    String lesseeName = Objects.requireNonNull(dataSnapshot.child("lesseeName").getValue()).toString();
+
+                                    holder.tvDate.setText(model.getRequestDate());
+                                    holder.tvLessee.setText(lesseeName);
+                                    holder.tvRoom.setText(roomNo);
+                                    holder.tvDescription.setText(model.getDescription());
+
+                                    holder.itemView.setOnClickListener(v -> {
                                                 AlertDialog.Builder alertDialog = new AlertDialog.Builder(requireContext());
                                                 alertDialog.setMessage("Respond to this request.")
                                                         .setCancelable(false)
@@ -107,36 +191,36 @@ public class RequestFragment extends Fragment {
                                                             intent.putExtra("imageUrl", model.getImageUrl());
                                                             intent.putExtra("description", description);
                                                             startActivity(intent);
-                                                        databaseReference.addValueEventListener(new ValueEventListener() {
-                                                            @SuppressLint("LogNotTimber")
-                                                            @Override
-                                                            public void onDataChange(@NonNull DataSnapshot snapshot1) {
-                                                                for (DataSnapshot dSnapshot : snapshot1.getChildren()) {
-                                                                    for (DataSnapshot ignored : dSnapshot.getChildren()) {
-                                                                        String requestID = Objects.requireNonNull(dSnapshot.child("requestID").getValue()).toString();
-                                                                        if (requestID.equals(model.getRequestID())) {
-                                                                            String key = dSnapshot.getKey();
-                                                                            DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
-                                                                            assert key != null;
-                                                                            dbRef.child("Requests").child(key).removeValue()
-                                                                                    .addOnCompleteListener(task -> {
-                                                                                        if (task.isSuccessful()) {
-                                                                                            Log.d("Remove Request", "Successfully Removed");
-                                                                                        } else {
-                                                                                            Log.d("Remove Request", "Request couldn't be deleted");
-                                                                                        }
-                                                                                    });
+                                                            databaseReference.addValueEventListener(new ValueEventListener() {
+                                                                @SuppressLint("LogNotTimber")
+                                                                @Override
+                                                                public void onDataChange(@NonNull DataSnapshot snapshot1) {
+                                                                    for (DataSnapshot dSnapshot : snapshot1.getChildren()) {
+                                                                        for (DataSnapshot ignored : dSnapshot.getChildren()) {
+                                                                            String requestID = Objects.requireNonNull(dSnapshot.child("requestID").getValue()).toString();
+                                                                            if (requestID.equals(model.getRequestID())) {
+                                                                                String key = dSnapshot.getKey();
+                                                                                DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
+                                                                                assert key != null;
+                                                                                dbRef.child("Requests").child(key).removeValue()
+                                                                                        .addOnCompleteListener(task -> {
+                                                                                            if (task.isSuccessful()) {
+                                                                                                Log.d("Remove Request", "Successfully Removed");
+                                                                                            } else {
+                                                                                                Log.d("Remove Request", "Request couldn't be deleted");
+                                                                                            }
+                                                                                        });
 
+                                                                            }
                                                                         }
                                                                     }
                                                                 }
-                                                            }
 
-                                                            @Override
-                                                            public void onCancelled(@NonNull DatabaseError error) {
+                                                                @Override
+                                                                public void onCancelled(@NonNull DatabaseError error) {
 
-                                                            }
-                                                        });
+                                                                }
+                                                            });
 
                                                         })
                                                         .setNegativeButton("Dismiss", (dialog, which) -> {
@@ -146,27 +230,22 @@ public class RequestFragment extends Fragment {
                                                 alert.setTitle(model.getDescription());
                                                 alert.show();
                                             });
-                                        } else {
-                                            holder.itemView.setVisibility(View.GONE);
-//                                            holder.itemView.setLayoutParams(new RecyclerView.LayoutParams(0, 0));
-                                            ViewGroup.LayoutParams params = holder.itemView.getLayoutParams();
-                                            params.height = 0;
-                                            params.width = 0;
-                                            holder.itemView.setLayoutParams(params);
-                                        }
-                                    }
+                                }else {
+                                    holder.itemView.setVisibility(View.GONE);
+                                    ViewGroup.LayoutParams params = holder.itemView.getLayoutParams();
+                                    params.height = 0;
+                                    params.width = 0;
+                                    holder.itemView.setLayoutParams(params);
                                 }
-
                             }
-
                         }
-                    }
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
 
                     }
                 });
+
             }
 
             @NonNull
@@ -180,8 +259,7 @@ public class RequestFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(firebaseRecyclerAdapter);
         firebaseRecyclerAdapter.startListening();
-
-
+        
         return view;
     }
 }

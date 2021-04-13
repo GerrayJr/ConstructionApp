@@ -15,7 +15,7 @@
         <item
             android:id="@+id/drawer_payment"
             android:icon="@drawable/ic_money"
-            android:title="@string/lessee_payments" />
+            android:title="Transactions" />
 
         <item
             android:id="@+id/drawer_location"

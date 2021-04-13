@@ -54,12 +54,14 @@ dependencies {
     implementation 'com.squareup.picasso:picasso:2.5.2'
 
     //Firebase >>> Authentication, Database, Storage, Messaging
+    implementation platform('com.google.firebase:firebase-bom:26.8.0')
     implementation 'com.google.firebase:firebase-auth:20.0.3'
     implementation 'com.google.firebase:firebase-database:19.7.0'
     implementation 'com.firebaseui:firebase-ui-database:6.2.0'
     implementation 'com.firebaseui:firebase-ui-storage:3.2.2'
-    implementation 'com.google.firebase:firebase-storage:19.2.1'
+    implementation 'com.google.firebase:firebase-storage:19.2.2'
     implementation 'com.google.firebase:firebase-messaging:21.0.1'
+    implementation 'com.google.firebase:firebase-perf'
 
 
     //Maps and Location
@@ -92,6 +94,7 @@ dependencies {
 
     implementation 'com.google.code.gson:gson:2.8.5'
     implementation 'com.squareup.okio:okio:2.1.0'
+    implementation 'com.afollestad.material-dialogs:core:0.9.5.0'
 
 }
 repositories {

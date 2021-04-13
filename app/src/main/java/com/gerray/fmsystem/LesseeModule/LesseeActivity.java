@@ -3,6 +3,7 @@ package com.gerray.fmsystem.LesseeModule;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -22,6 +23,8 @@ import com.gerray.fmsystem.Authentication.LoginActivity;
 import com.gerray.fmsystem.ManagerModule.FacilityManager;
 import com.gerray.fmsystem.R;
 import com.gerray.fmsystem.Transactions.TransactionActivity;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -31,6 +34,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.squareup.picasso.Picasso;
 
 import java.util.Objects;
@@ -179,6 +183,7 @@ public class LesseeActivity extends AppCompatActivity implements NavigationView.
             drawerLayout.closeDrawer(GravityCompat.START);
             return true;
         });
+
     }
 
     @Override
