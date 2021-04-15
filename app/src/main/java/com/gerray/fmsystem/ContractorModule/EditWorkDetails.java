@@ -47,7 +47,6 @@ public class EditWorkDetails extends AppCompatActivity {
         Intent intent = getIntent();
         String workID = Objects.requireNonNull(intent.getExtras()).getString("workID");
         String receiverID = Objects.requireNonNull(intent.getExtras()).getString("userID");
-        Toast.makeText(this, receiverID, Toast.LENGTH_SHORT).show();
         edWork = findViewById(R.id.ed_work);
         edDescription = findViewById(R.id.ed_description);
         edStatus = findViewById(R.id.ed_status);

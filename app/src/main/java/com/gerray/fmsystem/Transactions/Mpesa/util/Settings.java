@@ -22,9 +22,7 @@ public class Settings {
             return "";
         }
         if (phoneNumber.length() < 11 & phoneNumber.startsWith("0")) {
-            //here we can just remove the inline variable instead of the p. Like you did with the rest
-            //String p = phoneNumber.replaceFirst("^0", "254");
-            //return p
+
             return phoneNumber.replaceFirst("^0", "254");
         }
         if (phoneNumber.length() == 13 && phoneNumber.startsWith("+")) {
@@ -33,12 +31,10 @@ public class Settings {
         return phoneNumber;
     }
 
-    //The Timestamp of the Transaction
     public static String generateTimestamp() {
         return new SimpleDateFormat("yyyyMMddHHmmss", Locale.getDefault()).format(new Date());
     }
 
-    //The password for Encrypting the Request
     public static String generatePassword(String businessShortCode, String passKey, String timeStamp) {
         String password = businessShortCode + passKey + timeStamp;
         return Base64.encodeToString(password.getBytes(), Base64.NO_WRAP);

@@ -28,7 +28,6 @@ import com.gerray.fmsystem.ManagerModule.Profile.FacilityProfile;
 import com.gerray.fmsystem.ManagerModule.WorkOrder.RequestFragment;
 import com.gerray.fmsystem.ManagerModule.WorkOrder.WorkFragment;
 import com.gerray.fmsystem.R;
-import com.gerray.fmsystem.Transactions.TransactionActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;

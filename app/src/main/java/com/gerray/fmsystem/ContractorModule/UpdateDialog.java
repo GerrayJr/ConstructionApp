@@ -56,17 +56,34 @@ public class UpdateDialog extends AppCompatDialogFragment {
         return builder.create();
     }
 
-    public void updateWork(String workID)
-    {
+    public void updateWork(String workID) {
         final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("Work Orders").child(workID);
-        databaseReference.addValueEventListener(new ValueEventListener() {
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 String status = edStatus.getSelectedItem().toString();
                 Integer cost = Integer.valueOf(edCost.getText().toString().trim());
 
-                databaseReference.child("cost").setValue(cost);
-                databaseReference.child("status").setValue(status);
+                databaseReference.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (snapshot.child("cost").exists()) {
+                            databaseReference.child("cost").setValue(cost);
+                        }else {
+                            databaseReference.child("cost").setValue(cost);
+                        }
+
+                        if (snapshot.child("status").exists()) {
+                            databaseReference.child("status").setValue(status);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
             }
 
             @Override

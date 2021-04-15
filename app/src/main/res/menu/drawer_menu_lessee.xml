@@ -10,7 +10,7 @@
         <item
             android:id="@+id/drawer_lessee_pay"
             android:icon="@drawable/ic_money"
-            android:title="Pay Lease" />
+            android:title="@string/Transactions" />
 
         <item
             android:id="@+id/drawer_facilityLocate"

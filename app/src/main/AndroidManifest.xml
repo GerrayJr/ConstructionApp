@@ -19,12 +19,16 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:icon">
-
-        <activity android:name=".Transactions.Mpesa.MPESAExpressActivity" />
+        <activity android:name=".ContractorModule.ContractorTransactions"></activity>
         <activity
-            android:name=".Transactions.Mpesa.MpesaActivity"
-            android:label="MPesa Payment"
+            android:name=".LesseeModule.SelectLesseeContractor"
+            android:label="Consultants"
             android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar" />
+        <activity
+            android:name=".LesseeModule.LesseeTransaction"
+            android:label="Transaction Activity"
+            android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar" />
+        <activity android:name=".Transactions.Mpesa.MPESAExpressActivity" />
         <activity
             android:name=".Transactions.PayPal.PaypalActivity"
             android:label="PayPal Payment"
@@ -61,7 +65,7 @@
         <activity android:name=".LesseeModule.LesseeProfileActivity" />
         <activity android:name=".LesseeModule.LesseeWorkDetails" />
         <activity
-            android:name=".Transactions.TransactionActivity"
+            android:name=".ManagerModule.TransactionActivity"
             android:label="Transactions Activity"
             android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar" />
         <activity
@@ -115,6 +119,7 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
+        <activity android:name=".Transactions.Mpesa.MPESAExpressLessee" />
         <activity
             android:name=".ManagerModule.Consultants.FacilityConsultant"
             android:label="Consultants"

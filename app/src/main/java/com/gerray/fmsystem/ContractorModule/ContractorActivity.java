@@ -140,6 +140,10 @@ public class ContractorActivity extends AppCompatActivity implements NavigationV
                 startActivity(new Intent(this, UpdateContractor.class));
                 return true;
 
+            case R.id.cons_transactions:
+                startActivity(new Intent(this, ContractorTransactions.class));
+                return true;
+
             case R.id.cons_settings:
 //                startActivity(new Intent(HomeActivity.this, SettingsActivity.class));
                 return true;

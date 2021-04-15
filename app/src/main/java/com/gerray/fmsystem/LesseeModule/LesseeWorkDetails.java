@@ -15,6 +15,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.gerray.fmsystem.ManagerModule.WorkOrder.SelectContractor;
+import com.gerray.fmsystem.ManagerModule.WorkOrder.WorkDetails;
 import com.gerray.fmsystem.R;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
@@ -147,10 +149,6 @@ public class LesseeWorkDetails extends AppCompatActivity implements View.OnClick
         final String requestLessee = Objects.requireNonNull(requester.getText()).toString().trim();
         final String date = Objects.requireNonNull(workDate.getText()).toString().trim();
         final String description = Objects.requireNonNull(workDescription.getText()).toString().trim();
-        final String status = "Requested";
-        final String userID = auth.getUid();
-        final String workID = UUID.randomUUID().toString();
-
 
         if (TextUtils.isEmpty(requestLessee)) {
             Toast.makeText(this, "Who Requested?", Toast.LENGTH_SHORT).show();
@@ -170,15 +168,22 @@ public class LesseeWorkDetails extends AppCompatActivity implements View.OnClick
                         fileReference.getDownloadUrl().addOnSuccessListener(uri -> {
                             final String downUri = uri.toString().trim();
 
-                            LesseeDetailsClass lesseeDetailsClass = new LesseeDetailsClass(workID, userID, requestLessee, null, date, description, status, contractorID, null, downUri);
-                            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("Work Orders");
-                            databaseReference.child(workID).setValue(lesseeDetailsClass);
+                            Intent select = new Intent(LesseeWorkDetails.this, SelectLesseeContractor.class);
+                            select.putExtra("lessee", requestLessee);
+                            select.putExtra("imageUrl", downUri);
+                            select.putExtra("description", description);
+                            select.putExtra("uri", downUri);
+                            select.putExtra("workDate", date);
+                            startActivity(select);
+
+//                            LesseeDetailsClass lesseeDetailsClass = new LesseeDetailsClass(workID, userID, requestLessee, null, date, description, status, contractorID, null, downUri);
+//                            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("Work Orders");
+//                            databaseReference.child(workID).setValue(lesseeDetailsClass);
 
                         });
 
 
                         progressDialog.dismiss();
-                        Toast.makeText(LesseeWorkDetails.this, "Work Sent", Toast.LENGTH_SHORT).show();
                     })
                     .addOnFailureListener(e -> Toast.makeText(LesseeWorkDetails.this, e.getMessage(), Toast.LENGTH_SHORT).show())
                     .addOnProgressListener(taskSnapshot -> {

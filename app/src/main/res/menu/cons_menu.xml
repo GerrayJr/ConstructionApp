@@ -7,6 +7,10 @@
         android:title="@string/update_profile"
         app:showAsAction="never"/>
     <item
+        android:id="@+id/cons_transactions"
+        android:title="@string/Transactions"
+        app:showAsAction="never"/>
+    <item
         android:id="@+id/cons_settings"
         android:title="@string/settings"
         app:showAsAction="never" />

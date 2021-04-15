@@ -128,4 +128,5 @@
     <string name="authentication_failed">Authentication Failed</string>
     <string name="not_authenticated">Not Authenticated</string>
     <string name="on_failure">On Failure</string>
+    <string name="Transactions">Transactions</string>
 </resources>
