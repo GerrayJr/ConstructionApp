@@ -13,13 +13,14 @@
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
 
     <application
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/app_icon"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:icon">
-        <activity android:name=".ContractorModule.ContractorTransactions"></activity>
+        <activity android:name=".ContractorModule.ContractorTransactions"
+            android:label="@string/Transactions"/>
         <activity
             android:name=".LesseeModule.SelectLesseeContractor"
             android:label="Consultants"
@@ -57,7 +58,8 @@
 
         <activity
             android:name=".ManagerModule.Lessee.ViewLessee"
-            android:theme="@style/Theme.AppCompat.DayNight.Dialog" />
+            android:theme="@style/Theme.AppCompat.DayNight.Dialog"
+            android:label="Profile"/>
         <activity
             android:name=".LesseeModule.LesseeProfileUpdate"
             android:theme="@style/Theme.AppCompat.DayNight.Dialog" />
@@ -70,13 +72,16 @@
             android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar" />
         <activity
             android:name=".ManagerModule.WorkOrder.WorkPopUp"
-            android:theme="@style/Theme.AppCompat.DayNight.Dialog" />
+            android:theme="@style/Theme.AppCompat.DayNight.Dialog"
+            android:label="Work Details"/>
         <activity
             android:name=".ContractorModule.EditWorkDetails"
-            android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar" />
+            android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar"
+            android:label="Edit Details"/>
         <activity
             android:name=".ManagerModule.WorkOrder.WorkDetails"
-            android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar" />
+            android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar"
+            android:label="Work Details"/>
         <activity
             android:name=".LesseeModule.RequestPopUp"
             android:theme="@style/Theme.AppCompat.DayNight.Dialog" />
@@ -127,7 +132,9 @@
         <activity
             android:name=".ContractorModule.ContractorCreate"
             android:theme="@style/Theme.AppCompat.DayNight.Dialog" />
-        <activity android:name=".ManagerModule.Location.FacilityLocation" />
+        <activity android:name=".ManagerModule.Location.FacilityLocation"
+            android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar"
+            android:label="Location Settings"/>
         <activity android:name=".ContractorModule.ContractorActivity" />
         <activity android:name=".LesseeModule.LesseeActivity" />
         <activity

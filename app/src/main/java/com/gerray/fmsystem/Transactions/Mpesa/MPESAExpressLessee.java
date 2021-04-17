@@ -60,14 +60,10 @@ public class MPESAExpressLessee extends AppCompatActivity {
 
         auth = FirebaseAuth.getInstance();
 
-
-        //Init Daraja
-        //TODO :: REPLACE WITH YOUR OWN CREDENTIALS  :: THIS IS SANDBOX DEMO
         daraja = Daraja.with("AwPFI8FI8bMXE5S3sP63EWuFHeVyKf0S", "ZAL8boGZBpcRfhqG", new DarajaListener<AccessToken>() {
             @Override
             public void onResult(@NonNull AccessToken accessToken) {
                 Log.i(MPESAExpressLessee.this.getClass().getSimpleName(), accessToken.getAccess_token());
-                Toast.makeText(MPESAExpressLessee.this, "TOKEN : " + accessToken.getAccess_token(), Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -111,36 +107,6 @@ public class MPESAExpressLessee extends AppCompatActivity {
                         public void onResult(@NonNull LNMResult lnmResult) {
                             Log.i(MPESAExpressLessee.this.getClass().getSimpleName(), lnmResult.ResponseDescription);
                             DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-//                            databaseReference.addValueEventListener(new ValueEventListener() {
-//                                @Override
-//                                public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-//                                        for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
-//                                            String userID = dataSnapshot1.child("userID").getValue().toString();
-//                                            if (auth.getUid().equals(userID))
-//                                            {
-//                                                String fManagerID = dataSnapshot1.getKey();
-//                                                DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Transactions");
-//                                                String transID = UUID.randomUUID().toString();
-//                                                DateFormat dateFormat = DateFormat.getDateInstance();
-//                                                Date date = new Date();
-//                                                final String transDate = dateFormat.format(date);
-//                                                TransactionDetails details = new TransactionDetails(transID, lnmResult.MerchantRequestID, auth.getUid(), fManagerID, amount, "Lessee Payment", transDate);
-//                                                reference.child(transID).setValue(details);
-//
-//                                                startActivity(new Intent(MPESAExpressLessee.this, LesseeTransaction.class));
-//
-//                                            }
-//                                        }
-//                                    }
-//                                }
-//
-//                                @Override
-//                                public void onCancelled(@NonNull DatabaseError error) {
-//
-//                                }
-//                            });
-
                             databaseReference.child("FacilityOccupants")
                                     .addValueEventListener(new ValueEventListener() {
                                         @Override
@@ -150,7 +116,6 @@ public class MPESAExpressLessee extends AppCompatActivity {
                                                     String userID = dataSnapshot1.child("userID").getValue().toString();
                                                     String fID = dataSnapshot.getKey();
                                                     if (auth.getUid().equals(userID)) {
-                                                        String fManagerID = dataSnapshot1.getKey();
                                                         DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Transactions");
                                                         String transID = UUID.randomUUID().toString();
                                                         DateFormat dateFormat = DateFormat.getDateInstance();
