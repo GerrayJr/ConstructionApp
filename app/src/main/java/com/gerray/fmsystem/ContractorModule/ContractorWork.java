@@ -1,5 +1,7 @@
 package com.gerray.fmsystem.ContractorModule;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -10,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.MergeAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +22,7 @@ import android.widget.Toast;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.gerray.fmsystem.LesseeModule.LesseeDetailsClass;
+import com.gerray.fmsystem.LesseeModule.LesseeWorkDetails;
 import com.gerray.fmsystem.ManagerModule.WorkOrder.DetailsClass;
 import com.gerray.fmsystem.ManagerModule.WorkOrder.WorkViewHolder;
 import com.gerray.fmsystem.R;
@@ -133,10 +137,26 @@ public class ContractorWork extends Fragment {
                 }
 
                 holder.itemView.setOnClickListener(v -> {
-                    Intent intent = new Intent(getActivity(), EditWorkDetails.class);
-                    intent.putExtra("workID", model.workID);
-                    intent.putExtra("userID", model.fManagerID);
-                    startActivity(intent);
+                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
+                    String workId = model.workID;
+                    alertDialog.setMessage(model.getWorkDescription())
+                            .setCancelable(false)
+                            .setPositiveButton("Edit Details", (dialog, which) -> {
+                                Intent intent = new Intent(getActivity(), EditWorkDetails.class);
+                                intent.putExtra("workID", workId);
+                                intent.putExtra("userID", model.fManagerID);
+                                startActivity(intent);
+                            })
+                            .setNegativeButton("View Location", (dialog, which) -> {
+                                Intent intent = new Intent(getActivity(), WorkLocation.class);
+                                intent.putExtra("workID", workId);
+                                intent.putExtra("userID", model.fManagerID);
+                                startActivity(intent);
+                            });
+
+                    AlertDialog alert = alertDialog.create();
+                    alert.setTitle("Assets");
+                    alert.show();
                 });
 
 
@@ -181,10 +201,25 @@ public class ContractorWork extends Fragment {
                     holder1.itemView.setLayoutParams(new RecyclerView.LayoutParams(0, 0));
                 }
                 holder1.itemView.setOnClickListener(v -> {
-                    Intent intent = new Intent(getActivity(), EditWorkDetails.class);
-                    intent.putExtra("workID", model.workID);
-                    intent.putExtra("userID", model.lesseeID);
-                    startActivity(intent);
+                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
+                    alertDialog.setMessage(model.getWorkDescription())
+                            .setCancelable(false)
+                            .setPositiveButton("Edit Details", (dialog, which) -> {
+                                Intent intent = new Intent(getActivity(), EditWorkDetails.class);
+                                intent.putExtra("workID", model.workID);
+                                intent.putExtra("userID", model.lesseeID);
+                                startActivity(intent);
+                            })
+                            .setNegativeButton("View Location", (dialog, which) -> {
+                                Intent intent = new Intent(getActivity(), WorkLocation.class);
+                                intent.putExtra("workID", model.workID);
+                                intent.putExtra("userID", model.lesseeID);
+                                startActivity(intent);
+                            });
+
+                    AlertDialog alert = alertDialog.create();
+                    alert.setTitle("Assets");
+                    alert.show();
                 });
             }
 

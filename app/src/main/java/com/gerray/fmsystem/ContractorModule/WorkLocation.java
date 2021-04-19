@@ -1,4 +1,4 @@
-package com.gerray.fmsystem.LesseeModule;
+package com.gerray.fmsystem.ContractorModule;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -22,6 +22,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.gerray.fmsystem.LesseeModule.InfoWindow;
 import com.gerray.fmsystem.R;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -39,13 +40,14 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class FindFacility extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
+public class WorkLocation extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
     private static final String TAG = "MapActivity";
 
@@ -53,6 +55,7 @@ public class FindFacility extends AppCompatActivity implements OnMapReadyCallbac
     private static final String COURSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1234;
     private static final float DEFAULT_ZOOM = 14f;
+
 
     //widgets
     private EditText mSearchText;
@@ -68,11 +71,10 @@ public class FindFacility extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_find_facility);
+        setContentView(R.layout.activity_work_location);
 
         mSearchText = findViewById(R.id.input_search);
         mGps = findViewById(R.id.ic_gps);
-
         getLocationPermission();
     }
 
@@ -107,7 +109,7 @@ public class FindFacility extends AppCompatActivity implements OnMapReadyCallbac
 
         String searchString = mSearchText.getText().toString();
 
-        Geocoder geocoder = new Geocoder(FindFacility.this);
+        Geocoder geocoder = new Geocoder(WorkLocation.this);
         List<Address> list = new ArrayList<>();
         try {
             list = geocoder.getFromLocationName(searchString, 1);
@@ -151,7 +153,7 @@ public class FindFacility extends AppCompatActivity implements OnMapReadyCallbac
 
                     } else {
                         Log.d(TAG, "onComplete: current location is null");
-                        Toast.makeText(FindFacility.this, "unable to get current location", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(WorkLocation.this, "unable to get current location", Toast.LENGTH_SHORT).show();
                     }
                 });
             }
@@ -163,7 +165,7 @@ public class FindFacility extends AppCompatActivity implements OnMapReadyCallbac
     @SuppressLint("LogNotTimber")
     private void moveCamera(LatLng latLng, String title) {
         Log.d(TAG, "moveCamera: moving the camera to: lat: " + latLng.latitude + ", lng: " + latLng.longitude);
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, FindFacility.DEFAULT_ZOOM));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, WorkLocation.DEFAULT_ZOOM));
 
         //For GeoLocated Places
         if (!title.equals("My Location")) {
@@ -182,7 +184,7 @@ public class FindFacility extends AppCompatActivity implements OnMapReadyCallbac
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
 
         assert mapFragment != null;
-        mapFragment.getMapAsync(FindFacility.this);
+        mapFragment.getMapAsync(WorkLocation.this);
     }
 
     @SuppressLint("LogNotTimber")
@@ -239,6 +241,8 @@ public class FindFacility extends AppCompatActivity implements OnMapReadyCallbac
         Toast.makeText(this, "Map is Ready", Toast.LENGTH_SHORT).show();
         Log.d(TAG, "onMapReady: map is ready");
         mMap = googleMap;
+        Intent intent = getIntent();
+        String receiverID = Objects.requireNonNull(intent.getExtras()).getString("userID");
 
         if (mLocationPermissionsGranted) {
             getDeviceLocation();
@@ -252,37 +256,117 @@ public class FindFacility extends AppCompatActivity implements OnMapReadyCallbac
             mMap.getUiSettings().setMyLocationButtonEnabled(false);
 
             firebaseDatabase = FirebaseDatabase.getInstance();
-            firebaseDatabaseReference = firebaseDatabase.getReference().child("Locations");
-            firebaseDatabaseReference.addChildEventListener(new ChildEventListener() {
+            DatabaseReference databaseReference = firebaseDatabase.getReference().child("Users").child(receiverID);
+            databaseReference.addValueEventListener(new ValueEventListener() {
                 @Override
-                public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                    LatLng facilityLoc = new LatLng(
-                            snapshot.child("latitude").getValue(Double.class),
-                            snapshot.child("longitude").getValue(Double.class)
-                    );
-                    String facilityName = snapshot.child("facilityName").getValue(String.class);
-                    String facilityUserID = snapshot.child("userID").getValue(String.class);
-                    mMap.addMarker(new MarkerOptions()
-                            .position(facilityLoc)
-                            .title(facilityName)
-                            .snippet(facilityUserID)
-                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    String userType = snapshot.child("category").getValue().toString();
+                    if (userType.equals("Facility Manager")) {
+                        firebaseDatabaseReference = firebaseDatabase.getReference().child("Locations");
+                        firebaseDatabaseReference.addChildEventListener(new ChildEventListener() {
+                            @Override
+                            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                                String user = snapshot.child("userID").getValue().toString();
+                                if (user.equals(receiverID)) {
+                                    LatLng facilityLoc = new LatLng(
+                                            snapshot.child("latitude").getValue(Double.class),
+                                            snapshot.child("longitude").getValue(Double.class)
+                                    );
+                                    String facilityName = snapshot.child("facilityName").getValue(String.class);
+                                    String facilityUserID = snapshot.child("userID").getValue(String.class);
+                                    mMap.addMarker(new MarkerOptions()
+                                            .position(facilityLoc)
+                                            .title(facilityName)
+                                            .snippet(facilityUserID)
+                                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
+                                }
 
-                }
+                            }
 
-                @Override
-                public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                            @Override
+                            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
 
-                }
+                            }
 
-                @Override
-                public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+                            @Override
+                            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
 
-                }
+                            }
 
-                @Override
-                public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                            @Override
+                            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
 
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+                    }
+                    else if (userType.equals("Lessee")){
+                        DatabaseReference databaseReference1 = firebaseDatabase.getReference().child("FacilityOccupants");
+                        databaseReference1.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                for (DataSnapshot dataSnapshot : snapshot.getChildren()){
+                                    for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()){
+                                        String lesseeID = dataSnapshot1.child("userID").getValue().toString();
+                                        if (lesseeID.equals(receiverID)){
+                                            String fID = dataSnapshot.getKey();
+                                            firebaseDatabaseReference = firebaseDatabase.getReference().child("Locations");
+                                            firebaseDatabaseReference.addChildEventListener(new ChildEventListener() {
+                                                @Override
+                                                public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                                                    String user = snapshot.child("userID").getValue().toString();
+                                                    if (user.equals(fID)) {
+                                                        LatLng facilityLoc = new LatLng(
+                                                                snapshot.child("latitude").getValue(Double.class),
+                                                                snapshot.child("longitude").getValue(Double.class)
+                                                        );
+                                                        String facilityName = snapshot.child("facilityName").getValue(String.class);
+                                                        String facilityUserID = snapshot.child("userID").getValue(String.class);
+                                                        mMap.addMarker(new MarkerOptions()
+                                                                .position(facilityLoc)
+                                                                .title(facilityName)
+                                                                .snippet(facilityUserID)
+                                                                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
+                                                    }
+
+                                                }
+
+                                                @Override
+                                                public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                                                }
+
+                                                @Override
+                                                public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+                                                }
+
+                                                @Override
+                                                public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                                                }
+
+                                                @Override
+                                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                                }
+                                            });
+
+                                        }
+                                    }
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+                    }
                 }
 
                 @Override
@@ -291,6 +375,7 @@ public class FindFacility extends AppCompatActivity implements OnMapReadyCallbac
                 }
             });
 
+
             init();
             mMap.setOnMarkerClickListener(this);
         }
@@ -298,15 +383,15 @@ public class FindFacility extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     public boolean onMarkerClick(Marker marker) {
-        mMap.setInfoWindowAdapter(new InfoWindow(FindFacility.this));
+        mMap.setInfoWindowAdapter(new InfoWindow(WorkLocation.this));
+        Intent intent = getIntent();
+        String workID = Objects.requireNonNull(intent.getExtras()).getString("workID");
+        String receiverID = Objects.requireNonNull(intent.getExtras()).getString("userID");
         mMap.setOnInfoWindowClickListener(marker1 -> {
 
-            String fcName = marker1.getTitle();
-            String fcID = marker1.getSnippet();
-
-            Intent viewInfo = new Intent(FindFacility.this, FacilityInformation.class);
-            viewInfo.putExtra("title", fcName);
-            viewInfo.putExtra("userID", fcID);
+            Intent viewInfo = new Intent(WorkLocation.this, EditWorkDetails.class);
+            viewInfo.putExtra("userID",receiverID);
+            viewInfo.putExtra("workID", workID);
             startActivity(viewInfo);
         });
         return false;

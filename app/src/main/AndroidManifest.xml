@@ -13,14 +13,16 @@
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
 
     <application
-        android:icon="@drawable/app_icon"
+        android:icon="@drawable/appicon"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/appicon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:icon">
-        <activity android:name=".ContractorModule.ContractorTransactions"
-            android:label="@string/Transactions"/>
+        <activity android:name=".ContractorModule.WorkLocation"></activity>
+        <activity
+            android:name=".ContractorModule.ContractorTransactions"
+            android:label="@string/Transactions" />
         <activity
             android:name=".LesseeModule.SelectLesseeContractor"
             android:label="Consultants"
@@ -58,8 +60,8 @@
 
         <activity
             android:name=".ManagerModule.Lessee.ViewLessee"
-            android:theme="@style/Theme.AppCompat.DayNight.Dialog"
-            android:label="Profile"/>
+            android:label="Profile"
+            android:theme="@style/Theme.AppCompat.DayNight.Dialog" />
         <activity
             android:name=".LesseeModule.LesseeProfileUpdate"
             android:theme="@style/Theme.AppCompat.DayNight.Dialog" />
@@ -72,16 +74,16 @@
             android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar" />
         <activity
             android:name=".ManagerModule.WorkOrder.WorkPopUp"
-            android:theme="@style/Theme.AppCompat.DayNight.Dialog"
-            android:label="Work Details"/>
+            android:label="Work Details"
+            android:theme="@style/Theme.AppCompat.DayNight.Dialog" />
         <activity
             android:name=".ContractorModule.EditWorkDetails"
-            android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar"
-            android:label="Edit Details"/>
+            android:label="Edit Details"
+            android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar" />
         <activity
             android:name=".ManagerModule.WorkOrder.WorkDetails"
-            android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar"
-            android:label="Work Details"/>
+            android:label="Work Details"
+            android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar" />
         <activity
             android:name=".LesseeModule.RequestPopUp"
             android:theme="@style/Theme.AppCompat.DayNight.Dialog" />
@@ -132,9 +134,10 @@
         <activity
             android:name=".ContractorModule.ContractorCreate"
             android:theme="@style/Theme.AppCompat.DayNight.Dialog" />
-        <activity android:name=".ManagerModule.Location.FacilityLocation"
-            android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar"
-            android:label="Location Settings"/>
+        <activity
+            android:name=".ManagerModule.Location.FacilityLocation"
+            android:label="Location Settings"
+            android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar" />
         <activity android:name=".ContractorModule.ContractorActivity" />
         <activity android:name=".LesseeModule.LesseeActivity" />
         <activity
