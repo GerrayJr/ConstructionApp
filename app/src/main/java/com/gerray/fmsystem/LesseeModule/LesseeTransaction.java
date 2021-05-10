@@ -71,11 +71,34 @@ public class LesseeTransaction extends AppCompatActivity {
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("Work Orders");
         DatabaseReference reference1 = FirebaseDatabase.getInstance().getReference().child("Transactions");
+        DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference().child("Users").child(firebaseUser.getUid());
+        dbRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String phoneNumber = snapshot.child("phone").getValue().toString();
+                Button payLessee = findViewById(R.id.btn_payLessee);
+                payLessee.setOnClickListener(v -> {
+                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(LesseeTransaction.this);
+                    alertDialog.setMessage("Choose the payment method you will use")
+                            .setCancelable(false)
+                            .setPositiveButton("Lipa na Mpesa", (dialog, which) -> startActivity(new Intent(LesseeTransaction.this, MPESAExpressLessee.class).putExtra("phone",phoneNumber)))
+                            .setNegativeButton("Pay with PayPal", (dialog, which) -> {
+                                startActivity(new Intent(LesseeTransaction.this, PaypalActivity.class));
+                            });
 
-        Button payLessee = findViewById(R.id.btn_payLessee);
-        payLessee.setOnClickListener(v -> {
-            startActivity(new Intent(this, MPESAExpressLessee.class));
+                    AlertDialog alert = alertDialog.create();
+                    alert.setTitle("Payment Method");
+                    alert.show();
+                });
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
         });
+
+
 
         options = new FirebaseRecyclerOptions.Builder<LesseeDetailsClass>().setQuery(databaseReference, LesseeDetailsClass.class).build();
         firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<LesseeDetailsClass, WorkViewHolder>(options) {

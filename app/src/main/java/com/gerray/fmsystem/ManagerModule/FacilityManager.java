@@ -167,9 +167,6 @@ public class FacilityManager extends AppCompatActivity implements NavigationView
                 case R.id.drawer_contact:
                     contactUs();
                     break;
-                case R.id.drawer_help:
-                    Toast.makeText(FacilityManager.this, "Help activity", Toast.LENGTH_SHORT).show();
-                    break;
                 case R.id.drawer_location:
                     startActivity(new Intent(FacilityManager.this, FacilityLocation.class));
                     break;

@@ -19,7 +19,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:icon">
-        <activity android:name=".ContractorModule.WorkLocation"></activity>
+        <activity android:name=".ContractorModule.WorkLocation" />
         <activity
             android:name=".ContractorModule.ContractorTransactions"
             android:label="@string/Transactions" />
@@ -36,14 +36,30 @@
             android:name=".Transactions.PayPal.PaypalActivity"
             android:label="PayPal Payment"
             android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar" />
-
-        <service
-            android:name=".Messaging.FirebaseMessagingService"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-        </service>
+        <activity
+            android:name=".ManagerModule.Lessee.ViewLessee"
+            android:label="Profile"
+            android:theme="@style/Theme.AppCompat.DayNight.Dialog" />
+        <activity
+            android:name=".LesseeModule.LesseeProfileUpdate"
+            android:theme="@style/Theme.AppCompat.DayNight.Dialog" />
+        <activity android:name=".Authentication.PermissionActivity" />
+        <activity android:name=".LesseeModule.LesseeProfileActivity"
+            android:label="Profile Page"
+            android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar"/>
+        <activity android:name=".LesseeModule.LesseeWorkDetails" />
+        <activity
+            android:name=".ManagerModule.TransactionActivity"
+            android:label="Transactions Activity"
+            android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar" />
+        <activity
+            android:name=".ManagerModule.WorkOrder.WorkPopUp"
+            android:label="Work Details"
+            android:theme="@style/Theme.AppCompat.DayNight.Dialog" />
+        <activity
+            android:name=".ContractorModule.EditWorkDetails"
+            android:label="Edit Details"
+            android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar" />
 
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
@@ -58,28 +74,7 @@
             android:name="firebase_analytics_collection_enabled"
             android:value="false" />
 
-        <activity
-            android:name=".ManagerModule.Lessee.ViewLessee"
-            android:label="Profile"
-            android:theme="@style/Theme.AppCompat.DayNight.Dialog" />
-        <activity
-            android:name=".LesseeModule.LesseeProfileUpdate"
-            android:theme="@style/Theme.AppCompat.DayNight.Dialog" />
-        <activity android:name=".Authentication.PermissionActivity" />
-        <activity android:name=".LesseeModule.LesseeProfileActivity" />
-        <activity android:name=".LesseeModule.LesseeWorkDetails" />
-        <activity
-            android:name=".ManagerModule.TransactionActivity"
-            android:label="Transactions Activity"
-            android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar" />
-        <activity
-            android:name=".ManagerModule.WorkOrder.WorkPopUp"
-            android:label="Work Details"
-            android:theme="@style/Theme.AppCompat.DayNight.Dialog" />
-        <activity
-            android:name=".ContractorModule.EditWorkDetails"
-            android:label="Edit Details"
-            android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar" />
+
         <activity
             android:name=".ManagerModule.WorkOrder.WorkDetails"
             android:label="Work Details"
@@ -143,7 +138,10 @@
         <activity
             android:name=".ManagerModule.Profile.ProfilePopUp"
             android:theme="@style/Theme.AppCompat.DayNight.Dialog" />
-        <activity android:name=".ManagerModule.Profile.FacilityProfile" />
+        <activity
+            android:name=".ManagerModule.Profile.FacilityProfile"
+            android:label="Profile Page"
+            android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar" />
         <activity
             android:name=".ManagerModule.FacilityManager"
             android:label="@string/title_activity_facility_manager" />
@@ -151,7 +149,10 @@
         <activity
             android:name=".ManagerModule.FacilityCreate"
             android:theme="@style/Theme.AppCompat.DayNight.Dialog" />
-        <activity android:name=".Authentication.CreateActivity" />
+        <activity
+            android:name=".Authentication.CreateActivity"
+            android:label="Create Account"
+            android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar" />
         <activity
             android:name=".ManagerModule.Assets.AssetPopUp"
             android:theme="@style/Theme.AppCompat.DayNight.Dialog" />

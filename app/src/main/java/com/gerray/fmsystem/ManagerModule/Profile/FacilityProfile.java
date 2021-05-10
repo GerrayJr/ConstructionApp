@@ -63,6 +63,10 @@ public class FacilityProfile extends AppCompatActivity {
                                 String facManager = Objects.requireNonNull(snapshot.child("facilityManager").getValue()).toString().trim();
                                 facilityManager.setText(facManager);
                             }
+                            if (snapshot.child("name").exists()) {
+                                String facName = Objects.requireNonNull(snapshot.child("name").getValue()).toString().trim();
+                                facilityName.setText(facName);
+                            }
                         }
 
                         @Override
@@ -83,10 +87,6 @@ public class FacilityProfile extends AppCompatActivity {
                                 if (snapshot.child("emailAddress").exists()) {
                                     String emailAddress = Objects.requireNonNull(snapshot.child("emailAddress").getValue()).toString().trim();
                                     facilityEmail.setText(emailAddress);
-                                }
-                                if (snapshot.child("facilityName").exists()) {
-                                    String facName = Objects.requireNonNull(snapshot.child("facilityName").getValue()).toString().trim();
-                                    facilityName.setText(facName);
                                 }
                                 if (snapshot.child("facilityType").exists()) {
                                     String facilityType = Objects.requireNonNull(snapshot.child("facilityType").getValue()).toString().trim();

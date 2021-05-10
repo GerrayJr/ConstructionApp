@@ -150,6 +150,7 @@ public class TransactionActivity extends AppCompatActivity {
                     holder.transDate.setText(model.getTransactionDate());
                     holder.transDesc.setText(model.getTransactionDescription());
                     holder.transAmount.setText(model.getCost());
+                    holder.personType.setText("Paid to:");
 
                     String consID = model.getPayeeID();
                     DatabaseReference databaseReference1 = FirebaseDatabase.getInstance().getReference().child("Users").child(consID);
@@ -177,6 +178,7 @@ public class TransactionActivity extends AppCompatActivity {
                     holder.transDate.setText(model.getTransactionDate());
                     holder.transDesc.setText(model.getTransactionDescription());
                     holder.transAmount.setText(model.getCost());
+                    holder.personType.setText("Received from:");
 
                     String lesseeID = model.getPayerID();
                     DatabaseReference databaseReference1 = FirebaseDatabase.getInstance().getReference().child("Users").child(lesseeID);

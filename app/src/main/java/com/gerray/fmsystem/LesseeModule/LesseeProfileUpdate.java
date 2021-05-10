@@ -39,7 +39,7 @@ public class LesseeProfileUpdate extends AppCompatActivity {
     private static final int PICK_IMAGE_REQUEST = 1;
     private Uri mImageUri;
 
-    DatabaseReference databaseReference, firebaseDatabaseReference;
+    DatabaseReference databaseReference, firebaseDatabaseReference, reference, ref1;
     StorageReference mStorageRef;
     StorageTask mUploadTask;
     FirebaseAuth auth;
@@ -84,7 +84,7 @@ public class LesseeProfileUpdate extends AppCompatActivity {
             databaseReference = FirebaseDatabase.getInstance().getReference().child("Lessees").child(currentUser.getUid());
             mStorageRef = FirebaseStorage.getInstance().getReference().child("Lessees").child(currentUser.getUid());
 
-            databaseReference.child("Profile")
+            databaseReference
                     .addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -92,18 +92,31 @@ public class LesseeProfileUpdate extends AppCompatActivity {
                                 String lName = Objects.requireNonNull(snapshot.child("lesseeName").getValue()).toString().trim();
                                 edLesseeName.setText(lName);
                             }
-                            if (snapshot.child("emailAddress").exists()) {
-                                String emailAddress = Objects.requireNonNull(snapshot.child("emailAddress").getValue()).toString().trim();
-                                edEmail.setText(emailAddress);
-                            }
-                            if (snapshot.child("phoneNumber").exists()) {
-                                String occNo = Objects.requireNonNull(snapshot.child("phoneNumber").getValue()).toString().trim();
-                                edPhone.setText(occNo);
-                            }
                             if (snapshot.child("contactName").exists()) {
                                 String coName = Objects.requireNonNull(snapshot.child("contactName").getValue()).toString().trim();
                                 edContact.setText(coName);
                             }
+                            reference = FirebaseDatabase.getInstance().getReference().child("Lessees").child(currentUser.getUid()).child("Profile");
+
+                                    reference.addValueEventListener(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                            if (snapshot.child("emailAddress").exists()) {
+                                                String emailAddress = Objects.requireNonNull(snapshot.child("emailAddress").getValue()).toString().trim();
+                                                edEmail.setText(emailAddress);
+                                            }
+                                            if (snapshot.child("phoneNumber").exists()) {
+                                                String occNo = Objects.requireNonNull(snapshot.child("phoneNumber").getValue()).toString().trim();
+                                                edPhone.setText(occNo);
+                                            }
+
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError error) {
+
+                                        }
+                                    });
 
                         }
 
@@ -183,7 +196,8 @@ public class LesseeProfileUpdate extends AppCompatActivity {
                             fileReference.getDownloadUrl().addOnSuccessListener(uri -> {
                                 final String downUri = uri.toString().trim();
                                 ProfileUpdate profileUpdate = new ProfileUpdate(contactName, lesseeName, activity, email, phone, downUri);
-                                databaseReference.child("Profile").setValue(profileUpdate);
+                                ref1 = FirebaseDatabase.getInstance().getReference().child("Lessees").child(firebaseUser.getUid()).child("Profile");
+                                ref1.setValue(profileUpdate);
 
                                 DatabaseReference databaseReference1 = FirebaseDatabase.getInstance().getReference().child("Lessees").child(firebaseUser.getUid());
                                 databaseReference1.child("lesseeName").setValue(lesseeName);

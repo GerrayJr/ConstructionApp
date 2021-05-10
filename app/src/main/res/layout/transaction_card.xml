@@ -14,11 +14,11 @@
         android:padding="10dp">
 
         <TextView
-            android:id="@+id/tv_description"
+            android:id="@+id/tv_personDes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="17dp"
-            android:text="Paid To:"
+            android:text=""
             android:textSize="15sp"
             android:textStyle="bold" />
 
@@ -27,7 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
-            android:layout_toEndOf="@+id/tv_description"
+            android:layout_toEndOf="@+id/tv_personDes"
             android:text=""
             android:textSize="15sp" />
 
@@ -35,7 +35,7 @@
             android:id="@+id/tv_facilityInd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_description"
+            android:layout_below="@+id/tv_personDes"
             android:layout_marginStart="15dp"
             android:layout_marginTop="10dp"
             android:text="Description:"

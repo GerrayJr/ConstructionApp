@@ -26,7 +26,7 @@ public class LesseeProfileActivity extends AppCompatActivity {
 
     FirebaseAuth auth;
     FirebaseDatabase firebaseDatabase;
-    DatabaseReference firebaseDatabaseReference, reference, dbRef;
+    DatabaseReference firebaseDatabaseReference, reference, dbRef, reference1;
     FirebaseUser firebaseUser;
 
     TextView lesseeName, contactName, activityType, phone, email, facilityName, roomNo;
@@ -42,6 +42,7 @@ public class LesseeProfileActivity extends AppCompatActivity {
         firebaseDatabase = FirebaseDatabase.getInstance();
         firebaseDatabaseReference = firebaseDatabase.getReference();
         reference = firebaseDatabase.getReference();
+        reference1 = firebaseDatabase.getReference();
         dbRef = firebaseDatabase.getReference();
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -58,7 +59,7 @@ public class LesseeProfileActivity extends AppCompatActivity {
         btnUpdate.setOnClickListener(v -> startActivity(new Intent(LesseeProfileActivity.this, LesseeProfileUpdate.class)));
 
         if (firebaseUser != null) {
-            reference.child("Lessees").child(firebaseUser.getUid()).child("Profile")
+            reference.child("Lessees").child(firebaseUser.getUid())
                     .addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -71,16 +72,28 @@ public class LesseeProfileActivity extends AppCompatActivity {
                             if (snapshot.child("activityType").exists()) {
                                 activityType.setText(snapshot.child("activityType").getValue().toString());
                             }
-                            if (snapshot.child("emailAddress").exists()) {
-                                email.setText(snapshot.child("emailAddress").getValue().toString());
-                            }
-                            if (snapshot.child("phoneNumber").exists()) {
-                                phone.setText(snapshot.child("phoneNumber").getValue().toString());
-                            }
-                            if (snapshot.child("uri").exists()) {
-                                String imageUrl = Objects.requireNonNull(snapshot.child("uri").getValue()).toString().trim();
-                                Picasso.with(LesseeProfileActivity.this).load(imageUrl).into(lesseeImage);
-                            }
+
+                            reference1.child("Lessees").child(firebaseUser.getUid()).child("Profile")
+                                    .addValueEventListener(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                            if (snapshot.child("emailAddress").exists()) {
+                                                email.setText(snapshot.child("emailAddress").getValue().toString());
+                                            }
+                                            if (snapshot.child("phoneNumber").exists()) {
+                                                phone.setText(snapshot.child("phoneNumber").getValue().toString());
+                                            }
+                                            if (snapshot.child("uri").exists()) {
+                                                String imageUrl = Objects.requireNonNull(snapshot.child("uri").getValue()).toString().trim();
+                                                Picasso.with(LesseeProfileActivity.this).load(imageUrl).into(lesseeImage);
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError error) {
+
+                                        }
+                                    });
 
                         }
 

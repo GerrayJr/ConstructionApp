@@ -144,10 +144,6 @@ public class ContractorActivity extends AppCompatActivity implements NavigationV
                 startActivity(new Intent(this, ContractorTransactions.class));
                 return true;
 
-            case R.id.cons_settings:
-//                startActivity(new Intent(HomeActivity.this, SettingsActivity.class));
-                return true;
-
             case R.id.cons_share:
                 shareApp();
                 return true;

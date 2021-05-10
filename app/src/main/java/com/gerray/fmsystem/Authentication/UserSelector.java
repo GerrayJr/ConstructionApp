@@ -34,7 +34,6 @@ public class UserSelector extends AppCompatActivity {
         ProgressBar pgsBar = findViewById(R.id.pBar);
         pgsBar.setVisibility(View.VISIBLE);
 
-        //Initializing Firebase Variables
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         firebaseDatabase = FirebaseDatabase.getInstance();
         firebaseDatabaseReference = firebaseDatabase.getReference();

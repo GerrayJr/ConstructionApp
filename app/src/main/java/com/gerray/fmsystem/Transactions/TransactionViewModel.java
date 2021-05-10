@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.gerray.fmsystem.R;
 
 public class TransactionViewModel extends RecyclerView.ViewHolder {
-    public TextView payee, transAmount, transDesc, transDate;
+    public TextView payee, transAmount, transDesc, transDate, personType;
 
     public TransactionViewModel(@NonNull View itemView) {
         super(itemView);
@@ -17,6 +17,7 @@ public class TransactionViewModel extends RecyclerView.ViewHolder {
         transAmount = itemView.findViewById(R.id.tv_transAmount);
         transDate = itemView.findViewById(R.id.tv_transDate);
         transDesc = itemView.findViewById(R.id.tv_transDesc);
+        personType = itemView.findViewById(R.id.tv_personDes);
 
     }
 }

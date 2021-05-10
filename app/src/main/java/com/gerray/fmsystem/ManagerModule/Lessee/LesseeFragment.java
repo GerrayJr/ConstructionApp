@@ -100,35 +100,48 @@ public class LesseeFragment extends Fragment {
                             })
 
                             .setNegativeButton("Remove Lessee", (dialog, which) -> {
-                                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-                                databaseReference.child("FacilityOccupants").child(currentUser.getUid()).child(model.getRoom()).removeValue()
-                                        .addOnCompleteListener(task -> {
-                                            if (task.isSuccessful()) {
-                                                Toast.makeText(getContext(), "Lessee Removed", Toast.LENGTH_SHORT).show();
-                                                ref = FirebaseDatabase.getInstance().getReference().child("Facilities").child(currentUser.getUid()).child("Profile");
-                                                ref.addListenerForSingleValueEvent(new ValueEventListener() {
-                                                    @Override
-                                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                                        if (snapshot.child("occupancyNo").exists()) {
-                                                            final int occNo = Integer.parseInt(Objects.requireNonNull(snapshot.child("occupancyNo").getValue()).toString());
+                                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("FacilityOccupants").child(currentUser.getUid());
+                                databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                        if (snapshot.child(model.room).exists())
+                                        {
+                                            snapshot.getRef().removeValue()
+                                                    .addOnCompleteListener(task -> {
+                                                        if (task.isSuccessful()) {
+                                                            Toast.makeText(getContext(), "Lessee Removed", Toast.LENGTH_SHORT).show();
+                                                            ref = FirebaseDatabase.getInstance().getReference().child("Facilities").child(currentUser.getUid()).child("Profile");
+                                                            ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                                                                @Override
+                                                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                                    if (snapshot.child("occupancyNo").exists()) {
+                                                                        final int occNo = Integer.parseInt(Objects.requireNonNull(snapshot.child("occupancyNo").getValue()).toString());
 
-                                                            int newCode = occNo + 1;
-                                                            ref.child("occupancyNo").setValue(newCode);
+                                                                        int newCode = occNo + 1;
+                                                                        ref.child("occupancyNo").setValue(newCode);
 
+                                                                    }
+                                                                }
+
+
+                                                                @Override
+                                                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                                                }
+
+                                                            });
+                                                        } else {
+                                                            Log.d("Delete Asset", "Asset couldn't be deleted");
                                                         }
-                                                    }
+                                                    });
+                                        }
+                                    }
 
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
 
-                                                    @Override
-                                                    public void onCancelled(@NonNull DatabaseError error) {
-
-                                                    }
-
-                                                });
-                                            } else {
-                                                Log.d("Delete Asset", "Asset couldn't be deleted");
-                                            }
-                                        });
+                                    }
+                                });                                 
                             });
 
                     AlertDialog alert = alertDialog.create();

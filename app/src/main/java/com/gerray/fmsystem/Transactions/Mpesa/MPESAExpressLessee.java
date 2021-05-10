@@ -29,6 +29,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.text.DateFormat;
 import java.util.Date;
+import java.util.Objects;
 import java.util.UUID;
 
 import butterknife.BindView;
@@ -55,10 +56,15 @@ public class MPESAExpressLessee extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mpesaexpress);
-        editTextAmount = findViewById(R.id.editTextAmount);
+
         ButterKnife.bind(this);
 
         auth = FirebaseAuth.getInstance();
+        Intent intent = getIntent();
+        String phoneNo = Objects.requireNonNull(intent.getExtras().getString("phone"));
+
+        editTextAmount = findViewById(R.id.editTextAmount);
+        editTextPhoneNumber.setText(phoneNo);
 
         daraja = Daraja.with("AwPFI8FI8bMXE5S3sP63EWuFHeVyKf0S", "ZAL8boGZBpcRfhqG", new DarajaListener<AccessToken>() {
             @Override
@@ -96,7 +102,7 @@ public class MPESAExpressLessee extends AppCompatActivity {
                     "174379",
                     phoneNumber,
                     "http://mpesa-requestbin.herokuapp.com/v5zzbkv6",
-                    "MPESA Android Test ",
+                    "iFacility Lease Payment",
                     "Payment"
             );
 
