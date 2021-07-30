@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="@string/information">
+        <menu>
+            <item
+                android:id="@+id/drawer_info"
+                android:icon="@drawable/ic_info"
+                android:title="@string/project_info" />
+
+            <item
+                android:id="@+id/drawer_team"
+                android:icon="@drawable/ic_team"
+                android:title="@string/construction_team" />
+
+
+            <item
+                android:id="@+id/drawer_files"
+                android:icon="@drawable/ic_files"
+                android:title="@string/project_files" />
+
+            <item
+                android:id="@+id/project_media"
+                android:icon="@drawable/ic_photo"
+                android:title="@string/project_gallery" />
+
+        </menu>
+    </item>
+
+    <item
+        android:title="@string/construction">
+        <menu>
+            <item
+
+                android:id="@+id/drawer_build"
+                android:icon="@drawable/ic_building"
+                android:title="@string/buildingProcess" />
+
+
+            <item
+                android:id="@+id/drawer_cost"
+                android:icon="@drawable/ic_cost"
+                android:title="@string/cost_estimation" />
+
+            <item
+                android:id="@+id/drawer_manage"
+                android:icon="@drawable/ic_tool"
+                android:title="@string/material_management" />
+
+        </menu>
+    </item>
+
+    <item
+        android:id="@+id/drawer_settings"
+        android:icon="@drawable/ic_settings"
+        android:title="@string/project_settings" />
+
+    <item android:title="@string/communicate_with_us">
+        <menu>
+            <item
+                android:id="@+id/drawer_share"
+                android:icon="@drawable/ic_share"
+                android:title="@string/share_app" />
+
+            <item
+                android:id="@+id/drawer_contact"
+                android:icon="@drawable/phone"
+                android:title="@string/contact_us" />
+        </menu>
+    </item>
+    <item
+        android:id="@+id/drawer_logOut"
+        android:icon="@drawable/ic_exit"
+        android:title="@string/log_out" />
+
+</menu>
+

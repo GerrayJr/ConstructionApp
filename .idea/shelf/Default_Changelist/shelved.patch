@@ -1,0 +1,656 @@
+Index: app/src/main/java/com/gerray/constructionmanagment/HomeActivity/HomeActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.gerray.constructionmanagment.HomeActivity;\r\n\r\nimport android.content.Intent;\r\nimport android.os.Bundle;\r\n\r\nimport com.firebase.ui.database.FirebaseRecyclerAdapter;\r\nimport com.firebase.ui.database.FirebaseRecyclerOptions;\r\nimport com.gerray.constructionmanagment.Authentication.LoginActivity;\r\nimport com.gerray.constructionmanagment.ProjectActivity.ProjectActivity;\r\nimport com.google.android.material.floatingactionbutton.FloatingActionButton;\r\n\r\nimport androidx.annotation.NonNull;\r\nimport androidx.appcompat.app.AppCompatActivity;\r\nimport androidx.recyclerview.widget.LinearLayoutManager;\r\nimport androidx.recyclerview.widget.RecyclerView;\r\n\r\nimport android.view.LayoutInflater;\r\nimport android.view.Menu;\r\nimport android.view.MenuInflater;\r\nimport android.view.MenuItem;\r\nimport android.view.View;\r\nimport android.view.ViewGroup;\r\nimport android.widget.Toast;\r\n\r\nimport com.gerray.constructionmanagment.R;\r\nimport com.google.firebase.auth.FirebaseAuth;\r\nimport com.google.firebase.auth.FirebaseUser;\r\nimport com.google.firebase.database.DatabaseReference;\r\nimport com.google.firebase.database.FirebaseDatabase;\r\n\r\nimport java.util.ArrayList;\r\n\r\npublic class HomeActivity extends AppCompatActivity {\r\n\r\n    private static final String TAG = \"HomeActivity\";\r\n    private FirebaseAuth auth;\r\n    private RecyclerView recyclerView;\r\n    private ArrayList<ProjectCreate> arrayList;\r\n    FirebaseRecyclerOptions<ProjectCreate> options;\r\n    FirebaseRecyclerAdapter<ProjectCreate, ProjectViewHolder> adapter;\r\n    DatabaseReference dbRef;\r\n\r\n    public void onStart() {\r\n        super.onStart();\r\n        adapter.startListening();\r\n        adapter.startListening();\r\n        adapter.notifyDataSetChanged();\r\n        // Check if user is signed in (non-null) and update UI accordingly.\r\n        FirebaseUser currentUser = auth.getCurrentUser();\r\n\r\n    }\r\n\r\n    @Override\r\n    protected void onStop() {\r\n        super.onStop();\r\n        if (adapter != null) {\r\n            adapter.stopListening();\r\n        }\r\n    }\r\n\r\n    @Override\r\n    protected void onCreate(Bundle savedInstanceState) {\r\n        super.onCreate(savedInstanceState);\r\n        setContentView(R.layout.activity_home);\r\n        auth = FirebaseAuth.getInstance();\r\n        FirebaseUser currentUser = auth.getCurrentUser();\r\n        dbRef = FirebaseDatabase.getInstance().getReference().child(\"Projects\").child(currentUser.getUid());\r\n        dbRef.keepSynced(true);\r\n\r\n        options = new FirebaseRecyclerOptions.Builder<ProjectCreate>().setQuery(dbRef, ProjectCreate.class).build();\r\n        adapter = new FirebaseRecyclerAdapter<ProjectCreate, ProjectViewHolder>(options) {\r\n            @Override\r\n            protected void onBindViewHolder(@NonNull ProjectViewHolder holder, int position, @NonNull final ProjectCreate model) {\r\n                holder.tvName.setText(model.getProjectName());\r\n                holder.tvComp.setText(model.getCompanyName());\r\n                holder.tvloc.setText(model.getLocation());\r\n                holder.tvDate.setText(model.getCreationDate());\r\n                holder.itemView.setOnClickListener(new View.OnClickListener() {\r\n                    @Override\r\n                    public void onClick(View v) {\r\n                        Intent intent = new Intent(HomeActivity.this, ProjectActivity.class);\r\n                        intent.putExtra(\"name\",model.getProjectName());\r\n                        startActivity(intent);\r\n                    }\r\n                });\r\n            }\r\n\r\n            @NonNull\r\n            @Override\r\n            public ProjectViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {\r\n                return new ProjectViewHolder(LayoutInflater.from(HomeActivity.this).inflate(R.layout.project_recycler_items, parent, false));\r\n            }\r\n        };\r\n\r\n        arrayList = new ArrayList<ProjectCreate>();\r\n        recyclerView = findViewById(R.id.recycler_view);\r\n        recyclerView.setLayoutManager(new LinearLayoutManager(this));\r\n        recyclerView.setAdapter(adapter);\r\n        adapter.startListening();\r\n\r\n        FloatingActionButton fab = findViewById(R.id.fab);\r\n        fab.setOnClickListener(new View.OnClickListener() {\r\n            @Override\r\n            public void onClick(View view) {\r\n                Intent intent = new Intent(HomeActivity.this, PopUpWindow.class);\r\n                startActivityForResult(intent, 1);\r\n\r\n            }\r\n        });\r\n\r\n\r\n    }\r\n\r\n    @Override\r\n    public boolean onCreateOptionsMenu(Menu menu) {\r\n        MenuInflater inflater = getMenuInflater();\r\n        inflater.inflate(R.menu.home_menu, menu);\r\n        return true;\r\n    }\r\n\r\n    @Override\r\n    public boolean onOptionsItemSelected(@NonNull MenuItem item) {\r\n        switch (item.getItemId()) {\r\n            case R.id.home_profile:\r\n                startActivity(new Intent(this, ProfileActivity.class));\r\n                return true;\r\n\r\n            case R.id.home_help:\r\n\r\n            case R.id.home_settings:\r\n                startActivity(new Intent(HomeActivity.this, SettingsActivity.class));\r\n                return true;\r\n\r\n            case R.id.home_share:\r\n                shareApp();\r\n                return true;\r\n\r\n            case R.id.home_contact:\r\n                contactUs();\r\n                return true;\r\n\r\n            case R.id.home_logout:\r\n                auth.signOut();\r\n                startActivity(new Intent(HomeActivity.this, LoginActivity.class));\r\n                finish();\r\n                return true;\r\n\r\n            default:\r\n                return super.onOptionsItemSelected(item);\r\n        }\r\n    }\r\n\r\n    private void shareApp() {\r\n        Intent intent = new Intent(Intent.ACTION_SEND);\r\n        intent.setType(\"text/plain\");\r\n        intent.putExtra(Intent.EXTRA_SUBJECT, getTitle());\r\n        startActivity(Intent.createChooser(intent, \"Choose One\"));\r\n    }\r\n\r\n    private void contactUs() {\r\n        Intent i = new Intent(Intent.ACTION_SEND);\r\n        i.setType(\"message/rfc822\");\r\n        i.putExtra(Intent.EXTRA_EMAIL, new String[]{\"gerrykyalo@gmail.com\"});\r\n//         i.putExtra(Intent.EXTRA_SUBJECT, \"Subject of the Email\");\r\n//         i.putExtra(Intent.EXTRA_TEXT   , \"Body\");\r\n        try {\r\n            startActivity(Intent.createChooser(i, \"Send mail...\"));\r\n        } catch (android.content.ActivityNotFoundException ex) {\r\n            Toast.makeText(HomeActivity.this, \"There are no Email Clients installed.\", Toast.LENGTH_SHORT).show();\r\n        }\r\n    }\r\n\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/gerray/constructionmanagment/HomeActivity/HomeActivity.java	(revision 5b07fa6f233dfaf92b334326b49ff775bfb372b0)
++++ app/src/main/java/com/gerray/constructionmanagment/HomeActivity/HomeActivity.java	(date 1622730175069)
+@@ -1,5 +1,6 @@
+ package com.gerray.constructionmanagment.HomeActivity;
+ 
++import android.annotation.SuppressLint;
+ import android.content.Intent;
+ import android.os.Bundle;
+ 
+@@ -20,13 +21,21 @@
+ import android.view.MenuItem;
+ import android.view.View;
+ import android.view.ViewGroup;
++import android.view.animation.Animation;
++import android.view.animation.AnimationUtils;
++import android.widget.TextView;
+ import android.widget.Toast;
+ 
+ import com.gerray.constructionmanagment.R;
+ import com.google.firebase.auth.FirebaseAuth;
+ import com.google.firebase.auth.FirebaseUser;
++import com.google.firebase.database.DataSnapshot;
++import com.google.firebase.database.DatabaseError;
+ import com.google.firebase.database.DatabaseReference;
+ import com.google.firebase.database.FirebaseDatabase;
++import com.google.firebase.database.ValueEventListener;
++
++import org.jetbrains.annotations.NotNull;
+ 
+ import java.util.ArrayList;
+ 
+@@ -34,11 +43,10 @@
+ 
+     private static final String TAG = "HomeActivity";
+     private FirebaseAuth auth;
+-    private RecyclerView recyclerView;
+-    private ArrayList<ProjectCreate> arrayList;
+     FirebaseRecyclerOptions<ProjectCreate> options;
+     FirebaseRecyclerAdapter<ProjectCreate, ProjectViewHolder> adapter;
+-    DatabaseReference dbRef;
++    DatabaseReference dbRef, reference;
++    FloatingActionButton fab;
+ 
+     public void onStart() {
+         super.onStart();
+@@ -64,6 +72,22 @@
+         setContentView(R.layout.activity_home);
+         auth = FirebaseAuth.getInstance();
+         FirebaseUser currentUser = auth.getCurrentUser();
++
++        reference = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUser.getUid());
++        reference.addValueEventListener(new ValueEventListener() {
++            @Override
++            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
++                String userCategory = snapshot.child("category").getValue().toString();
++                if (!userCategory.equals("Construction Manager")) {
++                    fab.setVisibility(View.GONE);
++                }
++            }
++
++            @Override
++            public void onCancelled(@NonNull @NotNull DatabaseError error) {
++
++            }
++        });
+         dbRef = FirebaseDatabase.getInstance().getReference().child("Projects").child(currentUser.getUid());
+         dbRef.keepSynced(true);
+ 
+@@ -79,7 +103,7 @@
+                     @Override
+                     public void onClick(View v) {
+                         Intent intent = new Intent(HomeActivity.this, ProjectActivity.class);
+-                        intent.putExtra("name",model.getProjectName());
++                        intent.putExtra("name", model.getProjectName());
+                         startActivity(intent);
+                     }
+                 });
+@@ -92,13 +116,14 @@
+             }
+         };
+ 
+-        arrayList = new ArrayList<ProjectCreate>();
+-        recyclerView = findViewById(R.id.recycler_view);
++        ArrayList<ProjectCreate> arrayList = new ArrayList<ProjectCreate>();
++        RecyclerView recyclerView = findViewById(R.id.recycler_view);
+         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+         recyclerView.setAdapter(adapter);
+         adapter.startListening();
+ 
+-        FloatingActionButton fab = findViewById(R.id.fab);
++
++        fab = findViewById(R.id.fab);
+         fab.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View view) {
+@@ -118,6 +143,7 @@
+         return true;
+     }
+ 
++    @SuppressLint("NonConstantResourceId")
+     @Override
+     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+         switch (item.getItemId()) {
+@@ -126,6 +152,7 @@
+                 return true;
+ 
+             case R.id.home_help:
++                return true;
+ 
+             case R.id.home_settings:
+                 startActivity(new Intent(HomeActivity.this, SettingsActivity.class));
+@@ -135,6 +162,8 @@
+                 shareApp();
+                 return true;
+ 
++            case R.id.home_switch:
++
+             case R.id.home_contact:
+                 contactUs();
+                 return true;
+Index: app/src/main/AndroidManifest.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<manifest xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    package=\"com.gerray.constructionmanagment\">\r\n\r\n    <uses-permission android:name=\"android.permission.INTERNET\" />\r\n    <uses-permission android:name=\"android.permission.READ_EXTERNAL_STORAGE\" />\r\n    <uses-permission android:name=\"android.permission.CAMERA\" />\r\n    <uses-permission android:name=\"android.permission.RECORD_AUDIO\" />\r\n\r\n    <application\r\n        android:allowBackup=\"true\"\r\n        android:icon=\"@mipmap/ic_launcher\"\r\n        android:label=\"@string/app_name\"\r\n        android:roundIcon=\"@mipmap/ic_launcher_round\"\r\n        android:supportsRtl=\"true\"\r\n        android:theme=\"@style/AppTheme\">\r\n        <activity android:name=\".Authentication.ResetPassword\" />\r\n        <activity android:name=\".Authentication.VerifyPhone\" />\r\n        <activity\r\n            android:name=\".ProjectActivity.Team.Team\"\r\n            android:label=\"@string/myTeam\"\r\n            android:theme=\"@style/Theme.AppCompat\" />\r\n        <activity\r\n            android:name=\".ProjectActivity.MaterialManagement.MaterialManagement\"\r\n            android:label=\"@string/materialManagement\"\r\n            android:theme=\"@style/Theme.AppCompat\" />\r\n        <activity android:name=\".Authentication.UserSelector\"/>\r\n        <activity\r\n            android:name=\".ProjectActivity.CostEstimation.CostEstimation\"\r\n            android:label=\"@string/costEstimation\"\r\n            android:theme=\"@style/Theme.AppCompat\" />\r\n        <activity\r\n            android:name=\".ProjectActivity.BuildingProcess.BuildingProcess\"\r\n            android:label=\"@string/buildingProcess\"\r\n            android:theme=\"@style/Theme.AppCompat\" />\r\n        <activity\r\n            android:name=\".ProjectActivity.Approvals.Approvals\"\r\n            android:label=\"@string/approvals\"\r\n            android:theme=\"@style/Theme.AppCompat\" />\r\n        <activity\r\n            android:name=\".ProjectActivity.ProjectSettings\"\r\n            android:label=\"@string/title_activity_project_settings\" />\r\n        <activity android:name=\".ProjectActivity.ProjectActivity\" />\r\n        <activity\r\n            android:name=\".HomeActivity.PopUpWindow\"\r\n            android:label=\"@string/title_activity_home\"\r\n            android:theme=\"@style/AppTheme.CustomStyle\" />\r\n        <activity\r\n            android:name=\".HomeActivity.SettingsActivity\"\r\n            android:label=\"@string/title_activity_settings\"\r\n            android:theme=\"@style/Theme.AppCompat\" />\r\n        <activity\r\n            android:name=\".HomeActivity.ProfileActivity\"\r\n            android:label=\"@string/title_activity_profile\"\r\n            android:theme=\"@style/Theme.AppCompat\" />\r\n        <activity\r\n            android:name=\".HomeActivity.HomeActivity\"\r\n            android:label=\"@string/app_name\"\r\n            android:theme=\"@style/Theme.AppCompat\" />\r\n        <activity android:name=\".Authentication.CreateActivity\" />\r\n        <activity android:name=\".Authentication.LoginActivity\">\r\n            <intent-filter>\r\n                <action android:name=\"android.intent.action.MAIN\" />\r\n\r\n                <category android:name=\"android.intent.category.LAUNCHER\" />\r\n            </intent-filter>\r\n        </activity>\r\n    </application>\r\n\r\n</manifest>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/AndroidManifest.xml	(revision 5b07fa6f233dfaf92b334326b49ff775bfb372b0)
++++ app/src/main/AndroidManifest.xml	(date 1622282733131)
+@@ -14,6 +14,8 @@
+         android:roundIcon="@mipmap/ic_launcher_round"
+         android:supportsRtl="true"
+         android:theme="@style/AppTheme">
++        <activity android:name=".SplashScreen"
++            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+         <activity android:name=".Authentication.ResetPassword" />
+         <activity android:name=".Authentication.VerifyPhone" />
+         <activity
+@@ -24,7 +26,7 @@
+             android:name=".ProjectActivity.MaterialManagement.MaterialManagement"
+             android:label="@string/materialManagement"
+             android:theme="@style/Theme.AppCompat" />
+-        <activity android:name=".Authentication.UserSelector"/>
++        <activity android:name=".Authentication.UserSelector" />
+         <activity
+             android:name=".ProjectActivity.CostEstimation.CostEstimation"
+             android:label="@string/costEstimation"
+@@ -52,7 +54,7 @@
+         <activity
+             android:name=".HomeActivity.ProfileActivity"
+             android:label="@string/title_activity_profile"
+-            android:theme="@style/Theme.AppCompat" />
++            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+         <activity
+             android:name=".HomeActivity.HomeActivity"
+             android:label="@string/app_name"
+Index: app/src/main/res/menu/home_menu.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<menu xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\">\r\n    <item\r\n        android:id=\"@+id/home_profile\"\r\n        android:icon=\"@drawable/ic_profile\"\r\n        android:title=\"@string/profile\"\r\n        app:showAsAction=\"ifRoom\" />\r\n\r\n    <item\r\n        android:id=\"@+id/home_help\"\r\n        android:icon=\"@drawable/ic_help\"\r\n        android:title=\"@string/help\"\r\n        app:showAsAction=\"ifRoom\" />\r\n\r\n    <item\r\n        android:id=\"@+id/home_settings\"\r\n        android:title=\"@string/settings\"\r\n        app:showAsAction=\"never\" />\r\n\r\n    <item\r\n        android:id=\"@+id/home_contact\"\r\n        android:title=\"@string/contact_us\"\r\n        app:showAsAction=\"never\" />\r\n\r\n    <item\r\n        android:id=\"@+id/home_share\"\r\n        android:title=\"@string/share_app\"\r\n        app:showAsAction=\"never\" />\r\n\r\n  <item\r\n        android:id=\"@+id/home_logout\"\r\n        android:title=\"Log Out\"\r\n        app:showAsAction=\"never\" />\r\n\r\n</menu>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/menu/home_menu.xml	(revision 5b07fa6f233dfaf92b334326b49ff775bfb372b0)
++++ app/src/main/res/menu/home_menu.xml	(date 1622284298477)
+@@ -13,6 +13,11 @@
+         android:title="@string/help"
+         app:showAsAction="ifRoom" />
+ 
++    <item
++        android:id="@+id/home_switch"
++        android:title="Switch Account"
++        app:showAsAction="never" />
++
+     <item
+         android:id="@+id/home_settings"
+         android:title="@string/settings"
+Index: app/src/main/res/layout/activity_profile.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<androidx.constraintlayout.widget.ConstraintLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\"\r\n    tools:context=\".HomeActivity.ProfileActivity\">\r\n\r\n</androidx.constraintlayout.widget.ConstraintLayout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/activity_profile.xml	(revision 5b07fa6f233dfaf92b334326b49ff775bfb372b0)
++++ app/src/main/res/layout/activity_profile.xml	(date 1622284102593)
+@@ -1,9 +1,91 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
++<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+     xmlns:app="http://schemas.android.com/apk/res-auto"
+     xmlns:tools="http://schemas.android.com/tools"
+     android:layout_width="match_parent"
+     android:layout_height="match_parent"
+-    tools:context=".HomeActivity.ProfileActivity">
++    android:fitsSystemWindows="true"
++    tools:context=".HomeActivity.ProfileActivity"
++    android:background="@color/profileBackground">
++
++    <com.google.android.material.appbar.AppBarLayout
++        android:id="@+id/app_bar"
++        android:layout_width="match_parent"
++        android:layout_height="wrap_content"
++        android:fitsSystemWindows="true"
++        android:theme="@style/AppTheme.AppBarOverlay">
++
++        <com.google.android.material.appbar.CollapsingToolbarLayout
++            android:id="@+id/toolbar_layout"
++            android:layout_width="match_parent"
++            android:layout_height="match_parent"
++            android:fitsSystemWindows="true"
++            app:contentScrim="@color/colorPrimaryDark"
++            app:layout_scrollFlags="scroll|exitUntilCollapsed"
++            app:toolbarId="@+id/toolbar"
++            app:expandedTitleMarginEnd="64dp"
++            app:expandedTitleMarginStart="48dp"
++            app:expandedTitleTextAppearance="@style/TransparentText">
++
++            <LinearLayout
++                android:layout_width="match_parent"
++                android:layout_height="wrap_content"
++                android:layout_centerInParent="true"
++                android:gravity="center_horizontal"
++                android:orientation="vertical"
++                android:id="@+id/linearLayout"
++                android:background="@drawable/profile_bk">
++
++                <ImageView
++                    android:layout_width="180dp"
++                    android:layout_height="180dp"
++                    android:src="@drawable/person" />
++
++                <TextView
++                    android:layout_width="wrap_content"
++                    android:layout_height="wrap_content"
++                    android:text="User Name"
++                    android:textSize="28dp"
++                    android:textStyle="bold"/>
++
++                <TextView
++                    android:layout_width="wrap_content"
++                    android:layout_height="wrap_content"
++                    android:text="Occupation"
++                    android:textSize="15dp"
++                    android:textStyle="bold"/>
+ 
+-</androidx.constraintlayout.widget.ConstraintLayout>
+\ No newline at end of file
++                <RelativeLayout
++                    android:layout_width="match_parent"
++                    android:layout_height="wrap_content"
++                    android:gravity="center"
++                    android:layout_gravity="bottom"
++                    android:layout_marginTop="20dp"
++                    android:background="@color/profileBackground">
++
++                    <View
++                        android:layout_alignParentTop="true"
++                        android:layout_width="match_parent"
++                        android:layout_height="30dp"
++                        android:background="@drawable/profile_bk"/>
++
++                    <TextView
++                        android:text="Edit \n Profile"
++                        style="@style/profileStyledBackButton" />
++                </RelativeLayout>
++
++            </LinearLayout>
++
++            <androidx.appcompat.widget.Toolbar
++                android:id="@+id/toolbar"
++                android:layout_width="match_parent"
++                android:layout_height="?attr/actionBarSize"
++                app:layout_collapseMode="pin"
++                app:popupTheme="@style/AppTheme.PopupOverlay" />
++
++        </com.google.android.material.appbar.CollapsingToolbarLayout>
++    </com.google.android.material.appbar.AppBarLayout>
++
++    <include layout="@layout/content_profile" />
++
++</androidx.coordinatorlayout.widget.CoordinatorLayout>
+Index: app/src/main/java/com/gerray/constructionmanagment/Authentication/LoginActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.gerray.constructionmanagment.Authentication;\r\n\r\nimport android.app.AlertDialog;\r\nimport android.app.ProgressDialog;\r\nimport android.content.DialogInterface;\r\nimport android.content.Intent;\r\nimport android.os.Bundle;\r\nimport android.text.TextUtils;\r\nimport android.view.View;\r\nimport android.widget.Button;\r\nimport android.widget.EditText;\r\nimport android.widget.TextView;\r\nimport android.widget.Toast;\r\n\r\nimport androidx.annotation.NonNull;\r\nimport androidx.appcompat.app.AppCompatActivity;\r\n\r\nimport com.gerray.constructionmanagment.HomeActivity.HomeActivity;\r\nimport com.gerray.constructionmanagment.R;\r\nimport com.google.android.gms.tasks.OnFailureListener;\r\nimport com.google.android.gms.tasks.OnSuccessListener;\r\nimport com.google.firebase.auth.FirebaseAuth;\r\n\r\npublic class LoginActivity extends AppCompatActivity implements View.OnClickListener {\r\n    private Button btnLogin;\r\n    private EditText logEmail, logPass;\r\n    private TextView create;\r\n\r\n    ProgressDialog progressDialog;\r\n\r\n    FirebaseAuth auth;\r\n\r\n    @Override\r\n    protected void onCreate(Bundle savedInstanceState) {\r\n        super.onCreate(savedInstanceState);\r\n        setContentView(R.layout.activity_login);\r\n        btnLogin = findViewById(R.id.btn_login);\r\n        btnLogin.setOnClickListener(this);\r\n\r\n        create = findViewById(R.id.tv_create);\r\n        create.setOnClickListener(this);\r\n        auth = FirebaseAuth.getInstance();\r\n\r\n        TextView forget = findViewById(R.id.tv_forgot);\r\n        forget.setOnClickListener(v -> {\r\n\r\n            final EditText resetMail = new EditText(v.getContext());\r\n            final AlertDialog.Builder passwordResetDialog = new AlertDialog.Builder(v.getContext());\r\n            passwordResetDialog.setTitle(\"Reset Password ?\");\r\n            passwordResetDialog.setMessage(\"Enter Your Email To Received Reset Link.\");\r\n            passwordResetDialog.setView(resetMail);\r\n\r\n            passwordResetDialog.setPositiveButton(\"Yes\", (dialog, which) -> {\r\n                String mail = resetMail.getText().toString();\r\n                auth.sendPasswordResetEmail(mail)\r\n                        .addOnSuccessListener((OnSuccessListener<Void>) aVoid ->\r\n                                Toast.makeText(LoginActivity.this, \"Reset Link Sent To Your Email.\", Toast.LENGTH_SHORT).show())\r\n                        .addOnFailureListener(e ->\r\n                                Toast.makeText(LoginActivity.this, \"Error ! Reset Link is Not Sent\" + e.getMessage(), Toast.LENGTH_SHORT).show());\r\n\r\n            });\r\n\r\n            passwordResetDialog.setNegativeButton(\"No\", (dialog, which) -> {\r\n                // close the dialog\r\n            });\r\n\r\n            passwordResetDialog.create().show();\r\n\r\n        });\r\n\r\n\r\n        logEmail = findViewById(R.id.logEmail);\r\n        logPass = findViewById(R.id.logPass);\r\n\r\n        progressDialog = new ProgressDialog(this);\r\n\r\n    }\r\n\r\n    @Override\r\n    public void onClick(View v) {\r\n        if (v == btnLogin) {\r\n            loginUser();\r\n//            Intent intent = new Intent(LoginActivity.this, HomeActivity.class);\r\n//            startActivity(intent);\r\n        }\r\n        if (v == create) {\r\n            // if you don't have an account in the app;\r\n            startActivity(new Intent(this, CreateActivity.class));\r\n        }\r\n    }\r\n\r\n    private void loginUser() {\r\n        String email = logEmail.getText().toString().trim();\r\n        String password = logPass.getText().toString().trim();\r\n\r\n        if (TextUtils.isEmpty(email)) {\r\n            Toast.makeText(this, \"Enter Email!!\", Toast.LENGTH_SHORT).show();\r\n            return;\r\n        }\r\n        if (TextUtils.isEmpty(password)) {\r\n            Toast.makeText(this, \"Enter Password!!\", Toast.LENGTH_SHORT).show();\r\n            return;\r\n        }\r\n\r\n        progressDialog.setMessage(\"Please Wait\");\r\n        progressDialog.show();\r\n\r\n        auth.signInWithEmailAndPassword(email, password)\r\n                .addOnCompleteListener(this, task -> {\r\n                    progressDialog.dismiss();\r\n                    if (task.isSuccessful()) {\r\n                        Toast.makeText(LoginActivity.this, \"Success\", Toast.LENGTH_SHORT).show();\r\n                        Intent intent = new Intent(LoginActivity.this, UserSelector.class);\r\n                        startActivity(intent);\r\n                        finish();\r\n\r\n                    } else {\r\n                        Toast.makeText(LoginActivity.this, \"Login Failed\", Toast.LENGTH_SHORT).show();\r\n                    }\r\n\r\n                });\r\n\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/gerray/constructionmanagment/Authentication/LoginActivity.java	(revision 5b07fa6f233dfaf92b334326b49ff775bfb372b0)
++++ app/src/main/java/com/gerray/constructionmanagment/Authentication/LoginActivity.java	(date 1622103283319)
+@@ -2,7 +2,6 @@
+ 
+ import android.app.AlertDialog;
+ import android.app.ProgressDialog;
+-import android.content.DialogInterface;
+ import android.content.Intent;
+ import android.os.Bundle;
+ import android.text.TextUtils;
+@@ -12,12 +11,10 @@
+ import android.widget.TextView;
+ import android.widget.Toast;
+ 
+-import androidx.annotation.NonNull;
+ import androidx.appcompat.app.AppCompatActivity;
+ 
+-import com.gerray.constructionmanagment.HomeActivity.HomeActivity;
+ import com.gerray.constructionmanagment.R;
+-import com.google.android.gms.tasks.OnFailureListener;
++import com.gerray.constructionmanagment.SplashScreen;
+ import com.google.android.gms.tasks.OnSuccessListener;
+ import com.google.firebase.auth.FirebaseAuth;
+ 
+@@ -80,7 +77,7 @@
+     public void onClick(View v) {
+         if (v == btnLogin) {
+             loginUser();
+-//            Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
++//            Intent intent = new Intent(LoginActivity.this, SplashScreen.class);
+ //            startActivity(intent);
+         }
+         if (v == create) {
+@@ -90,10 +87,10 @@
+     }
+ 
+     private void loginUser() {
+-        String email = logEmail.getText().toString().trim();
++        String credential = logEmail.getText().toString().trim();
+         String password = logPass.getText().toString().trim();
+ 
+-        if (TextUtils.isEmpty(email)) {
++        if (TextUtils.isEmpty(credential)) {
+             Toast.makeText(this, "Enter Email!!", Toast.LENGTH_SHORT).show();
+             return;
+         }
+@@ -105,20 +102,22 @@
+         progressDialog.setMessage("Please Wait");
+         progressDialog.show();
+ 
+-        auth.signInWithEmailAndPassword(email, password)
+-                .addOnCompleteListener(this, task -> {
+-                    progressDialog.dismiss();
+-                    if (task.isSuccessful()) {
+-                        Toast.makeText(LoginActivity.this, "Success", Toast.LENGTH_SHORT).show();
+-                        Intent intent = new Intent(LoginActivity.this, UserSelector.class);
+-                        startActivity(intent);
+-                        finish();
++        if (credential.contains("@")) {
++            auth.signInWithEmailAndPassword(credential, password)
++                    .addOnCompleteListener(this, task -> {
++                        progressDialog.dismiss();
++                        if (task.isSuccessful()) {
++                            Toast.makeText(LoginActivity.this, "Success", Toast.LENGTH_SHORT).show();
++                            Intent intent = new Intent(LoginActivity.this, SplashScreen.class);
++                            startActivity(intent);
++                            finish();
+ 
+-                    } else {
+-                        Toast.makeText(LoginActivity.this, "Login Failed", Toast.LENGTH_SHORT).show();
+-                    }
++                        } else {
++                            Toast.makeText(LoginActivity.this, "Login Failed", Toast.LENGTH_SHORT).show();
++                        }
+ 
+-                });
++                    });
+ 
++        }
+     }
+ }
+\ No newline at end of file
+Index: app/src/main/res/values/styles.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><resources>\r\n    <!-- Base application theme. -->\r\n    <style name=\"AppTheme\" parent=\"Theme.AppCompat.Light.NoActionBar\">\r\n        <!-- Customize your theme here. -->\r\n        <item name=\"colorPrimary\">@color/colorPrimary</item>\r\n        <item name=\"colorPrimaryDark\">@color/colorPrimaryDark</item>\r\n        <item name=\"colorAccent\">@color/colorAccent</item>\r\n    </style>\r\n\r\n    <style name=\"Theme.AppCompat\" parent=\"Theme.AppCompat.Light.DarkActionBar\">\r\n        <!-- Customize your theme here. -->\r\n        <item name=\"colorPrimary\">@color/colorPrimary</item>\r\n        <item name=\"colorPrimaryDark\">@color/colorPrimaryDark</item>\r\n        <item name=\"colorAccent\">@color/colorAccent</item>\r\n    </style>\r\n\r\n    <style name=\"AppTheme.NoActionBar\">\r\n        <item name=\"windowActionBar\">false</item>\r\n        <item name=\"windowNoTitle\">true</item>\r\n    </style>\r\n\r\n    <style name=\"AppTheme.AppBarOverlay\" parent=\"ThemeOverlay.AppCompat.Dark.ActionBar\" />\r\n\r\n    <style name=\"AppTheme.PopupOverlay\" parent=\"ThemeOverlay.AppCompat.Light\" />\r\n\r\n    <style name=\"AppTheme.CustomStyle\">\r\n        <item name=\"android:windowIsTranslucent\">true</item>\r\n        <item name=\"android:windowCloseOnTouchOutside\">true</item>\r\n    </style>\r\n\r\n\r\n</resources>\r\n\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/values/styles.xml	(revision 5b07fa6f233dfaf92b334326b49ff775bfb372b0)
++++ app/src/main/res/values/styles.xml	(date 1622283810794)
+@@ -28,6 +28,89 @@
+         <item name="android:windowCloseOnTouchOutside">true</item>
+     </style>
+ 
++    <!--styles for profile-->
++    <style name="AppTheme.ProfileTheme">
++        <item name="colorPrimaryDark">@color/profilePrimaryDark</item>
++        <item name="colorAccent">@color/profileAccentColor</item>
++        <item name="windowActionBar">false</item>
++        <item name="windowNoTitle">true</item>
++        <item name="android:textColor">@color/whiteTextColor</item>
++    </style>
++
++    <style name="TransparentText" parent="@android:style/TextAppearance">
++        <item name="android:textColor">#00000000</item>
++    </style>
++
++    <style name="parent">
++        <item name="android:layout_width">match_parent</item>
++        <item name="android:layout_height">wrap_content</item>
++    </style>
++
++    <style name="headerText" parent="parent">
++        <item name="android:textSize">@dimen/headerTextSize</item>
++        <item name="android:textColor">@color/blackTextColor</item>
++        <item name="android:textStyle">bold</item>
++    </style>
++
++    <style name="textInputHintStyle" parent="TextAppearance.AppCompat.Medium.Inverse">
++        <item name="android:textColorHint">@color/blackTextColor</item>
++        <item name="android:textColor">@color/blackTextColor</item>
++        <item name="android:textSize">17sp</item>
++        <item name="android:textStyle">bold</item>
++    </style>
++
++    <style name="viewParent">
++        <item name="android:layout_width">wrap_content</item>
++        <item name="android:layout_height">wrap_content</item>
++    </style>
++
++    <style name="profileDetailsLayout" parent="parent">
++        <item name="android:layout_marginTop">20dp</item>
++    </style>
++
++    <style name="profileDetailsImage">
++        <item name="android:layout_width">40dp</item>
++        <item name="android:layout_height">40dp</item>
++        <item name="android:layout_alignParentTop">true</item>
++        <item name="android:layout_alignParentLeft">true</item>
++    </style>
++
++    <style name="profileDetailsTextMain" parent="viewParent">
++        <item name="android:textColor">@color/blackTextColor</item>
++        <item name="android:textStyle">bold</item>
++        <item name="android:textSize">16sp</item>
++        <item name="android:layout_marginLeft">10dp</item>
++    </style>
++
++    <style name="profileDetailsMiniText" parent="viewParent">
++        <item name="android:layout_alignParentBottom">true</item>
++        <item name="android:textColor">@color/blackTextColor</item>
++        <item name="android:textSize">14sp</item>
++        <item name="android:layout_marginLeft">10dp</item>
++    </style>
++
++    <style name="proifleDetailsView">
++        <item name="android:layout_width">match_parent</item>
++        <item name="android:layout_height">2dp</item>
++        <item name="android:background">@color/profileAccentColor</item>
++        <item name="android:layout_marginTop">5dp</item>
++    </style>
++
++    <style name="profileStyledBackButton">
++        <item name="android:layout_width">wrap_content</item>
++        <item name="android:layout_height">wrap_content</item>
++        <item name="android:background">@drawable/btn_bk</item>
++        <item name="android:textAlignment">center</item>
++        <item name="android:paddingLeft">30dp</item>
++        <item name="android:paddingRight">50dp</item>
++        <item name="android:paddingTop">10dp</item>
++        <item name="android:paddingBottom">10dp</item>
++        <item name="android:drawableLeft">@drawable/back_to_home_button</item>
++        <item name="android:textStyle">bold</item>
++        <item name="android:layout_centerHorizontal">true</item>
++        <item name="android:layout_alignParentTop">true</item>
++        <item name="android:minWidth">250dp</item>
++    </style>
+ 
+ </resources>
+ 
+Index: app/src/main/res/values/dimens.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><resources>\r\n    <dimen name=\"fab_margin\">16dp</dimen>\r\n</resources>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/values/dimens.xml	(revision 5b07fa6f233dfaf92b334326b49ff775bfb372b0)
++++ app/src/main/res/values/dimens.xml	(date 1622281625234)
+@@ -1,3 +1,6 @@
+ <resources>
+     <dimen name="fab_margin">16dp</dimen>
+-</resources>
+\ No newline at end of file
++    <dimen name="app_bar_height">180dp</dimen>
++    <dimen name="text_margin">16dp</dimen>
++    <dimen name="headerTextSize">28sp</dimen>
++</resources>
+Index: settings.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>include ':app'\r\nrootProject.name = \"Construction Managment\"
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- settings.gradle	(revision 5b07fa6f233dfaf92b334326b49ff775bfb372b0)
++++ settings.gradle	(date 1624864529494)
+@@ -1,2 +1,3 @@
+ include ':app'
+-rootProject.name = "Construction Managment"
+\ No newline at end of file
++rootProject.name = "Construction App"
++include ':construction-kotlin'
+Index: app/src/main/res/values/colors.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<resources>\r\n    <color name=\"colorPrimary\">#008577</color>\r\n    <color name=\"colorPrimaryDark\">#00574B</color>\r\n    <color name=\"colorAccent\">#008577</color>\r\n    <color name=\"appbar\">#ccff00</color>\r\n</resources>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/values/colors.xml	(revision 5b07fa6f233dfaf92b334326b49ff775bfb372b0)
++++ app/src/main/res/values/colors.xml	(date 1622281292103)
+@@ -4,4 +4,14 @@
+     <color name="colorPrimaryDark">#00574B</color>
+     <color name="colorAccent">#008577</color>
+     <color name="appbar">#ccff00</color>
++    <color name="colorWhite">#FFFFFF</color>
++    <color name="TransparentWhite">#cccccc</color>
++
++    <!--colors for profile-->
++    <color name="profilePrimaryDark">#FF3B30</color>
++    <color name="profileAccentColor">#F7F7F7</color>
++    <color name="whiteTextColor">#fff</color>
++    <color name="profileBackground">#fff</color>
++    <color name="blackTextColor">#000</color>
++    <color name="profileEditTextColor">#707070</color>
+ </resources>
+\ No newline at end of file
+Index: app/src/main/res/layout/activity_login.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<RelativeLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\"\r\n    android:padding=\"16dp\"\r\n    tools:context=\".Authentication.LoginActivity\">\r\n\r\n    <LinearLayout\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:layout_centerHorizontal=\"true\"\r\n        android:layout_centerVertical=\"true\"\r\n        android:orientation=\"vertical\"\r\n        tools:ignore=\"UselessParent\">\r\n\r\n        <EditText\r\n            android:id=\"@+id/logEmail\"\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:layout_margin=\"15dp\"\r\n            android:hint=\"@string/email_address\"\r\n            android:inputType=\"textEmailAddress\" />\r\n\r\n        <EditText\r\n            android:id=\"@+id/logPass\"\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:layout_margin=\"15dp\"\r\n            android:hint=\"@string/password\"\r\n            android:inputType=\"textPassword\" />\r\n\r\n        <Button\r\n            android:id=\"@+id/btn_login\"\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:layout_margin=\"30dp\"\r\n            android:background=\"@drawable/button_style\"\r\n            android:text=\"@string/login\" />\r\n\r\n        <TextView\r\n            android:id=\"@+id/tv_create\"\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:gravity=\"center\"\r\n            android:text=\"@string/create_new_account\"\r\n            android:textSize=\"16sp\"\r\n            android:textStyle=\"italic\" />\r\n\r\n        <TextView\r\n            android:id=\"@+id/tv_forgot\"\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:layout_margin=\"20dp\"\r\n            android:gravity=\"center\"\r\n            android:text=\"@string/forgot_password\"\r\n            android:textSize=\"16sp\"\r\n            android:textStyle=\"italic\" />\r\n    </LinearLayout>\r\n</RelativeLayout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/activity_login.xml	(revision 5b07fa6f233dfaf92b334326b49ff775bfb372b0)
++++ app/src/main/res/layout/activity_login.xml	(date 1622101226591)
+@@ -19,7 +19,7 @@
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:layout_margin="15dp"
+-            android:hint="@string/email_address"
++            android:hint="@string/email_phone"
+             android:inputType="textEmailAddress" />
+ 
+         <EditText
+Index: app/build.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>apply plugin: 'com.android.application'\r\napply plugin: 'com.google.gms.google-services'\r\napply plugin: 'com.google.firebase.firebase-perf'\r\napply plugin: 'com.google.firebase.crashlytics'\r\n\r\nandroid {\r\n    compileSdkVersion 30\r\n\r\n    defaultConfig {\r\n        applicationId \"com.gerray.constructionmanagment\"\r\n        minSdkVersion 24\r\n        targetSdkVersion 30\r\n        versionCode 1\r\n        versionName \"1.0\"\r\n\r\n        testInstrumentationRunner \"androidx.test.runner.AndroidJUnitRunner\"\r\n    }\r\n\r\n    buildTypes {\r\n        release {\r\n            minifyEnabled false\r\n            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'\r\n        }\r\n    }\r\n}\r\n\r\ndependencies {\r\n    implementation fileTree(dir: \"libs\", include: [\"*.jar\"])\r\n    implementation 'androidx.appcompat:appcompat:1.3.0'\r\n    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'\r\n    implementation 'androidx.coordinatorlayout:coordinatorlayout:1.1.0'\r\n    implementation 'com.google.android.material:material:1.3.0'\r\n    implementation 'androidx.navigation:navigation-fragment:2.3.5'\r\n    implementation 'androidx.navigation:navigation-ui:2.3.5'\r\n    implementation 'androidx.preference:preference:1.1.1'\r\n    implementation 'androidx.legacy:legacy-support-v4:1.0.0'\r\n    implementation 'org.jetbrains:annotations:16.0.1'\r\n    testImplementation 'junit:junit:4.13.1'\r\n    androidTestImplementation 'androidx.test.ext:junit:1.1.2'\r\n    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'\r\n\r\n    //Firebase\r\n    implementation platform('com.google.firebase:firebase-bom:26.8.0')\r\n    implementation 'com.google.firebase:firebase-auth:21.0.1'\r\n    implementation 'com.google.firebase:firebase-database:20.0.0'\r\n    implementation 'com.firebaseui:firebase-ui-database:6.2.0'\r\n    implementation 'com.firebaseui:firebase-ui-storage:3.2.2'\r\n    implementation 'com.google.firebase:firebase-storage:20.0.0'\r\n    implementation 'com.google.firebase:firebase-perf'\r\n    implementation 'com.google.firebase:firebase-crashlytics'\r\n\r\n\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/build.gradle	(revision 5b07fa6f233dfaf92b334326b49ff775bfb372b0)
++++ app/build.gradle	(date 1622700733178)
+@@ -34,8 +34,9 @@
+     implementation 'androidx.navigation:navigation-ui:2.3.5'
+     implementation 'androidx.preference:preference:1.1.1'
+     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
++    implementation 'com.tbuonomo.andrui:viewpagerdotsindicator:4.1.2'
+     implementation 'org.jetbrains:annotations:16.0.1'
+-    testImplementation 'junit:junit:4.13.1'
++    testImplementation 'junit:junit:4.13.2'
+     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+ 
+@@ -48,7 +49,5 @@
+     implementation 'com.google.firebase:firebase-storage:20.0.0'
+     implementation 'com.google.firebase:firebase-perf'
+     implementation 'com.google.firebase:firebase-crashlytics'
+-
+-
+-
++    
+ }
+Index: build.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>// Top-level build file where you can add configuration options common to all sub-projects/modules.\r\nbuildscript {\r\n    repositories {\r\n        google()\r\n        jcenter()\r\n    }\r\n    dependencies {\r\n        classpath 'com.android.tools.build:gradle:4.2.1'\r\n        classpath 'com.google.gms:google-services:4.3.8'\r\n\r\n        classpath 'com.google.firebase:firebase-crashlytics-gradle:2.6.1'\r\n        classpath 'com.google.firebase:perf-plugin:1.4.0'\r\n\r\n        // NOTE: Do not place your application dependencies here; they belong\r\n        // in the individual module build.gradle files\r\n    }\r\n}\r\n\r\nallprojects {\r\n    repositories {\r\n        google()\r\n        maven {url \"https://jitpack.io\"}\r\n        jcenter()\r\n    }\r\n}\r\n\r\ntask clean(type: Delete) {\r\n    delete rootProject.buildDir\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- build.gradle	(revision 5b07fa6f233dfaf92b334326b49ff775bfb372b0)
++++ build.gradle	(date 1622695387907)
+@@ -10,6 +10,7 @@
+ 
+         classpath 'com.google.firebase:firebase-crashlytics-gradle:2.6.1'
+         classpath 'com.google.firebase:perf-plugin:1.4.0'
++//        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+ 
+         // NOTE: Do not place your application dependencies here; they belong
+         // in the individual module build.gradle files
+Index: app/src/main/res/values/strings.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><resources>\r\n    <string name=\"app_name\">Construction Management</string>\r\n    <string name=\"email_address\">Email Address</string>\r\n    <string name=\"password\">Password</string>\r\n    <string name=\"create_new_account\">Create New Account</string>\r\n    <string name=\"forgot_password\">Forgot Password</string>\r\n    <string name=\"login\">Login</string>\r\n    <string name=\"have_an_account\">Have an Account?</string>\r\n    <string name=\"create_account\">Create Account</string>\r\n    <string name=\"phone_number\">Phone Number</string>\r\n    <string name=\"second_name\">Second Name</string>\r\n    <string name=\"first_name\">First Name</string>\r\n    <string name=\"profile\">Profile</string>\r\n    <string name=\"help\">Help</string>\r\n    <string name=\"settings\">Settings</string>\r\n    <string name=\"share_app\">Share App</string>\r\n    <string name=\"contact_us\">Contact Us</string>\r\n    <string name=\"title_activity_home\">HomeActivity</string>\r\n    <string name=\"title_activity_profile\">Profile Activity</string>\r\n    <string name=\"title_activity_settings\">SettingsActivity</string>\r\n\r\n    <!-- Preference Titles -->\r\n    <string name=\"messages_header\">Messages</string>\r\n    <string name=\"sync_header\">Sync</string>\r\n\r\n    <!-- Messages Preferences -->\r\n    <string name=\"signature_title\">Your signature</string>\r\n    <string name=\"reply_title\">Default reply action</string>\r\n\r\n    <!-- Sync Preferences -->\r\n    <string name=\"sync_title\">Sync email periodically</string>\r\n    <string name=\"attachment_title\">Download incoming attachments</string>\r\n    <string name=\"attachment_summary_on\">Automatically download attachments for incoming emails\r\n    </string>\r\n    <string name=\"attachment_summary_off\">Only download attachments when manually requested</string>\r\n    <string name=\"already_have_an_account_login\">Already Have an Account? Login</string>\r\n\r\n\r\n    <string name=\"location_list\">Location(in Counties)</string>\r\n    <string-array name=\"location_array\">\r\n        <item>Nairobi</item>\r\n        <item>Mombasa</item>\r\n        <item>Kisumu</item>\r\n        <item>Kitui</item>\r\n        <item>Kiambu</item>\r\n        <item>Machakos</item>\r\n        <item>Kajiado</item>\r\n    </string-array>\r\n    <string name=\"hello_blank_fragment\">Hello blank fragment</string>\r\n    <string name=\"process\">Process</string>\r\n    <string name=\"info\">Info</string>\r\n    <string name=\"media\">Media</string>\r\n    <string name=\"project_info\">Project Info</string>\r\n    <string name=\"construction_team\">Construction Team</string>\r\n    <string name=\"cost_estimation\">Cost Estimation</string>\r\n    <string name=\"material_management\">Material Management</string>\r\n    <string name=\"project_files\">Project Files</string>\r\n    <string name=\"construction_process\">Construction Process</string>\r\n    <string name=\"start_new_process\">Start New Process</string>\r\n    <string name=\"title_activity_project_settings\">ProjectSettings</string>\r\n    <string name=\"myTeam\">My Team</string>\r\n    <string name=\"materialManagement\">Material Management</string>\r\n    <string name=\"costEstimation\">Cost Estimation</string>\r\n    <string name=\"buildingProcess\">Building Process</string>\r\n    <string name=\"approvals\">Approvals</string>\r\n    <string name=\"gallery\">Gallery</string>\r\n    <string name=\"confirm_password\">Confirm Password</string>\r\n\r\n    <string name=\"category_prompt\">Choose a Category</string>\r\n\r\n    <string-array name=\"category_arrays\">\r\n        <item>Construction Manager</item>\r\n        <item>Others</item>\r\n    </string-array>\r\n</resources>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/values/strings.xml	(revision 5b07fa6f233dfaf92b334326b49ff775bfb372b0)
++++ app/src/main/res/values/strings.xml	(date 1622281454743)
+@@ -67,9 +67,12 @@
+     <string name="confirm_password">Confirm Password</string>
+ 
+     <string name="category_prompt">Choose a Category</string>
++    <string name="email_phone">Email/Phone</string>
+ 
+     <string-array name="category_arrays">
+         <item>Construction Manager</item>
+         <item>Others</item>
+     </string-array>
++
++    <string name="action_settings">Settings</string>
+ </resources>
+\ No newline at end of file
+Index: .idea/gradle.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"GradleMigrationSettings\" migrationVersion=\"1\" />\r\n  <component name=\"GradleSettings\">\r\n    <option name=\"linkedExternalProjectsSettings\">\r\n      <GradleProjectSettings>\r\n        <option name=\"testRunner\" value=\"PLATFORM\" />\r\n        <option name=\"distributionType\" value=\"DEFAULT_WRAPPED\" />\r\n        <option name=\"externalProjectPath\" value=\"$PROJECT_DIR$\" />\r\n        <option name=\"gradleJvm\" value=\"1.8\" />\r\n        <option name=\"modules\">\r\n          <set>\r\n            <option value=\"$PROJECT_DIR$\" />\r\n            <option value=\"$PROJECT_DIR$/app\" />\r\n          </set>\r\n        </option>\r\n        <option name=\"resolveModulePerSourceSet\" value=\"false\" />\r\n      </GradleProjectSettings>\r\n    </option>\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/gradle.xml	(revision 5b07fa6f233dfaf92b334326b49ff775bfb372b0)
++++ .idea/gradle.xml	(date 1622695458322)
+@@ -12,6 +12,7 @@
+           <set>
+             <option value="$PROJECT_DIR$" />
+             <option value="$PROJECT_DIR$/app" />
++            <option value="$PROJECT_DIR$/construction-kotlin" />
+           </set>
+         </option>
+         <option name="resolveModulePerSourceSet" value="false" />
+Index: app/src/main/res/layout/activity_home.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\"\r\n    tools:context=\".HomeActivity.HomeActivity\">\r\n\r\n\r\n    <androidx.recyclerview.widget.RecyclerView\r\n        android:id=\"@+id/recycler_view\"\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:layout_margin=\"20dp\" />\r\n\r\n    <com.google.android.material.floatingactionbutton.FloatingActionButton\r\n        android:id=\"@+id/fab\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:layout_gravity=\"bottom|end\"\r\n        android:layout_margin=\"@dimen/fab_margin\"\r\n        app:srcCompat=\"@android:drawable/ic_input_add\" />\r\n\r\n</androidx.coordinatorlayout.widget.CoordinatorLayout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/activity_home.xml	(revision 5b07fa6f233dfaf92b334326b49ff775bfb372b0)
++++ app/src/main/res/layout/activity_home.xml	(date 1622012988477)
+@@ -6,7 +6,6 @@
+     android:layout_height="match_parent"
+     tools:context=".HomeActivity.HomeActivity">
+ 
+-
+     <androidx.recyclerview.widget.RecyclerView
+         android:id="@+id/recycler_view"
+         android:layout_width="match_parent"

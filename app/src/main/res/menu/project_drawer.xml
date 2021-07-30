@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/project_drawerProcess"
+        android:title="@string/process" />
+
+    <item
+        android:id="@+id/project_drawerInfo"
+        android:title="@string/info" />
+
+    <item
+        android:id="@+id/project_drawerMedia"
+        android:title="@string/media" />
+
+</menu>

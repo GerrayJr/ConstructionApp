@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="preloaded_fonts" translatable="false">
+        <item>@font/bungee</item>
+        <item>@font/bungee_inline</item>
+        <item>@font/cantarell</item>
+        <item>@font/iceland</item>
+        <item>@font/montaga</item>
+        <item>@font/racing_sans_one</item>
+    </array>
+</resources>

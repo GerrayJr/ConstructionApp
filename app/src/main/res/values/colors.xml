@@ -3,4 +3,24 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#008577</color>
+    <color name="colorTransparent">#00BC8383</color>
+    <color name="colorGradient1">#FFBD09</color>
+    <color name="colorGradient2">#FFDD20</color>
+    <color name="colorLogin">#FFBD09</color>
+    <color name="colorLogin2">#FFEA61</color>
+
+
+
+
+    <color name="appbar">#ccff00</color>
+    <color name="colorWhite">#FFFFFF</color>
+    <color name="TransparentWhite">#cccccc</color>
+
+    <!--colors for profile-->
+    <color name="profilePrimaryDark">#FF3B30</color>
+    <color name="profileAccentColor">#F7F7F7</color>
+    <color name="whiteTextColor">#fff</color>
+    <color name="profileBackground">#fff</color>
+    <color name="blackTextColor">#000</color>
+    <color name="profileEditTextColor">#707070</color>
 </resources>

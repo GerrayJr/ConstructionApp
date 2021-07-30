@@ -1,34 +1,34 @@
 {
   "project_info": {
-    "project_number": "432841986441",
-    "firebase_url": "https://fm-system-a9ad4.firebaseio.com",
-    "project_id": "fm-system-a9ad4",
-    "storage_bucket": "fm-system-a9ad4.appspot.com"
+    "project_number": "536987450127",
+    "firebase_url": "https://constructionapp-98db4.firebaseio.com",
+    "project_id": "constructionapp-98db4",
+    "storage_bucket": "constructionapp-98db4.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:432841986441:android:256148c668b4900f6b1158",
+        "mobilesdk_app_id": "1:536987450127:android:9c05a45033c93f069a5c7a",
         "android_client_info": {
-          "package_name": "com.gerray.fmsystem"
+          "package_name": "com.gerray.constructionmanagment"
         }
       },
       "oauth_client": [
         {
-          "client_id": "432841986441-6gdvir65f8fo52iicskhhie7t8pdt8br.apps.googleusercontent.com",
+          "client_id": "536987450127-6t7ilijjrbhv5hika2v8uc9dhh2d4omf.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAd-QBD02_OKldLlMxd6_gBgkHZagHE0vs"
+          "current_key": "AIzaSyB70KVdMA0dhyFrkPDJcGTncprRiFn518Y"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "432841986441-6gdvir65f8fo52iicskhhie7t8pdt8br.apps.googleusercontent.com",
+              "client_id": "536987450127-6t7ilijjrbhv5hika2v8uc9dhh2d4omf.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

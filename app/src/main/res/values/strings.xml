@@ -1,132 +1,106 @@
 <resources>
-    <string name="app_name">iFacility</string>
+    <string name="app_name">Construction App</string>
     <string name="email_address">Email Address</string>
     <string name="password">Password</string>
-    <string name="login">Login</string>
-    <string name="create_account">Create Account</string>
-    <string name="forgot_password">Forgot Password</string>
-    <string name="first_name">First Name</string>
-    <string name="second_name">Second Name</string>
-    <string name="phone_number">Phone Number</string>
     <string name="create_new_account">Create New Account</string>
+    <string name="forgot_password">Forgot Password</string>
+    <string name="login">Login</string>
+    <string name="have_an_account">Have an Account?</string>
+    <string name="create_account">Create Account</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="second_name">Second Name</string>
+    <string name="first_name">First Name</string>
+    <string name="profile">Profile</string>
+    <string name="help">Help</string>
+    <string name="settings">Settings</string>
+    <string name="share_app">Share App</string>
+    <string name="contact_us">Contact Us</string>
+    <string name="title_activity_home">HomeActivity</string>
+    <string name="title_activity_profile">Profile Activity</string>
+    <string name="title_activity_settings">SettingsActivity</string>
+
+    <!-- Preference Titles -->
+    <string name="messages_header">Messages</string>
+    <string name="sync_header">Sync</string>
+
+    <!-- Messages Preferences -->
+    <string name="signature_title">Your signature</string>
+    <string name="reply_title">Default reply action</string>
+
+    <!-- Sync Preferences -->
+    <string name="sync_title">Sync email periodically</string>
+    <string name="attachment_title">Download incoming attachments</string>
+    <string name="attachment_summary_on">Automatically download attachments for incoming emails
+    </string>
+    <string name="attachment_summary_off">Only download attachments when manually requested</string>
     <string name="already_have_an_account_login">Already Have an Account? Login</string>
 
-    <string name="category_prompt">Choose a Category</string>
 
-    <string-array name="category_arrays">
-        <item>Facility Manager</item>
-        <item>Lessee</item>
-        <item>Contractor</item>
+    <string name="ProjectType">Project Types</string>
+    <string name="SelectCounty">Select County</string>
+    <string-array name="project_array">
+        <item>Road Works</item>
+        <item>Water Works</item>
+        <item>Building Works</item>
+        <item>Electrical Engineering Services</item>
+        <item>Mechanical Engineering Services</item>
+        <item>Others</item>
     </string-array>
 
-    <string name="Type_prompt">Choose a Facility Type</string>
-    <string name="facility_details">Facility Details</string>
-    <string name="authority_name">Authority Name</string>
-    <string name="occupancy_number">Occupancy Number</string>
-    <string name="info">Info</string>
-    <string name="select_facility_type_below">Select Activity type Below:</string>
-    <string name="continue_txt">Continue</string>
-    <string name="work_orders">Work Orders</string>
-    <string name="communication">Communication</string>
-    <string name="lessees">Lessees</string>
-    <string name="assets">Assets</string>
-    <string name="contact_us">Contact Us</string>
-    <string name="share_app">Share App</string>
-    <string name="communicate_with_us">Communicate with Us</string>
-    <string name="log_out">Log Out</string>
-    <string name="lessee_payments">Lessee Payments</string>
-    <string name="facility_profile">Facility Profile</string>
-    <string name="location_settings">Location Settings</string>
-    <string name="help">Help</string>
-
-    <string-array name="activity_array">//To be added
-        <item>Industrial</item>
-        <item>Office buildings</item>
-        <item>Retail spaces</item>
-        <item>Schools and institutional</item>
-        <item>Laboratory facilities</item>
-        <item>Convention centers</item>
-        <item>Public facilities</item>
-        <item>Hotels and multi story residential buildings</item>
-    </string-array>
-
-    <string-array name="status">
-        <item>Accepted</item>
-        <item>Progress</item>
-        <item>Finished</item>
-    </string-array>
-
-    <string name="title_activity_facility_manager">MainActivity</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
-    <string name="requests">Requests</string>
-    <string name="chats">Chats</string>
-    <string name="facility_name">Facility Name</string>
-    <string name="todo">TODO</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="navigation_drawer_open">Navigation Drawer Open</string>
-    <string name="navigation_drawer_close">Navigation Drawer Closed</string>
-    <string name="consultants">Consultants</string>
-    <string name="cons_cat">Category</string>
-    <string-array name="consultant_category">
-        <item>Self-Employed</item>
-        <item>Company</item>
-    </string-array>
-
-    <string-array name="lessee_activities">
-        <item>Convenience store</item>
-        <item>Speciality store</item>
-        <item>Supermarket</item>
-        <item>Discount store</item>
-        <item>Warehouse/Direct Retailer</item>
-        <item>Health and wellness</item>
-        <item>Bookstores</item>
-        <item>Design and home goods</item>
-        <item>Children’s products</item>
-        <item>Cosmetics and skincare</item>
-        <item>Jewelry stores</item>
-        <item> Mobile clothing boutique</item>
-        <item>Financial/Banking Offices</item>
-    </string-array>
-
-    <string name="cons_specs">Specialization</string>
-    <string-array name="consultant_specialization">
-        <item>Drywall repair and installation</item>
-        <item>Painting and staining</item>
-        <item>Floor repair and installation</item>
-        <item>Light Fixture Installation and Repair</item>
-        <item>Plumbing installation and Repair</item>
-        <item>Door installation and Repairs</item>
-        <item>Electrical Maintenance</item>
-        <item>Exterior Maintenance</item>
-        <item>Restroom Maintenance and repairs</item>
-    </string-array>
-
-    <string name="cons_locate">Location</string>
-    <string name="profile">Profile</string>
-    <string name="update_profile">Update Profile</string>
-    <string name="settings">Settings</string>
-    <string-array name="consultant_location">
+    <string-array name="project_location">
         <item>Nairobi</item>
         <item>Mombasa</item>
+        <item>Kajiado</item>
+        <item>Kiambu</item>
         <item>Kisumu</item>
-        <item>Kericho</item>
-        <item>Garissa</item>
+        <item>Nakuru</item>
+        <item>Machakos</item>
         <item>Kitui</item>
+        <item>Trans Nzoia</item>
+        <item>Malindi</item>
+        <item>Naivasha</item>
+        <item>HomaBay</item>
     </string-array>
-    <string name="title_activity_find_facility">FindFacility</string>
-    <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="process">Process</string>
+    <string name="info">Info</string>
+    <string name="media">Media</string>
+    <string name="project_info">Project Info</string>
+    <string name="construction_team">Construction Team</string>
+    <string name="cost_estimation">Cost Estimation</string>
+    <string name="material_management">Material Management</string>
+    <string name="project_files">Project Files</string>
+    <string name="construction_process">Construction Process</string>
+    <string name="start_new_process">Start New Process</string>
+    <string name="title_activity_project_settings">ProjectSettings</string>
+    <string name="myTeam">My Team</string>
+    <string name="materialManagement">Material Management</string>
+    <string name="costEstimation">Cost Estimation</string>
+    <string name="buildingProcess">Building Process</string>
+    <string name="approvals">Approvals</string>
+    <string name="gallery">Gallery</string>
+    <string name="additional_info">Additional Info</string>
+    <string name="total_cost">Total Cost</string>
+    <string name="equipments_needed">Equipments Needed</string>
+    <string name="consultants_name">Consultants\' Name</string>
 
-    <string name="hello_first_fragment">Hello first fragment</string>
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
-    <string name="authentication_failed">Authentication Failed</string>
-    <string name="not_authenticated">Not Authenticated</string>
-    <string name="on_failure">On Failure</string>
-    <string name="Transactions">Transactions</string>
+    <string name="category_prompt">Choose a Category</string>
+    <string name="email_phone">Email/Phone</string>
+
+    <string-array name="category_arrays">
+        <item>Construction Manager</item>
+        <item>Others</item>
+    </string-array>
+
+    <string name="action_settings">Settings</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="log_out">Log Out</string>
+    <string name="communicate_with_us">Communicate with us</string>
+
+    <string name="navigation_drawer_open">Navigation Drawer Open</string>
+    <string name="navigation_drawer_close">Navigation Drawer Closed</string>
+    <string name="project_gallery">Project Gallery</string>
+    <string name="construction">Construction</string>
+    <string name="information">Information</string>
+    <string name="project_settings">Project Settings</string>
 </resources>

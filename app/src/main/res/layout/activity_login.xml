@@ -1,94 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/app_background"
-    android:orientation="vertical"
-    tools:context=".Authentication.LoginActivity">
-
+    android:padding="16dp"
+    tools:context="com.gerray.ConstructionApp.Authentication.LoginActivity">
 
     <LinearLayout
-        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
         android:orientation="vertical"
-        android:padding="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        tools:ignore="UselessParent">
 
-        <ImageView
-            android:id="@+id/logo_image"
-            android:layout_width="264dp"
-            android:layout_height="281dp"
-            android:layout_gravity="center"
-            android:src="@drawable/app_icon" />
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="350dp"
+        <EditText
+            android:id="@+id/logEmail"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="30dp"
-            android:hint="@string/email_address"
-            android:textColorHint="#000">
+            android:layout_margin="15dp"
+            android:hint="@string/email_phone"
+            android:inputType="textEmailAddress" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/logEmail"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableStart="@drawable/email"
-                android:drawablePadding="10dp"
-                android:inputType="textEmailAddress"
-                android:textStyle="italic" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="350dp"
+        <EditText
+            android:id="@+id/logPass"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="20dp"
+            android:layout_margin="15dp"
             android:hint="@string/password"
-            android:textColorHint="#000"
-            app:passwordToggleEnabled="true">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/logPass"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableStart="@drawable/ic_passkey"
-                android:drawablePadding="10dp"
-                android:inputType="textPassword"
-                android:textStyle="italic" />
-        </com.google.android.material.textfield.TextInputLayout>
-
+            android:inputType="textPassword" />
 
         <Button
             android:id="@+id/btn_login"
-            android:layout_width="300dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="35dp"
-            android:layout_marginBottom="5dp"
-            android:text="@string/login"
+            android:layout_margin="30dp"
+            android:background="@drawable/button_style"
+            android:text="@string/login" />
+
+        <TextView
+            android:id="@+id/tv_create"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/create_new_account"
+            android:textSize="16sp"
             android:textStyle="italic" />
 
-        <Button
-            android:id="@+id/btn_create"
-            android:layout_width="300dp"
+        <TextView
+            android:id="@+id/tv_forgot"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:text="@string/create_account"
-            android:textColor="#000"
+            android:layout_margin="20dp"
+            android:gravity="center"
+            android:text="@string/forgot_password"
+            android:textSize="16sp"
             android:textStyle="italic" />
-
-
     </LinearLayout>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>
