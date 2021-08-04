@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.gerray.ConstructionApp">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -14,69 +15,67 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="com.gerray.ConstructionApp.Project.ProjectContractors"
-            android:label="Project Team"
-            android:theme="@style/Theme.AppCompat" />
+            android:name=".Project.ProjectDetails"
+            android:label="Project Details" />
         <activity
-            android:name="com.gerray.ConstructionApp.Project.ProjectTeam"
-            android:label="Project Team"
-            android:theme="@style/Theme.AppCompat" />
+            android:name=".Project.ProjectTeam"
+            android:label="Project Team" />
         <activity
-            android:name="com.gerray.ConstructionApp.Project.ProjectDetails"
-            android:label="Project Details"
-            android:theme="@style/Theme.AppCompat" />
+            android:name=".Project.ProjectContractors"
+            android:label="Project Team" />
         <activity
-            android:name="com.gerray.ConstructionApp.SplashScreen"
+            android:name=".SplashScreen"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity android:name="com.gerray.ConstructionApp.Authentication.ResetPassword" />
-        <activity android:name="com.gerray.ConstructionApp.Authentication.VerifyPhone" />
+        <activity android:name=".Authentication.ResetPassword" />
+        <activity android:name=".Authentication.VerifyPhone" />
         <activity
-            android:name="com.gerray.ConstructionApp.Project.ProcessFragment.Team.Team"
+            android:name=".Project.ProcessFragment.Team.Team"
             android:label="@string/myTeam"
             android:theme="@style/Theme.AppCompat" />
         <activity
-            android:name="com.gerray.ConstructionApp.Project.ProcessFragment.MaterialManagement.MaterialManagement"
+            android:name=".Project.ProcessFragment.MaterialManagement.MaterialManagement"
             android:label="@string/materialManagement"
             android:theme="@style/Theme.AppCompat" />
-        <activity android:name="com.gerray.ConstructionApp.Authentication.UserSelector" />
+        <activity android:name=".Authentication.UserSelector" />
         <activity
-            android:name="com.gerray.ConstructionApp.Project.ProcessFragment.CostEstimation.CostEstimation"
+            android:name=".Project.ProcessFragment.CostEstimation.CostEstimation"
             android:label="@string/costEstimation"
             android:theme="@style/Theme.AppCompat" />
         <activity
-            android:name="com.gerray.ConstructionApp.Project.ProcessFragment.BuildingProcess.BuildProcessPage"
+            android:name=".Project.ProcessFragment.BuildingProcess.BuildProcessPage"
             android:label="@string/buildingProcess"
             android:theme="@style/Theme.AppCompat" />
         <activity
-            android:name="com.gerray.ConstructionApp.Project.ProcessFragment.Approvals.ApprovalsPage"
+            android:name=".Project.ProcessFragment.Approvals.ApprovalsPage"
             android:label="@string/approvals"
             android:theme="@style/Theme.AppCompat" />
         <activity
-            android:name="com.gerray.ConstructionApp.Settings.ProjectSettings"
+            android:name=".Settings.ProjectSettings"
             android:label="@string/title_activity_project_settings" />
         <activity
-            android:name="com.gerray.ConstructionApp.Project.ProjectActivity"
+            android:name=".Project.ProjectActivity"
             android:label="Project Activity" />
         <activity
-            android:name="com.gerray.ConstructionApp.Home.PopUpWindow"
+            android:name=".Home.PopUpWindow"
             android:label="@string/title_activity_home"
             android:theme="@style/AppTheme.CustomStyle" />
         <activity
-            android:name="com.gerray.ConstructionApp.Settings.SettingsActivity"
+            android:name=".Settings.SettingsActivity"
             android:label="@string/title_activity_settings"
             android:theme="@style/Theme.AppCompat" />
         <activity
-            android:name="com.gerray.ConstructionApp.Home.Profile.ProfileActivity"
+            android:name=".Home.Profile.ProfileActivity"
             android:label="@string/title_activity_profile"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name="com.gerray.ConstructionApp.Home.HomeActivity"
+            android:name=".Home.HomeActivity"
             android:label="@string/app_name"
             android:theme="@style/Theme.AppCompat" />
-        <activity android:name="com.gerray.ConstructionApp.Authentication.CreateActivity" />
+        <activity android:name=".Authentication.CreateActivity" />
         <activity
-            android:name="com.gerray.ConstructionApp.Authentication.LoginActivity"
-            android:theme="@style/Theme.AppCompat">
+            android:name=".Authentication.LoginActivity"
+            android:theme="@style/Theme.AppCompat"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

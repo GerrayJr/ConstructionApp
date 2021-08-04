@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -12,6 +13,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 //import com.gerray.ConstructionApp.Project.ProjectDetails;
+import com.gerray.ConstructionApp.Project.ProjectDetails;
 import com.gerray.ConstructionApp.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -44,10 +46,10 @@ public class PopUpWindow extends AppCompatActivity {
 
         project_name = findViewById(R.id.proj_name);
         btnProjectReg = findViewById(R.id.info_continue);
-        btnProjectReg.setOnClickListener(v ->{}
-                //createProject()
-//                startActivity(new Intent(this, ProjectDetails.class))
-        );
+        btnProjectReg.setOnClickListener(view -> {
+//                createProject();
+            startActivity(new Intent(PopUpWindow.this, ProjectDetails.class));
+        });
         auth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = auth.getCurrentUser();
         databaseReference = FirebaseDatabase.getInstance().getReference().child("Projects").child(currentUser.getUid());
@@ -74,7 +76,7 @@ public class PopUpWindow extends AppCompatActivity {
 
         progressDialog.dismiss();
         Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show();
-//        PopUpWindow.this.finish();
-//        startActivity(new Intent(this, ProjectDetails.class));
+        PopUpWindow.this.finish();
+        startActivity(new Intent(this, ProjectDetails.class));
     }
 }

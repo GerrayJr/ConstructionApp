@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:id="@+id/scrollView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fadeScrollbars="false"
+        android:scrollbars="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:id="@+id/linearLayout4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Developer(s)/Employer(s)"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:hint="Developer name">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/project_devName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:hint="Postal Address">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/project_devPostal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:hint="Email Address">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/project_devEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textEmailAddress" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:hint="Telephone">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/projectD_devPhone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textEmailAddress" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/tv_select"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_marginTop="20dp"
+                android:text="Project Type"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <Spinner
+                android:id="@+id/proj_spinner"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_marginTop="20dp"
+                android:entries="@array/project_array"
+                android:padding="15dp"
+                android:prompt="@string/ProjectType"
+                android:spinnerMode="dropdown"
+                android:textAlignment="inherit" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:hint="Project Description">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/project_devDesc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/tv_select1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_marginTop="20dp"
+                android:text="Project Location"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <Spinner
+                android:id="@+id/projLoc_spinner"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_marginTop="20dp"
+                android:entries="@array/project_array"
+                android:padding="15dp"
+                android:prompt="@string/ProjectType"
+                android:spinnerMode="dropdown"
+                android:textAlignment="inherit" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:hint="Constituency">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/project_devCons"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <Button
+                android:id="@+id/btnPickLoc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="20dp"
+                android:text="Pick a Location" />
+
+            <TextView
+                android:id="@+id/tv_select2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_marginTop="20dp"
+                android:text="Project Cost and Duration"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:hint="Contract Sum">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/project_devCost"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:hint="Commencement Date">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/project_devDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="date" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:hint="Contract period">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/project_devPeriod"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <Button
+                android:id="@+id/btn_profNext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:text="Next" />
+        </LinearLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

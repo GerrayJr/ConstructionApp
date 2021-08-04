@@ -114,8 +114,8 @@ public class CreateActivity extends AppCompatActivity implements View.OnClickLis
                             intent.putExtra("phone", phoneNumber);
                             startActivity(intent);
 
-//                            InfoUser infoUser = new InfoUser(firstName, secondName, email, phoneNumber, firebaseAuth.getUid(),category);
-//                            databaseReference.child(Objects.requireNonNull(firebaseAuth.getUid())).setValue(infoUser);
+                            InfoUser infoUser = new InfoUser(firstName, secondName, email, phoneNumber, firebaseAuth.getUid(),category);
+                            databaseReference.child(Objects.requireNonNull(firebaseAuth.getUid())).setValue(infoUser);
 
                         } else {
                             //Registration Failed

@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:id="@+id/scrollView3"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fadeScrollbars="false"
+        android:scrollbars="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <RelativeLayout
+            android:id="@+id/relativeLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_Cons"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+                android:text="Consultants"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_Arch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_Cons"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="10dp"
+                android:text="Architect"
+                android:textSize="17sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/btnPickArch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_Arch"
+                android:layout_marginStart="20dp"
+                android:layout_marginBottom="10dp"
+                android:drawableStart="@drawable/ic_add"
+                android:drawablePadding="10dp"
+                android:text="Pick Architect" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view_Arch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/btnPickArch"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp" />
+
+            <TextView
+                android:id="@+id/tv_civil"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/recycler_view_Arch"
+                android:layout_margin="20dp"
+                android:text="Engineer (Civil/Structural)"
+                android:textSize="17sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/btnPickCivil"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_civil"
+                android:layout_marginStart="20dp"
+                android:layout_marginBottom="10dp"
+                android:drawableStart="@drawable/ic_add"
+                android:drawablePadding="10dp"
+                android:text="Pick Engineer" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view_civil"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/btnPickCivil"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp" />
+
+            <TextView
+                android:id="@+id/tv_mechanical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/recycler_view_civil"
+                android:layout_margin="20dp"
+                android:text="Engineer (Mechanical)"
+                android:textSize="17sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/btnPickMech"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_mechanical"
+                android:layout_marginStart="20dp"
+                android:layout_marginBottom="10dp"
+                android:drawableStart="@drawable/ic_add"
+                android:drawablePadding="10dp"
+                android:text="Pick Mechanical Engineer" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view_mechanical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/btnPickMech"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp" />
+
+            <TextView
+                android:id="@+id/tv_electrical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/recycler_view_mechanical"
+                android:layout_margin="20dp"
+                android:text="Engineer (Electrical)"
+                android:textSize="17sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/btnPickElectrical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_electrical"
+                android:layout_marginStart="20dp"
+                android:layout_marginBottom="10dp"
+                android:drawableStart="@drawable/ic_add"
+                android:drawablePadding="10dp"
+                android:text="Pick Electrical Engineer" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view_electrical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/btnPickElectrical"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp" />
+
+            <TextView
+                android:id="@+id/tv_quantity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/recycler_view_electrical"
+                android:layout_margin="20dp"
+                android:text="Quantity Surveyor"
+                android:textSize="17sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/btnPickQuantity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_quantity"
+                android:layout_marginStart="20dp"
+                android:layout_marginBottom="10dp"
+                android:drawableStart="@drawable/ic_add"
+                android:drawablePadding="10dp"
+                android:text="Pick Quantity Surveyor" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view_quantity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/btnPickQuantity"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp" />
+
+            <TextView
+                android:id="@+id/tv_others"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/recycler_view_quantity"
+                android:layout_margin="20dp"
+                android:text="Others"
+                android:textSize="17sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/btnPickOthers"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_others"
+                android:layout_marginStart="20dp"
+                android:layout_marginBottom="10dp"
+                android:drawableStart="@drawable/ic_add"
+                android:drawablePadding="10dp"
+                android:text="Pick Any Other" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view_others"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/btnPickOthers"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp"
+                android:layout_marginBottom="20dp" />
+
+            <Button
+                android:id="@+id/btn_profNext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/recycler_view_others"
+                android:layout_gravity="end"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:text="Next" />
+        </RelativeLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>
