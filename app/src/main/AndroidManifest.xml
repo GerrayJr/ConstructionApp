@@ -16,12 +16,15 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".Project.ProjectDetails"
+            android:theme="@style/Theme.AppCompat"
             android:label="Project Details" />
         <activity
             android:name=".Project.ProjectTeam"
+            android:theme="@style/Theme.AppCompat"
             android:label="Project Team" />
         <activity
             android:name=".Project.ProjectContractors"
+            android:theme="@style/Theme.AppCompat"
             android:label="Project Team" />
         <activity
             android:name=".SplashScreen"

@@ -33,10 +33,10 @@ public class ProjectActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         NavigationView navigationView = findViewById(R.id.nav_view);
-//        View hView = navigationView.inflateHeaderView(R.layout.nav_header);
+        View hView = navigationView.inflateHeaderView(R.layout.nav_header);
 //
-//        TextView textView = hView.findViewById(R.id.nav_fm_tv);
-//        ImageView imageView = hView.findViewById(R.id.nav_fm_image);
+        TextView textView = hView.findViewById(R.id.nav_fm_tv);
+        ImageView imageView = hView.findViewById(R.id.nav_fm_image);
 
         drawerLayout = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
